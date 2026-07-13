@@ -206,10 +206,10 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
             </div>
             <div className="flex-1">
               <div className="flex items-center gap-2">
-                <span className="font-display text-lg">与{philosopher.name}对话</span>
+                <span className="font-display text-lg text-white">与{philosopher.name}对话</span>
                 <Sparkles className="w-4 h-4 text-primary" />
               </div>
-              <p className="text-xs text-muted-foreground">
+              <p className="text-xs text-white/70">
                 {philosopher.school[0]} · AI模拟对话
               </p>
             </div>
@@ -267,14 +267,14 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
                     className={cn(
                       'max-w-[80%] rounded-2xl px-4 py-3',
                       message.role === 'user'
-                        ? 'bg-primary text-primary-foreground'
+                        ? 'bg-primary text-white'
                         : 'bg-muted text-foreground'
                     )}
                   >
                     <p className="text-sm leading-relaxed whitespace-pre-wrap">
                       {message.content}
                     </p>
-                    <span className="text-[10px] opacity-50 mt-1 block">
+                    <span className="text-[10px] text-white/50 mt-1 block">
                       {message.timestamp && new Date(message.timestamp).toLocaleTimeString()}
                     </span>
                   </div>
@@ -337,7 +337,7 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder={`向${philosopher.name}提问...`}
-                  className="w-full px-4 py-3 pr-12 bg-muted/50 border border-border/50 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-sm min-h-[48px] max-h-[120px]"
+                  className="w-full px-4 py-3 pr-12 bg-muted/50 border border-border/50 rounded-xl resize-none focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary transition-all text-sm min-h-[48px] max-h-[120px] text-white placeholder:text-white/60"
                   rows={1}
                   disabled={isLoading}
                 />
@@ -355,7 +355,7 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
                 </button>
               </div>
             </div>
-            <p className="text-xs text-muted-foreground mt-2 text-center">
+            <p className="text-xs text-white/50 mt-2 text-center">
               AI模拟对话，仅供学习和娱乐使用
             </p>
           </div>
