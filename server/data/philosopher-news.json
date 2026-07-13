@@ -1,0 +1,189 @@
+{
+  "updatedAt": "2026-07-13",
+  "note": "本快照为离线兜底数据（必应新闻 / 维基百科实时抓取失败时使用）。如有网络，前端点击「刷新」将依次尝试必应新闻、Google News、维基百科获取最新资讯。",
+  "confucius": {
+    "updatedAt": "2026-07-13",
+    "items": [
+      {
+        "title": "孔子故里举行祭孔大典 纪念孔子诞辰2576周年",
+        "link": "https://www.news.cn/politics/20250928/6519038cb3a04513a04cb008137bed34/c.html",
+        "source": "新华网",
+        "pubDate": "2025-09-28"
+      },
+      {
+        "title": "2025中国国际孔子文化节将于9月27日至28日举办",
+        "link": "https://sd.people.com.cn/BIG5/n2/2025/0924/c364532-41361894.html",
+        "source": "人民网",
+        "pubDate": "2025-09-24"
+      },
+      {
+        "title": "儒风传四海 礼乐聚云端 2025全球“云祭孔”大型网络直播活动成功举行",
+        "link": "https://big5.china.com.cn/gate/big5/ccpd.china.com.cn/2025-09/29/content_43241592.html",
+        "source": "中国网",
+        "pubDate": "2025-09-29"
+      },
+      {
+        "title": "五大亮点看2025全球“云祭孔”",
+        "link": "https://big5.cri.cn/gate/big5/sd.cri.cn/2025-09-26/1c7be3ff-3839-123f-4819-43bb90586bcd.html",
+        "source": "国际在线",
+        "pubDate": "2025-09-26"
+      }
+    ]
+  },
+  "laozi": {
+    "updatedAt": "2026-07-13",
+    "items": [
+      {
+        "title": "“道家政治哲学传统及当代新开展”学术研讨会暨2025年老子学研究会年会召开",
+        "link": "https://cssn.cn/zx/zx_rdkx/202507/t20250715_5886334.shtml",
+        "source": "中国社会科学网",
+        "pubDate": "2025-07-15"
+      },
+      {
+        "title": "在老子故里探寻“和谐共生”的东方答案——第十一届老子元典文化论坛综述",
+        "link": "https://hn.ifeng.com/c/8o58DMsWOAv",
+        "source": "凤凰网",
+        "pubDate": "2025-10-31"
+      },
+      {
+        "title": "“全球老子思想传播研究中心”成立暨老子思想传播论坛成功举办",
+        "link": "https://www.163.com/dy/article/JVUKUCN305529ERR.html",
+        "source": "网易",
+        "pubDate": "2025-05-18"
+      },
+      {
+        "title": "海南自贸港大讲坛聚焦《道德经》，解码文化自信与时代价值",
+        "link": "https://www.sohu.com/a/909426748_121955537",
+        "source": "搜狐",
+        "pubDate": "2025-06-29"
+      }
+    ]
+  },
+  "nietzsche": {
+    "updatedAt": "2026-07-13",
+    "items": [
+      {
+        "title": "第六届同济“尼采论坛”在上海举办（纪念尼采诞辰180周年）",
+        "link": "https://cdh.tongji.edu.cn/cdhChinese/37/e0/c26447a341984/page.htm",
+        "source": "同济大学",
+        "pubDate": "2024-10-11"
+      },
+      {
+        "title": "影响阿德勒和卡缪的哲学家：尼采（诞辰180周年纪念版新书）",
+        "link": "https://cptw.com.tw/news/info/293",
+        "source": "台湾商务印书馆",
+        "pubDate": "2024-10-01"
+      },
+      {
+        "title": "尼采哲学中的基督教形象——以《悲剧的诞生》与《敌基督者》为例",
+        "link": "https://pdf.hanspub.org/acpp2024137_92382180.pdf",
+        "source": "Hans Publishers",
+        "pubDate": "2024-07-17"
+      },
+      {
+        "title": "解构与开掘：尼采永恒轮回思想的当代价值探赜",
+        "link": "https://m.qikan.cqvip.com/Article/ArticleDetail?from=Article_ArticleDetail&id=7113666936",
+        "source": "维普资讯",
+        "pubDate": "2024-08-01"
+      }
+    ]
+  },
+  "marx": {
+    "updatedAt": "2026-07-13",
+    "items": [
+      {
+        "title": "《资本论》最新英译本序言：今天我们为什么还需要阅读《资本论》？",
+        "link": "https://so.html5.qq.com/page/real/search_news?docid=70000021_26566ef91c378452&faker=1",
+        "source": "The Nation / 腾讯",
+        "pubDate": "2024-09-17"
+      },
+      {
+        "title": "《资本论》研究与运用——《当代经济研究》2024年第4期",
+        "link": "http://www.ddjjyj.com/CN/volumn/volumn_1465_abs.shtml",
+        "source": "当代经济研究",
+        "pubDate": "2024-04-15"
+      },
+      {
+        "title": "资本如何驯服劳动力？——马克思《资本论》的福柯式权力主义解读",
+        "link": "https://www.zjujournals.com/soc/EN/article/downloadArticleFile.do?attachType=PDF&id=133575",
+        "source": "浙江大学学报",
+        "pubDate": "2024-05-01"
+      },
+      {
+        "title": "资本文明面的三重内涵及其历史限度——基于马克思《资本论》的考察",
+        "link": "http://scsv.tsinghuajournals.com/article/2024/2096-1189/101350D-2024-1-025.shtml",
+        "source": "清华期刊",
+        "pubDate": "2024-01-01"
+      }
+    ]
+  },
+  "wangyangming": {
+    "updatedAt": "2026-07-13",
+    "items": [
+      {
+        "title": "“2025阳明心学大会”今日举行（王阳明诞辰553周年）",
+        "link": "http://epaper.cnnb.com.cn/nbrb/pc/att/202510/30/e54d6e47-ee39-4201-99a7-c92491fa732b.pdf",
+        "source": "中国宁波网",
+        "pubDate": "2025-10-30"
+      },
+      {
+        "title": "心学无界 文明共生 2025阳明心学大会在浙江宁波余姚举行",
+        "link": "https://news.qq.com/rain/a/20251031A05DDE00",
+        "source": "腾讯新闻",
+        "pubDate": "2025-10-31"
+      },
+      {
+        "title": "阳明心学大会绍兴启幕 阳明故里上演现代版“天泉证道”",
+        "link": "https://difang.gmw.cn/zj/2025-10/31/content_38384019.htm",
+        "source": "光明网",
+        "pubDate": "2025-10-31"
+      },
+      {
+        "title": "滁州市举办第三届“阳明文化活动周”",
+        "link": "https://www.toutiao.com/article/7576475559631307315",
+        "source": "今日头条",
+        "pubDate": "2025-11-25"
+      }
+    ]
+  },
+  "socrates": {
+    "updatedAt": "2026-07-13",
+    "items": [
+      {
+        "title": "苏格拉底“没有底”——从无知到伦理实践的哲学重构",
+        "link": "https://lib.wyu.edu.cn/articlesearch/web_searchingDetail?id=2031632694879",
+        "source": "哲学进展",
+        "pubDate": "2025-12-01"
+      },
+      {
+        "title": "何祥迪评《远离苏格拉底》：论哲学与政治的扞格与斡旋",
+        "link": "https://new.qq.com/rain/a/20251124A03SMV00?refer=cp_1009",
+        "source": "腾讯新闻",
+        "pubDate": "2025-11-24"
+      },
+      {
+        "title": "推动汉语学界柏拉图研究迈向新征程：首届全国柏拉图论坛综述",
+        "link": "https://so.html5.qq.com/page/real/search_news?docid=70000021_36568327b7541052",
+        "source": "腾讯文化",
+        "pubDate": "2025-06-01"
+      }
+    ]
+  },
+  "plato": {
+    "updatedAt": "2026-07-13",
+    "items": [
+      {
+        "title": "问题与方法：现代视野中的古代哲学（聚焦柏拉图伦理学与政治哲学）",
+        "link": "https://cssn.cn/zx/zx_rdkx/202508/t20250807_5909756.shtml",
+        "source": "中国社会科学网",
+        "pubDate": "2025-08-07"
+      },
+      {
+        "title": "The Dual Paths of Platonic Epistemology—Anamnesis and Dialectic in the Pursuit of Truth",
+        "link": "https://www.researchgate.net/publication/393563038_The_Dual_Paths_of_Platonic_Epistemology-Anamnesis_and_Dialectic_in_the_Pursuit_of_Truth",
+        "source": "Advances in Philosophy",
+        "pubDate": "2025-07-10"
+      }
+    ]
+  }
+}

@@ -1,0 +1,413 @@
+@import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700&family=Crimson+Text:ital,wght@0,400;0,600;0,700;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&display=swap');
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+  
+  /* Custom Academic Theme Colors */
+  --color-parchment: var(--parchment);
+  --color-parchment-dark: var(--parchment-dark);
+  --color-ink: var(--ink);
+  --color-gold: var(--gold);
+  --color-bronze: var(--bronze);
+  --color-sepia: var(--sepia);
+
+  /* Campaign Challenge 工具类映射（v4 自动生成 bg-/text-/border-/ring-campaign-*） */
+  --color-campaign-panel:        var(--campaign-panel);
+  --color-campaign-panel-2:      var(--campaign-panel-2);
+  --color-campaign-surface:      var(--campaign-surface);
+  --color-campaign-gold:         var(--campaign-gold);
+  --color-campaign-gold-strong:  var(--campaign-gold-strong);
+  --color-campaign-arcane:       var(--campaign-arcane);
+  --color-campaign-user:         var(--campaign-user);
+  --color-campaign-user-fg:      var(--campaign-user-fg);
+  --color-campaign-philosopher:  var(--campaign-philosopher);
+  --color-campaign-era-ancient:      var(--campaign-era-ancient);
+  --color-campaign-era-modern:       var(--campaign-era-modern);
+  --color-campaign-era-contemporary: var(--campaign-era-contemporary);
+  --color-campaign-pass:         var(--campaign-pass);
+  --color-campaign-fail:         var(--campaign-fail);
+}
+
+/* Dark Academic Theme - Parchment & Ink */
+:root {
+  --radius: 0.5rem;
+  
+  /* Deep scholarly background */
+  --background: oklch(0.18 0.02 260);
+  --foreground: oklch(0.92 0.01 80);
+  
+  /* Parchment card surfaces */
+  --card: oklch(0.22 0.03 70);
+  --card-foreground: oklch(0.9 0.01 80);
+  
+  /* Popover with aged paper feel */
+  --popover: oklch(0.2 0.02 60);
+  --popover-foreground: oklch(0.92 0.01 80);
+  
+  /* Primary - Antique Gold */
+  --primary: oklch(0.65 0.12 85);
+  --primary-foreground: oklch(0.15 0.02 260);
+  
+  /* Secondary - Deep Bronze */
+  --secondary: oklch(0.35 0.05 60);
+  --secondary-foreground: oklch(0.9 0.01 80);
+  
+  /* Muted - Aged Sepia */
+  --muted: oklch(0.28 0.04 65);
+  --muted-foreground: oklch(0.6 0.03 70);
+  
+  /* Accent - Rich Burgundy */
+  --accent: oklch(0.45 0.15 25);
+  --accent-foreground: oklch(0.95 0.01 80);
+  
+  /* Destructive - Deep Crimson */
+  --destructive: oklch(0.5 0.18 25);
+  --destructive-foreground: oklch(0.95 0.01 80);
+  
+  /* Borders - Aged ink lines */
+  --border: oklch(0.3 0.04 60 / 0.5);
+  --input: oklch(0.25 0.03 65 / 0.6);
+  --ring: oklch(0.65 0.12 85 / 0.5);
+  
+  /* Chart colors - Classical palette */
+  --chart-1: oklch(0.65 0.12 85);
+  --chart-2: oklch(0.55 0.1 200);
+  --chart-3: oklch(0.5 0.15 25);
+  --chart-4: oklch(0.6 0.08 140);
+  --chart-5: oklch(0.45 0.12 280);
+  
+  /* Sidebar */
+  --sidebar: oklch(0.16 0.02 260);
+  --sidebar-foreground: oklch(0.9 0.01 80);
+  --sidebar-primary: oklch(0.65 0.12 85);
+  --sidebar-primary-foreground: oklch(0.15 0.02 260);
+  --sidebar-accent: oklch(0.25 0.04 65);
+  --sidebar-accent-foreground: oklch(0.9 0.01 80);
+  --sidebar-border: oklch(0.3 0.04 60 / 0.3);
+  --sidebar-ring: oklch(0.65 0.12 85);
+  
+  /* Custom Academic Colors */
+  --parchment: oklch(0.88 0.03 85);
+  --parchment-dark: oklch(0.75 0.04 80);
+  --ink: oklch(0.2 0.02 260);
+  --gold: oklch(0.7 0.14 85);
+  --bronze: oklch(0.5 0.1 65);
+  --sepia: oklch(0.6 0.08 70);
+
+  /* === Campaign Challenge 专属色板（奥术/流金） === */
+  --campaign-panel:        oklch(0.17 0.025 275);   /* 面板基底：深靛黑 */
+  --campaign-panel-2:      oklch(0.21 0.03 285);    /* 面板渐变上沿 */
+  --campaign-surface:      oklch(0.24 0.025 280);   /* 次级表面：输入框/气泡可用底 */
+  --campaign-gold:         oklch(0.7 0.14 85);      /* 流金（填充/描边/glow） */
+  --campaign-gold-strong:  oklch(0.82 0.12 85);     /* 深色底上的金色文字（保 AA） */
+  --campaign-arcane:       oklch(0.62 0.15 285);    /* 奥术冷色（哲学家强调） */
+  --campaign-user:         oklch(0.72 0.13 85);     /* 用户气泡填充（暖金） */
+  --campaign-user-fg:      oklch(0.16 0.02 270);    /* 用户气泡文字（近黑靛） */
+  --campaign-philosopher:  oklch(0.27 0.03 70);     /* 哲学家气泡底（暖羊皮纸暗） */
+  --campaign-era-ancient:      oklch(0.62 0.10 65); /* 学派色·古（古铜） */
+  --campaign-era-modern:       oklch(0.60 0.13 250);/* 学派色·近（青蓝） */
+  --campaign-era-contemporary: oklch(0.62 0.15 295);/* 学派色·当（紫罗兰） */
+  --campaign-pass:         oklch(0.78 0.13 85);     /* 通过（亮金） */
+  --campaign-fail:         oklch(0.62 0.04 70);     /* 未达标（暖灰） */
+}
+
+/* Parchment texture overlay */
+.parchment-texture {
+  background-image: 
+    url("data:image/svg+xml,%3Csvg viewBox='0 0 400 400' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  background-blend-mode: overlay;
+}
+
+/* Typography Classes */
+.font-display {
+  font-family: 'Cinzel', 'Playfair Display', serif;
+}
+
+.font-body {
+  font-family: 'Crimson Text', 'Georgia', serif;
+}
+
+.font-heading {
+  font-family: 'Playfair Display', 'Cinzel', serif;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: oklch(0.2 0.02 260);
+}
+
+::-webkit-scrollbar-thumb {
+  background: oklch(0.4 0.05 60 / 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: oklch(0.5 0.08 65 / 0.6);
+}
+
+/* Animations */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.5s ease-out forwards;
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out forwards;
+}
+
+.animate-slide-in-right {
+  animation: slide-in-right 0.3s ease-out forwards;
+}
+
+/* Card hover effects */
+.card-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px -10px oklch(0 0 0 / 0.3);
+}
+
+/* Gold accent line */
+.gold-line {
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  height: 1px;
+}
+
+/* Quote styling */
+.quote-mark {
+  font-family: 'Playfair Display', serif;
+  font-size: 4rem;
+  line-height: 1;
+  color: var(--gold);
+  opacity: 0.4;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: 'Crimson Text', 'Georgia', serif;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Cinzel', 'Playfair Display', serif;
+  }
+}
+
+/* === Enhanced visual effects === */
+
+/* Glow pulse animation */
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 5px oklch(0.65 0.12 85 / 0.2); }
+  50% { box-shadow: 0 0 20px oklch(0.65 0.12 85 / 0.4); }
+}
+
+/* Float animation for badges */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3px); }
+}
+
+/* Shimmer text effect */
+@keyframes text-shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+/* Gradient text */
+.gradient-text-gold {
+  background: linear-gradient(90deg, oklch(0.7 0.14 85), oklch(0.8 0.1 60), oklch(0.7 0.14 85));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: text-shimmer 4s linear infinite;
+}
+
+/* Dark scrollbar for dark-themed dialogs */
+.dark-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.dark-scroll::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.03);
+}
+.dark-scroll::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 3px;
+}
+.dark-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* Glass card effect */
+.glass-card {
+  background: oklch(0.22 0.03 70 / 0.6);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid oklch(0.4 0.05 85 / 0.15);
+}
+
+/* === Campaign Challenge 视觉工具类（奥术/流金） === */
+
+/* 奥术石板面板：深靛黑 + 顶部金辉 + 金描边 + 柔和外发光 */
+.campaign-panel {
+  background:
+    radial-gradient(120% 70% at 50% -12%, oklch(0.7 0.14 85 / 0.10), transparent 60%),
+    linear-gradient(180deg, var(--campaign-panel-2), var(--campaign-panel));
+  border: 1px solid oklch(0.7 0.14 85 / 0.30);
+  box-shadow:
+    0 0 0 1px oklch(0.7 0.14 85 / 0.08),
+    0 24px 70px -20px oklch(0.7 0.14 85 / 0.30),
+    0 30px 90px -30px oklch(0 0 0 / 0.85);
+}
+.glow-gold   { box-shadow: 0 0 24px -4px oklch(0.7 0.14 85 / 0.55); }
+.glow-arcane { box-shadow: 0 0 22px -4px oklch(0.62 0.15 285 / 0.50); }
+.ring-glow-gold {
+  box-shadow: 0 0 0 2px oklch(0.7 0.14 85 / 0.45), 0 0 18px -2px oklch(0.7 0.14 85 / 0.50);
+}
+/* 主行动按钮：金色流光渐变 + 发光；禁用态"熄灭"而非单纯半透明 */
+.btn-campaign-primary {
+  background: linear-gradient(135deg, oklch(0.78 0.13 85), oklch(0.66 0.14 70));
+  color: oklch(0.16 0.02 270);
+  box-shadow: 0 0 22px -4px oklch(0.7 0.14 85 / 0.60);
+  transition: box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.btn-campaign-primary:hover { box-shadow: 0 0 32px -2px oklch(0.7 0.14 85 / 0.78); }
+.btn-campaign-primary:disabled,
+.btn-campaign-primary[aria-disabled="true"] {
+  background: oklch(0.28 0.03 70);
+  color: oklch(0.55 0.03 70);
+  box-shadow: none;            /* 关闭发光 = 视觉"断电" */
+  cursor: not-allowed;
+}
+/* 遮挡遮罩：轻量径向金辉 + blur(4px) */
+.campaign-overlay {
+  background:
+    radial-gradient(80% 60% at 50% 40%, oklch(0.7 0.14 85 / 0.06), transparent 70%),
+    oklch(0 0 0 / 0.82);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+/* 减弱动效：关辉光/流光，仅留静态描边，保证可读与舒适 */
+@media (prefers-reduced-motion: reduce) {
+  .campaign-panel, .glow-gold, .glow-arcane, .ring-glow-gold,
+  .btn-campaign-primary, .animate-glow-pulse, .gradient-text-gold {
+    animation: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Smooth focus ring */
+button:focus-visible, a:focus-visible {
+  outline: 2px solid oklch(0.65 0.12 85 / 0.5);
+  outline-offset: 2px;
+}
+
+/* Transition defaults */
+button, a {
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}

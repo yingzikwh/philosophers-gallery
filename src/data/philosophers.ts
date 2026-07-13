@@ -1,0 +1,2015 @@
+export interface Philosopher {
+  id: string;
+  name: string;
+  nameEn: string;
+  birthYear: number;
+  deathYear: number;
+  nationality: string;
+  era: 'ancient' | 'modern' | 'contemporary';
+  school: string[];
+  themes: string[];
+  portrait: string;
+  works: string[];
+  coreIdeas: string[];
+  quotes: string[];
+  influence: string;
+  influences?: string[];
+  influenced?: string[];
+  keyConcepts?: string[];
+  historicalContext?: string;
+}
+
+// 为新添加的哲学家生成占位头像（SVG data URI，无需网络）
+function generatePortrait(name: string, era: string): string {
+  const eraColors: Record<string, [string, string]> = {
+    ancient: ['#8B7355', '#A0826D'],
+    modern: ['#4A6FA5', '#6B8CBE'],
+    contemporary: ['#6B5B95', '#8B7BA8'],
+  };
+  const [c1, c2] = eraColors[era] || ['#555555', '#777777'];
+  const char = name.charAt(0);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs><rect width="256" height="256" fill="url(#g)"/><text x="128" y="165" font-size="100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="serif" font-weight="bold">${char}</text></svg>`;
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+
+export const philosophers: Philosopher[] = [
+  {
+    id: 'socrates',
+    name: '苏格拉底',
+    nameEn: 'Socrates',
+    birthYear: -470,
+    deathYear: -399,
+    nationality: '古希腊',
+    era: 'ancient',
+    school: ['古希腊哲学', '伦理学'],
+    themes: ['认识论', '伦理学', '辩证法'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/3eca.png?auth_key=e1d3ec2140319622cc37d166174ba6f415a93f6e4f84aaceb3ac317201df4671',
+    works: ['《对话录》（柏拉图记录）', '《申辩篇》', '《克里托篇》', '《斐多篇》'],
+    coreIdeas: [
+      '认识你自己——未经审视的人生不值得过',
+      '苏格拉底式诘问法——通过提问引导对方发现真理',
+      '美德即知识——恶行源于无知',
+      '我只知道我一无所知——承认无知是智慧的开端',
+      '灵魂不朽与追求真理的永恒价值'
+    ],
+    quotes: [
+      '未经审视的人生不值得过。',
+      '我只知道我一无所知。',
+      '认识你自己。',
+      '美德即知识。'
+    ],
+    influence: '苏格拉底被誉为西方哲学的奠基人，其对话式教学方法影响了整个西方教育传统。他的思想通过柏拉图传承下来，奠定了理性主义哲学的基础，对后世伦理学、认识论和政治哲学产生了深远影响。',
+    influences: ['阿那克萨戈拉', '巴门尼德'],
+    influenced: ['柏拉图', '亚里士多德', '斯多葛学派'],
+    keyConcepts: ['苏格拉底方法', '美德', '灵魂', '辩证法', '无知之知'],
+    historicalContext: '苏格拉底生活在雅典民主制的黄金时代，经历了伯罗奔尼撒战争。他因"腐蚀青年"和"不敬神"的罪名被判处死刑，选择饮鸩而亡，成为哲学殉道的象征。'
+  },
+  {
+    id: 'plato',
+    name: '柏拉图',
+    nameEn: 'Plato',
+    birthYear: -427,
+    deathYear: -347,
+    nationality: '古希腊',
+    era: 'ancient',
+    school: ['古希腊哲学', '理念论', '唯心主义'],
+    themes: ['理念论', '灵魂不朽', '理想国', '知识回忆说'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/2a01.png?auth_key=50a7f5de8490506c854a23a4ac3a5e4ca2fa31a957feb19f1b11f41b2f0d4b69',
+    works: ['《理想国》', '《会饮篇》', '《斐多篇》', '《智者篇》', '《蒂迈欧篇》', '《法律篇》'],
+    coreIdeas: [
+      '理念论——可感世界之外存在永恒的理念世界',
+      '洞穴寓言——哲学是灵魂从黑暗走向光明的上升',
+      '灵魂三分说——理性、激情、欲望构成灵魂',
+      '回忆说——学习是灵魂对前世知识的回忆',
+      '哲学家王——唯有哲学家才能治理好国家'
+    ],
+    quotes: [
+      '理念是永恒不变的，而可感事物是变动不居的。',
+      '哲学始于惊奇。',
+      '灵魂是不朽的。',
+      '善的理念是最高的理念。'
+    ],
+    influence: '柏拉图是西方哲学史上最具影响力的哲学家之一，其理念论奠定了西方形而上学传统的基础。他创办的雅典学园是西方第一所高等教育机构，其思想影响了基督教神学、新柏拉图主义以及近代理性主义哲学。',
+    influences: ['苏格拉底', '毕达哥拉斯'],
+    influenced: ['亚里士多德', '普罗提诺', '奥古斯丁', '康德', '黑格尔'],
+    keyConcepts: ['理念', '洞穴寓言', '灵魂三分', '回忆说', '哲学家王'],
+    historicalContext: '柏拉图是苏格拉底的学生，在苏格拉底死后游历各地，后在雅典创办学园。他试图将哲学与政治结合，多次前往西西里推行哲人政治理想。'
+  },
+  {
+    id: 'aristotle',
+    name: '亚里士多德',
+    nameEn: 'Aristotle',
+    birthYear: -384,
+    deathYear: -322,
+    nationality: '古希腊',
+    era: 'ancient',
+    school: ['古希腊哲学', '实在论', '逻辑学'],
+    themes: ['形而上学', '逻辑学', '伦理学', '政治学'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/6530.png?auth_key=94fe6f1c46d5939fb227fb6cd347b1c9a77dadcb9b87a3802ae852da2f7907d2',
+    works: ['《形而上学》', '《尼各马可伦理学》', '《政治学》', '《工具论》', '《诗学》', '《物理学》'],
+    coreIdeas: [
+      '实体学说——个体事物是首要的实体',
+      '四因说——质料因、形式因、动力因、目的因',
+      '中庸之道——美德在于两个极端之间的平衡',
+      '三段论逻辑——演绎推理的基本形式',
+      '灵魂论——灵魂是身体的现实性'
+    ],
+    quotes: [
+      '人是天生的政治动物。',
+      '优秀不是一种行为，而是一种习惯。',
+      '幸福在于合乎德性的实现活动。',
+      '吾爱吾师，吾更爱真理。'
+    ],
+    influence: '亚里士多德被誉为"百科全书式的学者"，其思想几乎涵盖了所有知识领域。他创立的形式逻辑沿用两千多年，其伦理学、政治学、形而上学对西方文明产生了深远影响，成为中世纪经院哲学的重要基础。',
+    influences: ['柏拉图', '苏格拉底'],
+    influenced: ['托马斯·阿奎那', '康德', '黑格尔', '海德格尔'],
+    keyConcepts: ['实体', '四因', '中庸', '三段论', '潜能与现实'],
+    historicalContext: '亚里士多德是柏拉图的学生，后成为亚历山大大帝的老师。他在雅典创办吕克昂学园，建立了西方第一个系统性的科学研究机构。'
+  },
+  {
+    id: 'pyrrho',
+    name: '皮浪',
+    nameEn: 'Pyrrho',
+    birthYear: -360,
+    deathYear: -270,
+    nationality: '古希腊',
+    era: 'ancient',
+    school: ['怀疑主义', '皮浪主义'],
+    themes: ['怀疑', '悬置判断', '不动心'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/bd40.png?auth_key=ea1c58dfb5dcda5a6accd537aba204cbdeb3facad8df488b174a946d62f1aedd',
+    works: ['《皮浪主义纲要》（塞克斯都·恩披里柯记录）'],
+    coreIdeas: [
+      '悬置判断——对事物的真实本质不作判断',
+      '不动心——通过怀疑达到内心的宁静',
+      '十式——怀疑论的十个论证模式',
+      '现象与本质的区分',
+      '真理不可知论'
+    ],
+    quotes: [
+      '没有任何事物是真实的。',
+      '悬置判断，保持不动心。',
+      '我什么都不能确定。',
+      '对任何事物都不作判断。'
+    ],
+    influence: '皮浪是怀疑主义哲学的创始人，其思想通过塞克斯都·恩披里柯的著作流传下来。怀疑主义对后世认识论产生了重要影响，成为批判独断论的重要武器，影响了休谟、康德等近代哲学家。',
+    influences: ['德谟克利特', '印度哲学'],
+    influenced: ['塞克斯都·恩披里柯', '蒙田', '休谟', '康德'],
+    keyConcepts: ['悬置判断', '不动心', '怀疑', '十式', '不可知论'],
+    historicalContext: '皮浪生活在希腊化时代，曾随亚历山大大帝东征，接触到印度哲学。他主张对一切事物保持怀疑，不作任何判断，以此达到心灵的宁静。'
+  },
+  {
+    id: 'epictetus',
+    name: '爱比克泰德',
+    nameEn: 'Epictetus',
+    birthYear: 50,
+    deathYear: 135,
+    nationality: '古罗马',
+    era: 'ancient',
+    school: ['斯多葛学派', '伦理学'],
+    themes: ['控制二分法', '自由', '德性', '顺应自然'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/9834.png?auth_key=512af136b215bae285f6208d13842e6fd95fe199003478316708a9909a9e9242',
+    works: ['《爱比克泰德论说集》', '《手册》'],
+    coreIdeas: [
+      '控制二分法——区分可控与不可控之事',
+      '顺应自然——按照理性与自然生活',
+      '德性即自由——内在自由高于外在自由',
+      '忍受与节制——面对命运的考验',
+      '自我审视——不断反思自己的行为'
+    ],
+    quotes: [
+      '有些事情在我们的控制之内，有些则不在。',
+      '困扰人的不是事物本身，而是人对事物的看法。',
+      '先告诉自己你想成为什么样的人，然后去做必要的事。',
+      '自由不是随心所欲，而是自我主宰。'
+    ],
+    influence: '爱比克泰德是斯多葛学派最重要的代表之一，其思想深刻影响了罗马皇帝马可·奥勒留。他的《手册》成为斯多葛主义的经典入门读物，对现代认知行为疗法和积极心理学产生了重要影响。',
+    influences: ['苏格拉底', '斯多葛学派早期代表'],
+    influenced: ['马可·奥勒留', '塞内卡', '现代认知行为疗法'],
+    keyConcepts: ['控制二分法', '顺应自然', '德性', '自由', '节制'],
+    historicalContext: '爱比克泰德本是奴隶，后获得自由并在罗马讲学。他的学说强调内在自由和德性，对罗马帝国的知识分子产生了深远影响。'
+  },
+  {
+    id: 'laozi',
+    name: '老子',
+    nameEn: 'Laozi',
+    birthYear: -600,
+    deathYear: -500,
+    nationality: '中国',
+    era: 'ancient',
+    school: ['道家', '自然哲学'],
+    themes: ['道', '无为', '自然', '柔弱胜刚强'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/1f31.png?auth_key=2c8a93e1caa683320dc46e45423ed32f1033215684f465730fbba856c54a29b2',
+    works: ['《道德经》'],
+    coreIdeas: [
+      '道可道，非常道——道是不可言说的终极实在',
+      '无为而治——顺应自然，不妄为',
+      '柔弱胜刚强——以柔克刚的辩证智慧',
+      '反者道之动——事物向相反方向转化',
+      '小国寡民——理想的社会形态'
+    ],
+    quotes: [
+      '道可道，非常道；名可名，非常名。',
+      '上善若水，水善利万物而不争。',
+      '知人者智，自知者明。',
+      '治大国若烹小鲜。'
+    ],
+    influence: '老子是道家学派的创始人，《道德经》是中国古代最重要的哲学经典之一。道家思想深刻影响了中国的哲学、宗教、政治和艺术，与儒家思想共同构成中华文化的两大支柱，对东亚文化圈产生了深远影响。',
+    influences: ['古代中国自然哲学'],
+    influenced: ['庄子', '道教', '中国佛教', '东亚文化'],
+    keyConcepts: ['道', '德', '无为', '自然', '柔弱', '阴阳'],
+    historicalContext: '老子相传是周朝守藏室之史，孔子曾向他问礼。他见周室衰微，遂骑青牛西出函谷关，留下《道德经》五千言。道家思想在汉初成为治国理念，后发展为道教。'
+  },
+  {
+    id: 'zhuangzi',
+    name: '庄子',
+    nameEn: 'Zhuangzi',
+    birthYear: -369,
+    deathYear: -286,
+    nationality: '中国',
+    era: 'ancient',
+    school: ['道家', '相对主义'],
+    themes: ['逍遥', '齐物', '梦蝶', '无用之用'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/8ed1.png?auth_key=832ba5b2730a6911e627fd05deb86c57f7e4fd66c84888343dff072c3c6542fc',
+    works: ['《庄子》'],
+    coreIdeas: [
+      '逍遥游——精神的绝对自由',
+      '齐物论——万物齐一，消除分别心',
+      '庄周梦蝶——物我两忘的境界',
+      '无用之用——无用之大用',
+      '坐忘与心斋——修养的方法'
+    ],
+    quotes: [
+      '吾生也有涯，而知也无涯。',
+      '天地与我并生，而万物与我为一。',
+      '相濡以沫，不如相忘于江湖。',
+      '夏虫不可以语于冰者，笃于时也。'
+    ],
+    influence: '庄子是道家思想的重要发展者，其文学性和哲学性并重的风格影响深远。《庄子》与《道德经》并称道家双璧，对中国文学、艺术、宗教和哲学产生了巨大影响，其相对主义思想对现代哲学也有启发意义。',
+    influences: ['老子', '道家思想'],
+    influenced: ['道教', '中国佛教禅宗', '中国文学艺术', '存在主义'],
+    keyConcepts: ['逍遥', '齐物', '梦蝶', '坐忘', '心斋', '无用'],
+    historicalContext: '庄子生活在战国中期，曾任漆园吏。他继承并发展了老子的思想，以寓言和比喻的方式阐述哲学，其文章汪洋恣肆，想象丰富，是先秦散文的巅峰之作。'
+  },
+  {
+    id: 'confucius',
+    name: '孔子',
+    nameEn: 'Confucius',
+    birthYear: -551,
+    deathYear: -479,
+    nationality: '中国',
+    era: 'ancient',
+    school: ['儒家', '伦理学', '政治哲学'],
+    themes: ['仁', '礼', '中庸', '君子'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/abf4.png?auth_key=5e0bad91dd4ba9fc6535e993abbc0ad8e85fbf81a0d0be830070b7aa2b212a47',
+    works: ['《论语》', '《春秋》', '《诗经》', '《尚书》', '《礼记》', '《易经》'],
+    coreIdeas: [
+      '仁——爱人，道德修养的核心',
+      '礼——社会秩序与行为规范',
+      '中庸——不偏不倚的处世之道',
+      '君子——理想人格的典范',
+      '正名——名实相符的社会秩序'
+    ],
+    quotes: [
+      '己所不欲，勿施于人。',
+      '学而时习之，不亦说乎？',
+      '三人行，必有我师焉。',
+      '知之为知之，不知为不知，是知也。'
+    ],
+    influence: '孔子是中国古代最伟大的思想家和教育家，儒家学派的创始人。他的思想深刻影响了东亚文化圈，塑造了中华文明的核心价值观，至今仍在伦理道德、教育、政治等领域发挥着重要作用。',
+    influences: ['周公', '老子'],
+    influenced: ['孟子', '荀子', '董仲舒', '朱熹', '王阳明'],
+    keyConcepts: ['仁', '礼', '义', '智', '信', '中庸', '君子'],
+    historicalContext: '孔子生活在春秋末期，礼崩乐坏的时代。他周游列国传播仁政理想，晚年致力于教育和整理典籍，其思想在汉代被确立为官方意识形态。'
+  },
+  {
+    id: 'buddha',
+    name: '释迦牟尼',
+    nameEn: 'Siddhartha Gautama Buddha',
+    birthYear: -563,
+    deathYear: -483,
+    nationality: '古印度',
+    era: 'ancient',
+    school: ['佛教', '解脱哲学'],
+    themes: ['四圣谛', '八正道', '缘起', '涅槃'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/b33d.png?auth_key=ee56e7a232c9680554cec3012e1febe7a5229928f2866fb40396a10c32bdb1b2',
+    works: ['《阿含经》', '《法句经》', '《心经》', '《金刚经》'],
+    coreIdeas: [
+      '四圣谛——苦、集、灭、道',
+      '八正道——通往解脱的八条正确道路',
+      '缘起法——一切事物因缘而生',
+      '无我——没有永恒的自我',
+      '涅槃——超越生死的终极解脱'
+    ],
+    quotes: [
+      '诸行无常，诸法无我，涅槃寂静。',
+      '一切众生皆有佛性。',
+      '放下屠刀，立地成佛。',
+      '色即是空，空即是色。'
+    ],
+    influence: '释迦牟尼是佛教的创始人，其思想深刻影响了亚洲乃至世界的宗教、哲学和文化。佛教成为世界上最重要的宗教之一，其关于苦难、解脱和慈悲的教导对人类文明产生了深远影响。',
+    influences: ['印度古代哲学', '沙门思潮'],
+    influenced: ['整个亚洲文化', '中国禅宗', '日本佛教', '西方佛教'],
+    keyConcepts: ['四圣谛', '八正道', '缘起', '涅槃', '无我', '慈悲'],
+    historicalContext: '释迦牟尼原是迦毗罗卫国的王子，29岁出家修行，35岁在菩提树下悟道成佛。此后45年间在恒河流域传播佛法，建立了僧团制度。佛教在阿育王时期开始向外传播。'
+  },
+  {
+    id: 'upanishads',
+    name: '奥义书哲人',
+    nameEn: 'Upanishadic Sages',
+    birthYear: -800,
+    deathYear: -400,
+    nationality: '古印度',
+    era: 'ancient',
+    school: ['印度哲学', '吠檀多'],
+    themes: ['梵我合一', '轮回', '解脱', '业力'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/d3c7.png?auth_key=027d1520d6d1689534da9506d9cab13cb74e81a16b962348852c70b15c8cd562',
+    works: ['《奥义书》', '《薄伽梵歌》'],
+    coreIdeas: [
+      '梵我合一——个体灵魂与宇宙灵魂的统一',
+      '轮回与解脱——灵魂在生死轮回中寻求解脱',
+      '业力法则——行为决定命运',
+      '摩耶——世界的幻象性质',
+      '阿特曼——内在的永恒自我'
+    ],
+    quotes: [
+      '梵即我，我即梵。',
+      '认识自我，即认识一切。',
+      '真理只有一个，智者以不同名字称呼它。',
+      '从黑暗走向光明，从死亡走向永生。'
+    ],
+    influence: '奥义书是印度哲学和宗教的源头，其思想深刻影响了印度教、佛教和耆那教。梵我合一、轮回解脱等概念成为印度思想的核心，通过佛教传播影响了整个东亚文化。',
+    influences: ['吠陀经典'],
+    influenced: ['印度教', '佛教', '耆那教', '吠檀多哲学'],
+    keyConcepts: ['梵', '我', '轮回', '解脱', '业力', '摩耶'],
+    historicalContext: '奥义书是吠陀文献的最后部分，由多位无名哲人在数百年间创作。这些文献标志着印度哲学从祭祀仪式向内在精神探索的转变，奠定了印度思想传统的基础。'
+  },
+  {
+    id: 'aquinas',
+    name: '托马斯·阿奎那',
+    nameEn: 'Thomas Aquinas',
+    birthYear: 1225,
+    deathYear: 1274,
+    nationality: '意大利',
+    era: 'modern',
+    school: ['经院哲学', '基督教神学', '托马斯主义'],
+    themes: ['自然神学', '信仰与理性', '存在', '因果'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/598f.png?auth_key=5e0091d44fc45216589c4b84b0552cb3119ce500ce8f1414dddebf487c7d3daa',
+    works: ['《神学大全》', '《反异教大全》', '《论存在与本质》'],
+    coreIdeas: [
+      '信仰与理性的和谐——理性可以证明上帝存在',
+      '五种证明——证明上帝存在的五种方式',
+      '自然法——道德律根植于人的理性',
+      '存在先于本质——上帝是纯粹的存在',
+      '类比理论——人类语言可以类比地描述上帝'
+    ],
+    quotes: [
+      '哲学是神学的婢女。',
+      '上帝是存在的，这是可以证明的。',
+      '恩典不会摧毁自然，而是成全自然。',
+      '没有任何智慧的人是不快乐的。'
+    ],
+    influence: '托马斯·阿奎那是中世纪最伟大的神学家和哲学家，其思想成为天主教会的官方哲学。他成功地将亚里士多德哲学与基督教神学结合，对西方哲学、神学和法学产生了深远影响。',
+    influences: ['亚里士多德', '奥古斯丁', '新柏拉图主义'],
+    influenced: ['天主教神学', '自然法理论', '现代伦理学'],
+    keyConcepts: ['五种证明', '自然法', '类比', '存在', '本质'],
+    historicalContext: '阿奎那生活在13世纪，是多米尼克会修士。他在巴黎大学和那不勒斯大学任教，试图用理性为基督教信仰辩护。他的《神学大全》是中世纪学术的巅峰之作。'
+  },
+  {
+    id: 'kant',
+    name: '康德',
+    nameEn: 'Immanuel Kant',
+    birthYear: 1724,
+    deathYear: 1804,
+    nationality: '德国',
+    era: 'modern',
+    school: ['德国古典哲学', '先验唯心主义', '批判哲学'],
+    themes: ['先验哲学', '道德哲学', '认识论', '美学'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/4646.png?auth_key=edbd98fe58c41cf68e623b64332d5f666a566576455edb1bbbf98c5631c9eb23',
+    works: ['《纯粹理性批判》', '《实践理性批判》', '《判断力批判》', '《道德形而上学基础》', '《永久和平论》'],
+    coreIdeas: [
+      '哥白尼式革命——对象必须符合我们的认知方式',
+      '先验观念论——物自体不可知，我们只能认识现象',
+      '绝对命令——道德法则的普遍形式',
+      '人是目的——人永远不能只被当作手段',
+      '启蒙的定义——敢于运用自己的理性'
+    ],
+    quotes: [
+      '有两样东西，愈是经常和持久地思考它们，对它们日久弥新和不断增长之魅力以及崇敬之情就愈加充实着心灵。',
+      '敢于求知！要有勇气运用你自己的理性！',
+      '人是目的，而不仅仅是手段。',
+      '自由不是想做什么就做什么，而是教会自己不想做什么就能不做什么。'
+    ],
+    influence: '康德是近代哲学史上最具影响力的思想家之一，被誉为"哲学界的哥白尼"。他的批判哲学调和了经验论与唯理论，为现代哲学奠定了新的基础，其道德哲学至今仍是伦理学研究的核心范式。',
+    influences: ['休谟', '卢梭', '牛顿'],
+    influenced: ['黑格尔', '叔本华', '尼采', '海德格尔', '罗尔斯'],
+    keyConcepts: ['先验', '物自体', '绝对命令', '自律', '启蒙'],
+    historicalContext: '康德一生居住在柯尼斯堡，过着极其规律的生活。启蒙运动的时代背景深刻影响了他的思想，他试图为科学、道德和宗教奠定理性基础。'
+  },
+  {
+    id: 'rousseau',
+    name: '卢梭',
+    nameEn: 'Jean-Jacques Rousseau',
+    birthYear: 1712,
+    deathYear: 1778,
+    nationality: '法国',
+    era: 'modern',
+    school: ['启蒙思想', '社会契约论', '浪漫主义'],
+    themes: ['自然状态', '社会契约', '公意', '教育'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/ad84.png?auth_key=96a12f6fd09c6baf985a8d680b2df8f2b2cefca682d291b9b07be1cb804e1638',
+    works: ['《社会契约论》', '《论人类不平等的起源和基础》', '《爱弥儿》', '《忏悔录》'],
+    coreIdeas: [
+      '自然状态——人在自然状态下是善良的',
+      '社会契约——人民主权和公意',
+      '回归自然——文明使人堕落',
+      '教育理论——顺应自然的教育',
+      '人民主权——主权在民不可转让'
+    ],
+    quotes: [
+      '人是生而自由的，却无往不在枷锁之中。',
+      '回归自然。',
+      '公意永远是正确的。',
+      '上帝使人善良，社会使人堕落。'
+    ],
+    influence: '卢梭是启蒙运动最重要的思想家之一，其社会契约论和人民主权思想深刻影响了法国大革命和现代民主政治。他的教育思想和浪漫主义文学对后世产生了深远影响。',
+    influences: ['洛克', '柏拉图'],
+    influenced: ['法国大革命', '康德', '浪漫主义运动', '现代教育'],
+    keyConcepts: ['社会契约', '公意', '自然状态', '人民主权', '自然教育'],
+    historicalContext: '卢梭生活在18世纪的法国和瑞士，经历了启蒙运动的高潮。他的思想激进，与伏尔泰等启蒙思想家产生冲突，晚年流亡各地。《社会契约论》成为法国大革命的圣经。'
+  },
+  {
+    id: 'voltaire',
+    name: '伏尔泰',
+    nameEn: 'Voltaire',
+    birthYear: 1694,
+    deathYear: 1778,
+    nationality: '法国',
+    era: 'modern',
+    school: ['启蒙思想', '理性主义', '自然神论'],
+    themes: ['理性', '自由', '宽容', '批判'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/598f.png?auth_key=5e0091d44fc45216589c4b84b0552cb3119ce500ce8f1414dddebf487c7d3daa',
+    works: ['《哲学通信》', '《老实人》', '《论宽容》', '《哲学词典》'],
+    coreIdeas: [
+      '理性至上——用理性批判一切',
+      '宗教宽容——反对宗教迫害',
+      '自然神论——上帝创造世界后不再干预',
+      '批判精神——敢于挑战权威',
+      '进步观念——人类社会可以不断进步'
+    ],
+    quotes: [
+      '我不同意你的观点，但我誓死捍卫你说话的权利。',
+      '迷信是社会的瘟疫。',
+      '劳动使我们免于三大恶：无聊、恶习和贫困。',
+      '上帝是公正的，但他不是仁慈的。'
+    ],
+    influence: '伏尔泰是启蒙运动的领袖和象征，其批判精神和理性主义思想深刻影响了18世纪的欧洲。他反对宗教迷信和专制统治，倡导自由、理性和进步，为法国大革命奠定了思想基础。',
+    influences: ['洛克', '牛顿', '培根'],
+    influenced: ['法国大革命', '美国独立', '现代自由主义'],
+    keyConcepts: ['理性', '宽容', '自然神论', '批判', '进步'],
+    historicalContext: '伏尔泰是18世纪法国最著名的作家和思想家，曾因讽刺专制统治而被流放和监禁。他在费尔奈庄园度过了晚年，与欧洲各国知识分子保持通信，成为启蒙运动的中心人物。'
+  },
+  {
+    id: 'hegel',
+    name: '黑格尔',
+    nameEn: 'Georg Wilhelm Friedrich Hegel',
+    birthYear: 1770,
+    deathYear: 1831,
+    nationality: '德国',
+    era: 'modern',
+    school: ['德国古典哲学', '绝对唯心主义', '辩证法'],
+    themes: ['辩证法', '绝对精神', '历史哲学', '逻辑学'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/1c77.png?auth_key=b59468c2292469b387bf0ab7a13663563058d67533ff50452ea47e47bc3d3bdc',
+    works: ['《精神现象学》', '《逻辑学》', '《法哲学原理》', '《历史哲学讲演录》', '《美学讲演录》'],
+    coreIdeas: [
+      '辩证法——正题、反题、合题的发展过程',
+      '绝对精神——宇宙万物的终极实在',
+      '主奴辩证法——自我意识通过他者确立自身',
+      '历史的终结——自由意识的实现',
+      '实体即主体——绝对精神自我展开的过程'
+    ],
+    quotes: [
+      '凡是合乎理性的都是现实的，凡是现实的都是合乎理性的。',
+      '密涅瓦的猫头鹰在黄昏起飞。',
+      '真理是全体，但全体只是通过自身发展而达到完满的那种本质。',
+      '自由是意识的进步。'
+    ],
+    influence: '黑格尔建立了近代最庞大的哲学体系，其辩证法思想深刻影响了马克思主义、存在主义和分析哲学。他的历史哲学和政治哲学对19世纪的社会思想产生了巨大影响。',
+    influences: ['康德', '费希特', '谢林', '斯宾诺莎'],
+    influenced: ['马克思', '克尔凯郭尔', '尼采', '萨特', '科耶夫'],
+    keyConcepts: ['辩证法', '绝对精神', '主奴关系', '异化', '扬弃'],
+    historicalContext: '黑格尔经历了法国大革命和拿破仑战争的时代，见证了现代民族国家的兴起。他在耶拿、海德堡和柏林等地任教，其思想成为普鲁士官方哲学。'
+  },
+  {
+    id: 'schopenhauer',
+    name: '叔本华',
+    nameEn: 'Arthur Schopenhauer',
+    birthYear: 1788,
+    deathYear: 1860,
+    nationality: '德国',
+    era: 'modern',
+    school: ['唯意志论', '悲观主义', '非理性主义'],
+    themes: ['意志', '表象', '悲观主义', '审美直观'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/7f03.png?auth_key=1b3fb527bb4165f829503eb6177347013a10b86df6a8ed12e991d97ece7bc4e4',
+    works: ['《作为意志和表象的世界》', '《论充足理由律的四重根》', '《伦理学的两个基本问题》', '《附录与补遗》'],
+    coreIdeas: [
+      '世界是意志和表象——意志是世界的本质',
+      '生命意志——盲目的生存冲动是一切痛苦的根源',
+      '悲观主义——人生在痛苦和无聊之间摇摆',
+      '审美直观——暂时摆脱意志的束缚',
+      '同情伦理学——道德的基础是对他人痛苦的感同身受'
+    ],
+    quotes: [
+      '生命是一团欲望，欲望不能满足便痛苦，满足便无聊。',
+      '世界是我的表象。',
+      '人的本质就是追逐。',
+      '幸福不过是痛苦的暂时缺席。'
+    ],
+    influence: '叔本华是西方悲观主义哲学的代表，也是现代非理性主义思潮的先驱。他的思想深刻影响了尼采、维特根斯坦、弗洛伊德和托尔斯泰等人，对现代文学和艺术产生了深远影响。',
+    influences: ['康德', '柏拉图', '印度哲学'],
+    influenced: ['尼采', '维特根斯坦', '弗洛伊德', '托尔斯泰', '瓦格纳'],
+    keyConcepts: ['生命意志', '表象', '悲观主义', '审美', '同情'],
+    historicalContext: '叔本华生活在19世纪初的德国，与黑格尔同时代但思想对立。他长期被学术界忽视，直到晚年才获得认可，其悲观哲学反映了对工业文明和现代性的深刻反思。'
+  },
+  {
+    id: 'nietzsche',
+    name: '尼采',
+    nameEn: 'Friedrich Nietzsche',
+    birthYear: 1844,
+    deathYear: 1900,
+    nationality: '德国',
+    era: 'modern',
+    school: ['存在主义', '后现代主义', '虚无主义'],
+    themes: ['权力意志', '超人哲学', '上帝已死', '永恒轮回'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/09af.png?auth_key=296af9a4d334b3e07bda49f619c404a316ff9279a830fefeeded88ed4c8953e3',
+    works: ['《查拉图斯特拉如是说》', '《善恶的彼岸》', '《悲剧的诞生》', '《权力意志》', '《道德的谱系》'],
+    coreIdeas: [
+      '上帝已死——传统价值体系的崩塌与重估',
+      '权力意志——生命的本质是追求力量的增长',
+      '超人哲学——人应当超越自身，成为更高存在',
+      '永恒轮回——肯定生命的每一个瞬间',
+      '主人道德与奴隶道德——价值重估的两种类型'
+    ],
+    quotes: [
+      '上帝已死。',
+      '凡杀不死我的，必使我更强大。',
+      '一个人知道自己为什么而活，就可以忍受任何一种生活。',
+      '没有音乐，生命将是一个错误。'
+    ],
+    influence: '尼采是19世纪最具影响力的哲学家之一，其思想深刻影响了存在主义、后现代主义、精神分析学和文学批评。他对传统道德的批判、对个体创造力的强调，为20世纪的思想解放运动提供了理论基础。',
+    influences: ['叔本华', '瓦格纳', '古希腊悲剧'],
+    influenced: ['海德格尔', '萨特', '福柯', '德里达', '德勒兹'],
+    keyConcepts: ['权力意志', '超人', '永恒轮回', '重估价值', '酒神精神'],
+    historicalContext: '尼采生活在19世纪后半叶的德国，经历了普法战争和德意志统一。他早年是古典语文学家，后转向哲学，晚年精神失常，其思想在20世纪才被广泛接受。'
+  },
+  {
+    id: 'marx',
+    name: '马克思',
+    nameEn: 'Karl Marx',
+    birthYear: 1818,
+    deathYear: 1883,
+    nationality: '德国',
+    era: 'modern',
+    school: ['马克思主义', '历史唯物主义', '政治经济学'],
+    themes: ['阶级斗争', '异化', '剩余价值', '共产主义'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/1820.png?auth_key=7e710ab96db10eac77980635fe9ea7bfba332baa88606b148628aaa218646433',
+    works: ['《资本论》', '《共产党宣言》', '《德意志意识形态》', '《1844年经济学哲学手稿》', '《路易·波拿巴的雾月十八日》'],
+    coreIdeas: [
+      '历史唯物主义——物质生产方式决定社会发展',
+      '阶级斗争——历史是阶级斗争的历史',
+      '劳动异化——资本主义下人的本质的丧失',
+      '剩余价值理论——剥削的秘密在于无偿占有剩余劳动',
+      '共产主义理想——消灭私有制，实现人的全面发展'
+    ],
+    quotes: [
+      '哲学家们只是用不同的方式解释世界，而问题在于改变世界。',
+      '全世界无产者，联合起来！',
+      '宗教是人民的鸦片。',
+      '资本来到世间，从头到脚，每个毛孔都滴着血和肮脏的东西。'
+    ],
+    influence: '马克思是19世纪最重要的思想家之一，其创立的马克思主义深刻影响了20世纪的世界历史进程。他的政治经济学批判、历史唯物主义理论至今仍是社会科学研究的重要范式，影响了哲学、经济学、社会学等多个学科。',
+    influences: ['黑格尔', '费尔巴哈', '亚当·斯密', '李嘉图'],
+    influenced: ['列宁', '卢卡奇', '葛兰西', '法兰克福学派', '萨特'],
+    keyConcepts: ['异化', '剩余价值', '阶级斗争', '意识形态', '商品拜物教'],
+    historicalContext: '马克思生活在19世纪的欧洲，经历了工业革命和社会剧变。他流亡伦敦多年，在大英博物馆研究政治经济学，与恩格斯合作创立了科学社会主义理论。'
+  },
+  {
+    id: 'heidegger',
+    name: '海德格尔',
+    nameEn: 'Martin Heidegger',
+    birthYear: 1889,
+    deathYear: 1976,
+    nationality: '德国',
+    era: 'contemporary',
+    school: ['存在主义', '现象学', '解释学'],
+    themes: ['存在', '此在', '时间性', '技术批判'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/8319.png?auth_key=fae49259d1e70c948799fde6eee0efa8186ca5b7e49b833e4897de5e88ad5708',
+    works: ['《存在与时间》', '《形而上学导论》', '《林中路》', '《技术的追问》', '《路标》'],
+    coreIdeas: [
+      '存在之问——重新提出被遗忘的存在问题',
+      '此在——人的存在方式，理解存在的特殊存在者',
+      '向死而在——死亡揭示存在的本真性',
+      '常人——非本真的日常存在状态',
+      '技术的本质——技术是一种解蔽方式'
+    ],
+    quotes: [
+      '存在是存在者的存在。',
+      '人是被抛入世界的。',
+      '向死而在。',
+      '语言是存在的家。'
+    ],
+    influence: '海德格尔是20世纪最重要的哲学家之一，其《存在与时间》奠定了存在主义哲学的基础。他对技术、语言、艺术的思考深刻影响了后现代主义、生态哲学和建筑理论。',
+    influences: ['胡塞尔', '尼采', '康德', '亚里士多德'],
+    influenced: ['萨特', '德里达', '福柯', '伽达默尔', '阿伦特'],
+    keyConcepts: ['此在', '存在', '时间性', '畏', '向死而在'],
+    historicalContext: '海德格尔经历了两次世界大战，曾在纳粹时期担任弗莱堡大学校长。他的哲学试图克服西方形而上学的传统，对现代技术文明进行了深刻批判。'
+  },
+  {
+    id: 'wittgenstein',
+    name: '维特根斯坦',
+    nameEn: 'Ludwig Wittgenstein',
+    birthYear: 1889,
+    deathYear: 1951,
+    nationality: '奥地利/英国',
+    era: 'contemporary',
+    school: ['分析哲学', '语言哲学', '逻辑实证主义'],
+    themes: ['语言', '逻辑', '意义', '私人语言'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/ddcf.png?auth_key=56f375c5bead5cc8a9716c37639ccea8ad52c6a9fc45125a8c6e03ce289d2136',
+    works: ['《逻辑哲学论》', '《哲学研究》', '《蓝皮书》', '《棕皮书》', '《论确定性》'],
+    coreIdeas: [
+      '语言游戏——语言的意义在于使用',
+      '家族相似——概念之间没有共同的本质',
+      '私人语言论证——不存在私人语言',
+      '不可说——对不可言说者保持沉默',
+      '生活形式——语言根植于生活实践'
+    ],
+    quotes: [
+      '对于不可说的东西我们必须保持沉默。',
+      '哲学是一场对抗语言对我们理智的蛊惑的战斗。',
+      '意义即使用。',
+      '我的语言的界限意味着我的世界的界限。'
+    ],
+    influence: '维特根斯坦是20世纪最具影响力的哲学家之一，其思想经历了从早期逻辑分析到后期日常语言哲学的转变。他对语言、意义、规则的思考深刻影响了分析哲学传统和当代认知科学。',
+    influences: ['弗雷格', '罗素', '叔本华', '詹姆斯'],
+    influenced: ['维也纳学派', '牛津日常语言学派', '克里普克', '普特南'],
+    keyConcepts: ['语言游戏', '家族相似', '生活形式', '遵守规则', '私人语言'],
+    historicalContext: '维特根斯坦出身豪门，曾参加一战，后隐居挪威和爱尔兰。他在剑桥任教期间影响了整整一代英国哲学家，其思想以晦涩难懂著称但影响深远。'
+  },
+  {
+    id: 'camus',
+    name: '加缪',
+    nameEn: 'Albert Camus',
+    birthYear: 1913,
+    deathYear: 1960,
+    nationality: '法国/阿尔及利亚',
+    era: 'contemporary',
+    school: ['存在主义', '荒诞主义'],
+    themes: ['荒诞', '反抗', '自由', '死亡'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/cacb.png?auth_key=f170944c61fdf65cd4561596c2235e60be670d16c84a31d93d62aed969743c62',
+    works: ['《局外人》', '《鼠疫》', '《西西弗神话》', '《反抗者》', '《堕落》'],
+    coreIdeas: [
+      '荒诞哲学——人类对意义的渴求与世界的沉默之间的冲突',
+      '西西弗神话——在荒诞中肯定生命，想象西西弗是幸福的',
+      '反抗精神——在承认荒诞的同时拒绝屈服',
+      '地中海思想——阳光、大海与生命的肯定',
+      '存在先于本质——人通过选择定义自己'
+    ],
+    quotes: [
+      '真正严肃的哲学问题只有一个，那就是自杀。',
+      '应当想象西西弗是幸福的。',
+      '在隆冬，我终于知道，我身上有一个不可战胜的夏天。',
+      '反抗赋予生命以价值。'
+    ],
+    influence: '加缪是存在主义和荒诞主义哲学的代表人物，1957年获诺贝尔文学奖。他的思想深刻影响了战后一代知识分子，其关于荒诞与反抗的论述为现代人面对生存困境提供了独特的思考路径。',
+    influences: ['尼采', '克尔凯郭尔', '帕斯卡', '地中海文化'],
+    influenced: ['萨特', '波伏娃', '福柯', '当代存在主义文学'],
+    keyConcepts: ['荒诞', '反抗', '西西弗', '局外人', '地中海思想'],
+    historicalContext: '加缪出身阿尔及利亚的贫困移民家庭，经历了二战和法国抵抗运动。他拒绝接受存在主义标签，与萨特最终决裂，因车祸英年早逝。'
+  },
+  {
+    id: 'foucault',
+    name: '福柯',
+    nameEn: 'Michel Foucault',
+    birthYear: 1926,
+    deathYear: 1984,
+    nationality: '法国',
+    era: 'contemporary',
+    school: ['后现代主义', '结构主义', '知识考古学'],
+    themes: ['权力', '知识', '话语', '规训'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/9052.png?auth_key=3ddc1b26b919a9146075c4d21bba9ab21287a9ae9b10299416993f19a33d570d',
+    works: ['《疯癫与文明》', '《规训与惩罚》', '《性史》', '《词与物》', '《知识考古学》'],
+    coreIdeas: [
+      '权力/知识——权力与知识相互建构',
+      '话语分析——真理是话语实践的产物',
+      '规训社会——现代权力通过规训技术运作',
+      '生命权力——对人口和生命的管理',
+      '考古学方法——分析知识的历史条件'
+    ],
+    quotes: [
+      '人将被抹去，如同海边沙地上的一张脸。',
+      '权力来自下面。',
+      '哪里有权力，哪里就有反抗。',
+      '我的目标不是向权力讲述真理，而是讲述权力的真理。'
+    ],
+    influence: '福柯是20世纪最具影响力的思想家之一，其权力分析、话语理论和知识考古学深刻影响了后现代主义、文化研究、社会学和批判理论。他对疯癫、监狱、性的历史研究开创了新的学术范式。',
+    influences: ['尼采', '海德格尔', '马克思', '康吉莱姆'],
+    influenced: ['德里达', '德勒兹', '布迪厄', '当代文化研究', '酷儿理论'],
+    keyConcepts: ['话语', '权力/知识', '规训', '生命权力', '考古学'],
+    historicalContext: '福柯经历了二战和1968年五月风暴，曾在瑞典、波兰、突尼斯等地任教。他积极参与社会运动，关注边缘群体，因艾滋病英年早逝。'
+  },
+  {
+    id: 'mencius',
+    name: '孟子',
+    nameEn: 'Mencius',
+    birthYear: -372,
+    deathYear: -289,
+    nationality: '中国',
+    era: 'ancient',
+    school: ['儒家', '心性学'],
+    themes: ['性善论', '仁政', '王道', '义利之辨'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/34a1.png?auth_key=ac2efcce2db0228c7ca58e5e6cd87bda7b67e38d85215cbc18ccd1e40d8581de',
+    works: ['《孟子》'],
+    coreIdeas: [
+      '性善论——人性本善，有四端之心',
+      '仁政——以民为本的政治理念',
+      '王道——以德服人的统治方式',
+      '义利之辨——道义高于利益',
+      '养气——培养浩然之气'
+    ],
+    quotes: [
+      '人之初，性本善。',
+      '民为贵，社稷次之，君为轻。',
+      '富贵不能淫，贫贱不能移，威武不能屈。',
+      '老吾老以及人之老，幼吾幼以及人之幼。'
+    ],
+    influence: '孟子是儒家思想的重要发展者，被尊为"亚圣"。他的性善论和仁政思想深刻影响了中国的政治哲学和伦理学，与孔子思想合称"孔孟之道"，成为儒家正统。',
+    influences: ['孔子'],
+    influenced: ['宋明理学', '中国政治思想', '东亚儒学'],
+    keyConcepts: ['性善', '仁政', '王道', '四端', '浩然之气'],
+    historicalContext: '孟子生活在战国时期，曾周游列国宣扬仁政思想。他继承并发展了孔子的学说，强调人性本善和民本思想，对后世儒家思想产生了深远影响。'
+  },
+  {
+    id: 'xunzi',
+    name: '荀子',
+    nameEn: 'Xunzi',
+    birthYear: -313,
+    deathYear: -238,
+    nationality: '中国',
+    era: 'ancient',
+    school: ['儒家', '礼学'],
+    themes: ['性恶论', '礼治', '化性起伪', '天人之分'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/69c1.png?auth_key=a4dbf1d7026565f7290f795c6619acb2bbbc0088eaebffe676f2d71338db468f',
+    works: ['《荀子》'],
+    coreIdeas: [
+      '性恶论——人性本恶，需要教化',
+      '礼治——以礼义规范社会秩序',
+      '化性起伪——通过学习和修养改变本性',
+      '天人之分——天行有常，人应制天命而用之',
+      '劝学——强调学习的重要性'
+    ],
+    quotes: [
+      '人之性恶，其善者伪也。',
+      '不积跬步，无以至千里；不积小流，无以成江海。',
+      '青，取之于蓝而青于蓝。',
+      '天行有常，不为尧存，不为桀亡。'
+    ],
+    influence: '荀子是先秦儒家的集大成者，其思想融合了儒法道各家。他的性恶论与孟子性善论形成对照，对法家思想产生了重要影响。他的学生韩非和李斯成为法家代表人物。',
+    influences: ['孔子', '儒家'],
+    influenced: ['法家', '韩非', '李斯', '汉代儒学'],
+    keyConcepts: ['性恶', '礼治', '化性起伪', '劝学', '天人之分'],
+    historicalContext: '荀子生活在战国末期，曾任齐国稷下学宫祭酒。他批判孟子的性善论，主张性恶论和礼治思想。他的思想具有现实主义色彩，对秦汉政治产生了影响。'
+  },
+  {
+    id: 'hanfei',
+    name: '韩非',
+    nameEn: 'Han Fei',
+    birthYear: -280,
+    deathYear: -233,
+    nationality: '中国',
+    era: 'ancient',
+    school: ['法家', '政治哲学'],
+    themes: ['法', '术', '势', '君主专制'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/fa7f.png?auth_key=9cf759b7edf74b3de43936a8ca6b83ee7bd7d454e0ceb331d4dbfe789150100e',
+    works: ['《韩非子》'],
+    coreIdeas: [
+      '法、术、势——统治的三大法宝',
+      '以法治国——法律面前人人平等',
+      '君主专制——强化中央集权',
+      '人性自利——利用人的自利本性',
+      '历史进化观——世异则事异'
+    ],
+    quotes: [
+      '法不阿贵，绳不挠曲。',
+      '明主之道，在申子之言。',
+      '以法治国，举措而已。',
+      '世异则事异，事异则备变。'
+    ],
+    influence: '韩非是法家思想的集大成者，其理论为秦朝统一中国提供了思想基础。他的法治思想对中国古代政治产生了深远影响，成为专制主义中央集权的重要理论基础。',
+    influences: ['荀子', '商鞅', '申不害'],
+    influenced: ['秦始皇', '秦朝政治', '中国古代法治思想'],
+    keyConcepts: ['法', '术', '势', '法治', '君主专制'],
+    historicalContext: '韩非是韩国公子，师从荀子。他综合前期法家思想，提出法、术、势相结合的统治理论。后因李斯陷害被秦始皇处死，但其思想被秦始皇采纳。'
+  },
+  {
+    id: 'mozi',
+    name: '墨子',
+    nameEn: 'Mozi',
+    birthYear: -470,
+    deathYear: -391,
+    nationality: '中国',
+    era: 'ancient',
+    school: ['墨家', '功利主义'],
+    themes: ['兼爱', '非攻', '尚贤', '节用'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/8f35.png?auth_key=313cf90a82673e0c883b72d71a6f7510cdafd15e2ab351dddf1ed0a79ba61ea1',
+    works: ['《墨子》'],
+    coreIdeas: [
+      '兼爱——无差别的爱所有人',
+      '非攻——反对侵略战争',
+      '尚贤——选拔贤能治理国家',
+      '节用——反对奢侈浪费',
+      '天志——以天为法，赏善罚恶'
+    ],
+    quotes: [
+      '兼相爱，交相利。',
+      '视人之国若视其国，视人之家若视其家。',
+      '官无常贵，民无终贱。',
+      '俭节则昌，淫佚则亡。'
+    ],
+    influence: '墨子是墨家学派的创始人，其思想在先秦时期与儒家并称"显学"。墨家的兼爱、非攻思想对后世产生了重要影响，其科学精神和逻辑思想也值得关注。',
+    influences: ['古代工匠文化'],
+    influenced: ['墨家学派', '中国古代科学', '侠义精神'],
+    keyConcepts: ['兼爱', '非攻', '尚贤', '节用', '天志'],
+    historicalContext: '墨子出身工匠，曾学习儒家后创立墨家。他带领弟子周游列国，阻止战争，实践兼爱非攻的理想。墨家在战国时期影响巨大，后逐渐衰落。'
+  },
+  {
+    id: 'zhuxi',
+    name: '朱熹',
+    nameEn: 'Zhu Xi',
+    birthYear: 1130,
+    deathYear: 1200,
+    nationality: '中国',
+    era: 'modern',
+    school: ['宋明理学', '程朱理学'],
+    themes: ['理气论', '格物致知', '存天理灭人欲'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/616e.png?auth_key=685a23cce3138b15d39c2b83136d70b10358a71b0163f4c2d024d87f1d99e293',
+    works: ['《四书章句集注》', '《近思录》', '《朱子语类》'],
+    coreIdeas: [
+      '理气论——理在气先，理一分殊',
+      '格物致知——通过研究事物获得知识',
+      '存天理，灭人欲——修养的根本方法',
+      '性即理——人性本善，源于天理',
+      '道统论——儒家思想的传承谱系'
+    ],
+    quotes: [
+      '格物致知，诚意正心。',
+      '问渠那得清如许，为有源头活水来。',
+      '读书无疑者，须教有疑；有疑者，须教无疑。',
+      '少年易老学难成，一寸光阴不可轻。'
+    ],
+    influence: '朱熹是宋明理学的集大成者，其思想成为元明清三代的官方哲学。他对四书的注释成为科举考试的标准，深刻影响了东亚文化圈的教育和思想。',
+    influences: ['孔子', '孟子', '程颢', '程颐'],
+    influenced: ['宋明理学', '朝鲜儒学', '日本儒学', '越南儒学'],
+    keyConcepts: ['理', '气', '格物', '致知', '道统'],
+    historicalContext: '朱熹是南宋著名理学家，曾任地方官和经筵讲官。他综合北宋理学各家思想，建立了完整的理学体系。其学说在庆元党禁中受打击，后被官方认可。'
+  },
+  {
+    id: 'wangyangming',
+    name: '王阳明',
+    nameEn: 'Wang Yangming',
+    birthYear: 1472,
+    deathYear: 1529,
+    nationality: '中国',
+    era: 'modern',
+    school: ['宋明理学', '心学'],
+    themes: ['心即理', '知行合一', '致良知'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/0900.png?auth_key=32edcd5e149bad8e58134f0a3da785c107202de944969c6d82c88a7beac41783',
+    works: ['《传习录》', '《大学问》'],
+    coreIdeas: [
+      '心即理——心外无理，心外无物',
+      '知行合一——知与行不可分割',
+      '致良知——恢复本心之善',
+      '四句教——心学精髓的总结',
+      '事上磨练——在实践中修养'
+    ],
+    quotes: [
+      '知行合一。',
+      '心外无物，心外无理。',
+      '破山中贼易，破心中贼难。',
+      '你未看此花时，此花与汝心同归于寂。'
+    ],
+    influence: '王阳明是心学的集大成者，其思想对明代中后期和东亚产生了巨大影响。心学强调内心修养和实践，影响了日本明治维新和近代中国思想。',
+    influences: ['孟子', '陆九渊'],
+    influenced: ['明代心学', '日本阳明学', '朝鲜实学', '近代中国思想'],
+    keyConcepts: ['心即理', '知行合一', '致良知', '四句教'],
+    historicalContext: '王阳明是明代著名思想家、军事家，曾平定宁王之乱。他龙场悟道后创立心学，与朱熹理学形成对立。其学说在明代中后期广泛传播，影响深远。'
+  },
+  {
+    id: 'augustine',
+    name: '奥古斯丁',
+    nameEn: 'Augustine of Hippo',
+    birthYear: 354,
+    deathYear: 430,
+    nationality: '古罗马',
+    era: 'ancient',
+    school: ['基督教神学', '教父哲学'],
+    themes: ['原罪', '恩典', '时间', '上帝之城'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/db02.png?auth_key=d76fe6ab5112046e84b3dc709f3620042c8966b433fd75962e4a8ebadbf3f634',
+    works: ['《忏悔录》', '《上帝之城》', '《论三位一体》'],
+    coreIdeas: [
+      '原罪论——人类因亚当的堕落而有罪',
+      '恩典论——救赎来自上帝的恩典',
+      '时间论——时间是心灵的延伸',
+      '上帝之城——属灵国度与属世国度的对立',
+      '信仰寻求理解——先信仰后理解'
+    ],
+    quotes: [
+      '主啊，你造我们是为了你，我们的心如不安息在你怀中，便不会安宁。',
+      '信仰，然后理解。',
+      '时间是什么？无人问我时我明白；要想解释给问我的人，我就不明白了。',
+      '爱，然后做你想做的。'
+    ],
+    influence: '奥古斯丁是基督教神学史上最重要的神学家之一，被称为"教会之父"。他的思想深刻影响了中世纪神学、宗教改革和现代基督教思想，是西方思想传统的重要奠基人。',
+    influences: ['柏拉图', '新柏拉图主义', '保罗'],
+    influenced: ['中世纪神学', '托马斯·阿奎那', '宗教改革', '现代基督教'],
+    keyConcepts: ['原罪', '恩典', '忏悔', '上帝之城', '时间'],
+    historicalContext: '奥古斯丁生于北非，青年时生活放荡，后皈依基督教。他曾任希波主教，在汪达尔人围攻希波时去世。他的《忏悔录》是西方第一部自传。'
+  },
+  {
+    id: 'descartes',
+    name: '笛卡尔',
+    nameEn: 'Rene Descartes',
+    birthYear: 1596,
+    deathYear: 1650,
+    nationality: '法国',
+    era: 'modern',
+    school: ['理性主义', '近代哲学'],
+    themes: ['我思故我在', '心物二元', '怀疑方法'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/d866.png?auth_key=6cfa8026b6e9d64ff15de35cab5dae7311a9a12eddfeb1f3a7d9d5b92223d14a',
+    works: ['《第一哲学沉思集》', '《方法论》', '《几何学》'],
+    coreIdeas: [
+      '我思故我在——哲学的第一原理',
+      '心物二元论——心灵与物质是两种实体',
+      '普遍怀疑——怀疑一切可怀疑之物',
+      '理性主义——理性是知识的来源',
+      '天赋观念——某些观念是先天具有的'
+    ],
+    quotes: [
+      '我思故我在。',
+      '读一切好书，就是和许多高尚的人谈话。',
+      '征服你自己，而不要征服世界。',
+      '怀疑是智慧的起点。'
+    ],
+    influence: '笛卡尔被誉为"近代哲学之父"，其理性主义方法和心物二元论深刻影响了近代哲学。他创立了解析几何，是科学革命的重要人物，对认识论和形而上学产生了深远影响。',
+    influences: ['经院哲学', '数学'],
+    influenced: ['斯宾诺莎', '莱布niz', '康德', '近代哲学'],
+    keyConcepts: ['我思', '心物二元', '普遍怀疑', '理性', '天赋观念'],
+    historicalContext: '笛卡尔是法国哲学家、数学家。他曾在荷兰隐居多年，晚年应瑞典女王邀请前往斯德哥尔摩，不久因肺炎去世。他的思想标志着近代哲学的开端。'
+  },
+  {
+    id: 'locke',
+    name: '洛克',
+    nameEn: 'John Locke',
+    birthYear: 1632,
+    deathYear: 1704,
+    nationality: '英国',
+    era: 'modern',
+    school: ['经验主义', '自由主义'],
+    themes: ['白板说', '自然权利', '社会契约', '分权'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/d761.png?auth_key=99a68582107ac3297d1736c1475e48dc718fe1bde1135e68061c6fce56bcbcd8',
+    works: ['《政府论》', '《人类理解论》', '《论宽容》'],
+    coreIdeas: [
+      '白板说——心灵如白板，知识来自经验',
+      '自然权利——生命、自由、财产是不可剥夺的权利',
+      '社会契约——政府的合法性来自人民同意',
+      '分权思想——立法权与执行权分离',
+      '宗教宽容——信仰是个人事务'
+    ],
+    quotes: [
+      '心灵如白板，没有天赋观念。',
+      '政府的正当权力来自被统治者的同意。',
+      '生命、自由、财产是不可剥夺的权利。',
+      '自由不是随心所欲，而是遵循理性。'
+    ],
+    influence: '洛克是经验主义哲学的代表，也是自由主义政治哲学的奠基人。他的思想深刻影响了启蒙运动、美国独立革命和法国大革命，被誉为"自由主义之父"。',
+    influences: ['培根', '霍布斯'],
+    influenced: ['启蒙运动', '美国建国者', '法国大革命', '自由主义'],
+    keyConcepts: ['白板', '自然权利', '社会契约', '分权', '宽容'],
+    historicalContext: '洛克是英国哲学家，曾流亡荷兰。他的《政府论》为光荣革命辩护，《人类理解论》系统阐述了经验主义认识论。他的思想对美国宪法产生了直接影响。'
+  },
+  {
+    id: 'hume',
+    name: '休谟',
+    nameEn: 'David Hume',
+    birthYear: 1711,
+    deathYear: 1776,
+    nationality: '英国',
+    era: 'modern',
+    school: ['经验主义', '怀疑主义'],
+    themes: ['因果怀疑', '印象与观念', '情感主义伦理学'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/098b.png?auth_key=78ad80a3d116978d174f7e6744679a196e2aad16231ebe456542e52c8ca42d25',
+    works: ['《人性论》', '《人类理解研究》', '《道德原则研究》'],
+    coreIdeas: [
+      '因果怀疑——因果联系只是习惯性联想',
+      '印象与观念——观念是印象的副本',
+      '怀疑主义——对理性能力的怀疑',
+      '情感主义——道德判断基于情感',
+      '自我是一束知觉'
+    ],
+    quotes: [
+      '理性是且只应当是激情的奴隶。',
+      '因果联系只是习惯性联想。',
+      '自我不过是一束知觉。',
+      '习惯是人生的伟大指南。'
+    ],
+    influence: '休谟是经验主义哲学的集大成者，其怀疑主义对康德产生了"唤醒"作用。他对因果关系的怀疑深刻影响了科学哲学，是分析哲学的重要先驱。',
+    influences: ['洛克', '贝克莱'],
+    influenced: ['康德', '密尔', '分析哲学', '科学哲学'],
+    keyConcepts: ['因果', '印象', '观念', '怀疑', '习惯'],
+    historicalContext: '休谟是苏格兰哲学家，曾任驻法公使馆秘书和副国务大臣。他的《人性论》最初反响平平，后改写为《人类理解研究》获得成功。他是启蒙运动的重要人物。'
+  },
+  {
+    id: 'spinoza',
+    name: '斯宾诺莎',
+    nameEn: 'Baruch Spinoza',
+    birthYear: 1632,
+    deathYear: 1677,
+    nationality: '荷兰',
+    era: 'modern',
+    school: ['理性主义', '泛神论'],
+    themes: ['实体一元论', '神即自然', '自由', '情感'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/4f42.png?auth_key=67a87e67e57105b1f33335868c41af204fe61924214d0fa3d3df7d93959476a7',
+    works: ['《伦理学》', '《神学政治论》', '《知性改进论》'],
+    coreIdeas: [
+      '实体一元论——只有一个实体，即神或自然',
+      '神即自然——神不是超自然的存在',
+      '决定论——一切事物都必然如此',
+      '自由是对必然的认识',
+      '情感可以通过理性来理解'
+    ],
+    quotes: [
+      '神即自然。',
+      '自由是对必然的认识。',
+      '一切事物都必然如此。',
+      '心灵的最高善是对神的知识。'
+    ],
+    influence: '斯宾诺莎是理性主义哲学的代表，其泛神论思想深刻影响了德国古典哲学和现代思想。他因异端思想被犹太教会开除，但其思想影响了歌德、爱因斯坦等人。',
+    influences: ['笛卡尔', '犹太哲学'],
+    influenced: ['德国古典哲学', '浪漫主义', '爱因斯坦', '现代哲学'],
+    keyConcepts: ['实体', '神即自然', '必然', '自由', '情感'],
+    historicalContext: '斯宾诺莎是荷兰哲学家，出身犹太家庭。他因异端思想被开除教籍，靠磨镜片为生。他的《伦理学》以几何学方式写成，是哲学史上的独特之作。'
+  },
+  {
+    id: 'leibniz',
+    name: '莱布尼茨',
+    nameEn: 'Gottfried Wilhelm Leibniz',
+    birthYear: 1646,
+    deathYear: 1716,
+    nationality: '德国',
+    era: 'modern',
+    school: ['理性主义', '单子论'],
+    themes: ['单子论', '前定和谐', '可能世界', '微积分'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/b167.png?auth_key=ad8b35e2d72543ca6d893df5f591b02d3c0b74eed5df24991553006dfdcf3fae',
+    works: ['《单子论》', '《神正论》', '《人类理解新论》'],
+    coreIdeas: [
+      '单子论——世界由无数单子构成',
+      '前定和谐——单子之间预先建立的和谐',
+      '可能世界——上帝选择了最好的可能世界',
+      '连续性原则——自然不作跳跃',
+      '微积分的发明者之一'
+    ],
+    quotes: [
+      '这个世界是一切可能世界中最好的。',
+      '单子没有窗户。',
+      '自然不作跳跃。',
+      '心灵是宇宙的一面镜子。'
+    ],
+    influence: '莱布尼茨是德国理性主义哲学的代表，也是数学家和科学家。他与牛顿同时发明微积分，其单子论思想深刻影响了德国古典哲学。他的思想涉及逻辑学、数学、物理学等多个领域。',
+    influences: ['笛卡尔', '斯宾诺莎'],
+    influenced: ['康德', '德国古典哲学', '现代逻辑学', '计算机科学'],
+    keyConcepts: ['单子', '前定和谐', '可能世界', '连续性', '微积分'],
+    historicalContext: '莱布尼茨是德国哲学家、数学家，曾任图书馆长和外交官。他与牛顿关于微积分发明权的争论持续多年。他的思想体系庞大，涉及几乎所有知识领域。'
+  },
+  {
+    id: 'kierkegaard',
+    name: '克尔凯郭尔',
+    nameEn: 'Soren Kierkegaard',
+    birthYear: 1813,
+    deathYear: 1855,
+    nationality: '丹麦',
+    era: 'modern',
+    school: ['存在主义', '基督教哲学'],
+    themes: ['存在', '焦虑', '信仰', '主观真理'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/e538.png?auth_key=e76538ed2164746b94ba3edd2219c61082883593791ba634d678f15268ac7089',
+    works: ['《非此即彼》', '《恐惧与战栗》', '《致死的疾病》'],
+    coreIdeas: [
+      '存在先于本质——人的存在先于其定义',
+      '人生三阶段——审美、伦理、宗教',
+      '焦虑——自由的眩晕',
+      '信仰之跃——理性无法证明信仰',
+      '主观真理——真理即主体性'
+    ],
+    quotes: [
+      '生命只能倒着被理解，但必须正着被经历。',
+      '焦虑是自由的眩晕。',
+      '信仰需要做出飞跃。',
+      '成为你自己。'
+    ],
+    influence: '克尔凯郭尔是存在主义哲学的先驱，其思想深刻影响了20世纪的存在主义运动。他强调个体存在和主观真理，对后来的萨特、海德格尔等人产生了重要影响。',
+    influences: ['黑格尔', '基督教'],
+    influenced: ['存在主义', '萨特', '海德格尔', '神学'],
+    keyConcepts: ['存在', '焦虑', '信仰', '主观真理', '人生阶段'],
+    historicalContext: '克尔凯郭尔是丹麦哲学家、神学家。他与未婚妻解除婚约后终身未娶，靠遗产生活。他的著作多以笔名发表，探讨存在、信仰和个体问题。'
+  },
+  {
+    id: 'mill',
+    name: '密尔',
+    nameEn: 'John Stuart Mill',
+    birthYear: 1806,
+    deathYear: 1873,
+    nationality: '英国',
+    era: 'modern',
+    school: ['功利主义', '自由主义'],
+    themes: ['最大幸福原则', '自由', '妇女权利'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/f720.png?auth_key=f96d68055ab53416737d207b89cc9e5765c5213d1d811234e4c72aef879186c7',
+    works: ['《论自由》', '《功利主义》', '《妇女的屈从地位》'],
+    coreIdeas: [
+      '最大幸福原则——最大多数人的最大幸福',
+      '伤害原则——只要不伤害他人，个人自由不受限制',
+      '质的功利主义——快乐有质的区别',
+      '妇女权利——主张男女平等',
+      '代议制政府——最好的政府形式'
+    ],
+    quotes: [
+      '个人的自由，以不侵犯他人的自由为界。',
+      '做一个不满足的人比做一只满足的猪好。',
+      '压制一种意见就是压制真理。',
+      '妇女应当享有与男子平等的权利。'
+    ],
+    influence: '密尔是功利主义哲学的集大成者，也是自由主义政治哲学的重要代表。他的《论自由》是自由主义经典著作，对妇女权利的支持也具有前瞻性。',
+    influences: ['边沁', '其父詹姆斯·密尔'],
+    influenced: ['自由主义', '功利主义', '妇女运动', '政治哲学'],
+    keyConcepts: ['最大幸福', '自由', '伤害原则', '质的功利', '平等'],
+    historicalContext: '密尔是英国哲学家、经济学家，自幼接受严格教育。他曾任东印度公司职员，后成为国会议员。他是19世纪英国最重要的思想家之一。'
+  },
+  {
+    id: 'russell',
+    name: '罗素',
+    nameEn: 'Bertrand Russell',
+    birthYear: 1872,
+    deathYear: 1970,
+    nationality: '英国',
+    era: 'contemporary',
+    school: ['分析哲学', '逻辑实证主义'],
+    themes: ['逻辑分析', '摹状词理论', '和平主义'],
+    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/93fa.png?auth_key=eac6f22137aaf17d8af47d3a45e0c3703ed7e4e97af6e2ff9327208b4a016a75',
+    works: ['《数学原理》', '《西方哲学史》', '《我为什么不是基督徒》'],
+    coreIdeas: [
+      '逻辑分析——用逻辑分析解决哲学问题',
+      '摹状词理论——解决存在悖论',
+      '类型理论——避免逻辑悖论',
+      '和平主义——反对战争和核武器',
+      '幸福哲学——追求个人幸福'
+    ],
+    quotes: [
+      '对爱情的渴望，对知识的追求，对人类苦难不可遏制的同情。',
+      '战争不决定谁是对的，只决定谁还活着。',
+      '参差多态乃是幸福本源。',
+      '哲学是介于神学和科学之间的东西。'
+    ],
+    influence: '罗素是20世纪最重要的哲学家之一，分析哲学的主要创始人。他与怀特海合著的《数学原理》是逻辑学经典。他积极投身社会运动，获诺贝尔文学奖。',
+    influences: ['弗雷格', '皮亚诺'],
+    influenced: ['分析哲学', '逻辑学', '维特根斯坦', '和平运动'],
+    keyConcepts: ['逻辑分析', '摹状词', '类型理论', '和平', '幸福'],
+    historicalContext: '罗素是英国哲学家、数学家、社会活动家。他出身贵族，曾两次入狱。他获1950年诺贝尔文学奖，晚年积极投身反战和反核运动。'
+  },
+  {
+    id: 'marcus_aurelius',
+    name: '马可·奥勒留',
+    nameEn: 'Marcus Aurelius',
+    birthYear: 121,
+    deathYear: 180,
+    nationality: '古罗马',
+    era: 'ancient',
+    school: ['斯多葛学派', '伦理学'],
+    themes: ['伦理学', '自省', '命运', '德性'],
+    portrait: generatePortrait('马', 'ancient'),
+    works: ['《沉思录》'],
+    coreIdeas: [
+      '顺应自然——接受命运安排，按照理性生活',
+      '内心堡垒——外物不能触及灵魂',
+      '万物一体——宇宙是一个整体',
+      '自我审视——每日反省自身的言行',
+      '向死而生——时刻铭记生命的短暂'
+    ],
+    quotes: [
+      '你能掌控的是你的内心，而非外在事件。',
+      '宇宙是变化，人生是观念。',
+      '愤怒的后果比引起愤怒的原因更严重。',
+      '清晨告诉自己：今天我将遇到好管闲事者、忘恩负义者、傲慢者。'
+    ],
+    influence: '马可·奥勒留是罗马帝国皇帝，也是斯多葛学派最重要的晚期代表。他的《沉思录》是西方文学和哲学的经典之作，以其真诚和深刻影响了无数读者，成为斯多葛实践哲学的典范。',
+    influences: ['爱比克泰德', '斯多葛学派'],
+    influenced: ['西方思想传统', '现代积极心理学', '认知行为疗法'],
+    keyConcepts: ['内心堡垒', '顺应自然', '自省', '命运之爱', '万物一体'],
+    historicalContext: '马可·奥勒留是罗马"五贤帝"之末，在位期间帝国面临瘟疫、战争和叛乱。他在军营中写下的《沉思录》是对自我的哲学告诫，从未打算出版，却成为传世经典。'
+  },
+  {
+    id: 'seneca',
+    name: '塞内卡',
+    nameEn: 'Lucius Annaeus Seneca',
+    birthYear: -4,
+    deathYear: 65,
+    nationality: '古罗马',
+    era: 'ancient',
+    school: ['斯多葛学派', '伦理学'],
+    themes: ['伦理学', '时间', '死亡', '愤怒'],
+    portrait: generatePortrait('塞', 'ancient'),
+    works: ['《论生命之短暂》', '《论愤怒》', '《道德书简》', '《论心灵的安宁》'],
+    coreIdeas: [
+      '生命之短暂——不是时间不够，而是浪费太多',
+      '控制愤怒——愤怒是最危险的激情',
+      '面对死亡——哲学教人如何面对死亡',
+      '财富与德性——财富是中性的，态度决定一切',
+      '实践哲学——哲学应指导生活'
+    ],
+    quotes: [
+      '不是我们拥有的时间太短，而是我们浪费了太多。',
+      '命运引导愿意的人，拖拽不愿意的人。',
+      '哲学不是为闲暇准备的装饰品，而是生活本身。',
+      '哪里有恐惧，哪里就有安全的地方。'
+    ],
+    influence: '塞内卡是罗马斯多葛学派的核心人物，曾任尼禄皇帝的老师和大臣。他的散文风格优雅，思想深刻，对基督教思想和文艺复兴人文主义产生了重要影响。',
+    influences: ['斯多葛学派', '爱比克泰德前驱'],
+    influenced: ['奥古斯丁', '但丁', '蒙田', '现代自助文学'],
+    keyConcepts: ['时间', '愤怒', '死亡', '命运', '心灵的安宁'],
+    historicalContext: '塞内卡是罗马政治家、哲学家和剧作家。他曾被流放，后被尼禄赐死。他的一生体现了斯多葛哲学的理想与实践之间的张力，其道德论文风格被誉为拉丁散文的典范。'
+  },
+  {
+    id: 'plotinus',
+    name: '普罗提诺',
+    nameEn: 'Plotinus',
+    birthYear: 204,
+    deathYear: 270,
+    nationality: '古罗马',
+    era: 'ancient',
+    school: ['新柏拉图主义', '唯心主义'],
+    themes: ['形而上学', '太一', '流溢', '灵魂回归'],
+    portrait: generatePortrait('普', 'ancient'),
+    works: ['《九章集》'],
+    coreIdeas: [
+      '太一——万物归一的终极本原',
+      '流溢说——万物从太一流溢而出',
+      '灵魂回归——灵魂通过沉思回归太一',
+      '三大本体——太一、理智、灵魂',
+      '美是真理的光辉'
+    ],
+    quotes: [
+      '太一超越存在，超越思想，超越语言。',
+      '灵魂渴望回到它的源头。',
+      '美是真理在可感世界中的显现。',
+      '剥去一切外衣，回归最内在的本真。'
+    ],
+    influence: '普罗提诺是新柏拉图主义的创始人和最高代表，其思想将柏拉图哲学发展为系统的形而上学体系。他深刻影响了基督教神学、伊斯兰哲学和文艺复兴哲学，是古代哲学与现代哲学之间的桥梁。',
+    influences: ['柏拉图', '亚里士多德', '斯多葛学派'],
+    influenced: ['奥古斯丁', '伪狄奥尼修斯', '中世纪神学', '文艺复兴哲学'],
+    keyConcepts: ['太一', '流溢', '理智', '灵魂', '回归'],
+    historicalContext: '普罗提诺生于埃及，在罗马讲学。他的哲学被视为古代哲学的最后辉煌，其思想通过奥古斯丁等人融入基督教传统，成为西方形而上学的重要源头。'
+  },
+  {
+    id: 'nagarjuna',
+    name: '龙树',
+    nameEn: 'Nagarjuna',
+    birthYear: 150,
+    deathYear: 250,
+    nationality: '古印度',
+    era: 'ancient',
+    school: ['佛教', '中观学派'],
+    themes: ['空性', '中道', '缘起', '二谛'],
+    portrait: generatePortrait('龙', 'ancient'),
+    works: ['《中论》', '《大智度论》', '《十二门论》'],
+    coreIdeas: [
+      '空性——一切法无自性',
+      '中道——不落有无二边',
+      '缘起性空——缘起即是空',
+      '二谛说——世俗谛与胜义谛',
+      '四句逻辑——破除一切执著'
+    ],
+    quotes: [
+      '众因缘生法，我说即是空，亦为是假名，亦是中道义。',
+      '不生亦不灭，不常亦不断，不一亦不异，不来亦不出。',
+      '以有空义故，一切法得成。',
+      '涅槃与世间，无有少分别。'
+    ],
+    influence: '龙树是大乘佛教中观学派的创始人，被誉为"第二佛陀"。他的空性理论奠定了大乘佛教的哲学基础，深刻影响了中国佛教、藏传佛教和整个东亚思想传统。',
+    influences: ['般若经', '释迦牟尼'],
+    influenced: ['中观学派', '中国三论宗', '藏传佛教', '天台宗'],
+    keyConcepts: ['空性', '中道', '缘起', '二谛', '四句'],
+    historicalContext: '龙树生于南印度，是印度大乘佛教最伟大的哲学家。他系统阐释了般若经的空性思想，创立了中观学派。其著作通过鸠摩罗什等人的翻译传入中国，对中国佛教产生了决定性影响。'
+  },
+  {
+    id: 'shankara',
+    name: '商羯罗',
+    nameEn: 'Adi Shankara',
+    birthYear: 700,
+    deathYear: 750,
+    nationality: '古印度',
+    era: 'modern',
+    school: ['印度哲学', '吠檀多'],
+    themes: ['梵我合一', '摩耶', '解脱', '不二论'],
+    portrait: generatePortrait('商', 'modern'),
+    works: ['《梵经注》', '《薄伽梵歌注》', '《分辨宝鬘》'],
+    coreIdeas: [
+      '不二论——梵是唯一的实在',
+      '摩耶——现象世界是幻象',
+      '梵我合一——个体灵魂与梵同一',
+      '直接经验——解脱来自对梵的直接认知',
+      '业力与解脱——行为不能导致解脱'
+    ],
+    quotes: [
+      '梵是真实的，世界是幻象，灵魂与梵不二。',
+      '认识你自己就是认识一切。',
+      '如同绳被误认为蛇，世界因无知而被误认为真实。',
+      '解脱不是获得什么，而是去除无知。'
+    ],
+    influence: '商羯罗是印度吠檀多哲学不二论学派的创始人，被誉为印度哲学史上最伟大的思想家之一。他在短短一生中复兴了印度教，统一了印度思想传统，其影响至今仍是印度教哲学的主流。',
+    influences: ['奥义书', '《薄伽梵歌》', '龙树'],
+    influenced: ['吠檀多哲学', '现代印度教', '吠檀多现代运动'],
+    keyConcepts: ['不二', '梵', '摩耶', '解脱', '无知'],
+    historicalContext: '商羯罗生活在8世纪的印度，年仅32岁去世。他在短暂的一生中游历全印度，与各派哲学家辩论，建立了四大修道院，统一了印度教的崇拜形式，对印度思想产生了不可磨灭的影响。'
+  },
+  {
+    id: 'huineng',
+    name: '慧能',
+    nameEn: 'Huineng',
+    birthYear: 638,
+    deathYear: 713,
+    nationality: '中国',
+    era: 'modern',
+    school: ['佛教', '禅宗'],
+    themes: ['顿悟', '无念', '自性', '平常心'],
+    portrait: generatePortrait('慧', 'modern'),
+    works: ['《坛经》'],
+    coreIdeas: [
+      '顿悟——直指人心，见性成佛',
+      '无念——于念而无念，不执著于任何念头',
+      '自性——本自具足，本不生灭',
+      '定慧一体——定即是慧，慧即是定',
+      '平常心是道——行住坐卧皆是修行'
+    ],
+    quotes: [
+      '菩提本无树，明镜亦非台，本来无一物，何处惹尘埃。',
+      '不是风动，不是幡动，仁者心动。',
+      '何期自性，本自清净。',
+      '佛法在世间，不离世间觉。'
+    ],
+    influence: '慧能是中国禅宗第六祖，也是禅宗南宗的创始人。他的思想标志着佛教中国化的完成，禅宗成为中国佛教最具影响力的宗派。其《坛经》是唯一一部以"经"命名的中国佛教著作，深刻影响了中国哲学、文学和艺术。',
+    influences: ['达摩', '五祖弘忍', '《金刚经》'],
+    influenced: ['禅宗', '宋明理学', '中国文学艺术', '日本禅'],
+    keyConcepts: ['顿悟', '无念', '自性', '定慧', '平常心'],
+    historicalContext: '慧能出身贫寒，不识字，却在听闻《金刚经》后开悟。他继承五祖衣钵后隐居多年，后在曹溪弘法，开创禅宗南宗。他的思想将印度佛教与中国本土思想融合，开创了完全中国化的佛教。'
+  },
+  {
+    id: 'dong_zhongshu',
+    name: '董仲舒',
+    nameEn: 'Dong Zhongshu',
+    birthYear: -179,
+    deathYear: -104,
+    nationality: '中国',
+    era: 'ancient',
+    school: ['儒家', '政治哲学'],
+    themes: ['天人感应', '大一统', '罢黜百家', '三纲五常'],
+    portrait: generatePortrait('董', 'ancient'),
+    works: ['《春秋繁露》', '《天人三策》'],
+    coreIdeas: [
+      '天人感应——天人之间相互感应',
+      '大一统——政治和思想的统一',
+      '罢黜百家，独尊儒术——确立儒学正统',
+      '三纲五常——社会伦理的基本框架',
+      '性三品说——人性有上中下三等'
+    ],
+    quotes: [
+      '道之大原出于天，天不变，道亦不变。',
+      '正其谊不谋其利，明其道不计其功。',
+      '天人之际，合而为一。',
+      '王者欲有所为，宜求其端于天。'
+    ],
+    influence: '董仲舒是西汉大儒，他提出"罢黜百家，独尊儒术"，使儒学成为中国古代的官方意识形态。他的天人感应论和三纲五常说深刻影响了中国两千多年的政治和文化。',
+    influences: ['孔子', '孟子', '荀子', '阴阳五行说'],
+    influenced: ['汉代儒学', '中国古代政治制度', '宋明理学'],
+    keyConcepts: ['天人感应', '大一统', '三纲五常', '性三品', '春秋公羊学'],
+    historicalContext: '董仲舒生活在西汉武帝时期，他向武帝提出"天人三策"，建议独尊儒术。他的思想将儒学与阴阳五行、天人感应结合，构建了适合大一统帝国的意识形态体系。'
+  },
+  {
+    id: 'wang_fuzhi',
+    name: '王夫之',
+    nameEn: 'Wang Fuzhi',
+    birthYear: 1619,
+    deathYear: 1692,
+    nationality: '中国',
+    era: 'modern',
+    school: ['宋明理学', '实学'],
+    themes: ['气一元论', '理在气中', '日生日成', '实践'],
+    portrait: generatePortrait('王', 'modern'),
+    works: ['《张子正蒙注》', '《读通鉴论》', '《周易外传》', '《尚书引义》'],
+    coreIdeas: [
+      '气一元论——理在气中，无气则无理',
+      '日生日成——人性在后天不断生成',
+      '动静交相——动是根本，静是动的特殊状态',
+      '器道合一——无其器则无其道',
+      '经世致用——反对空谈，注重实践'
+    ],
+    quotes: [
+      '天下惟器而已矣，道者器之道也。',
+      '性者生理也，日生则日成也。',
+      '行可兼知，而知不可兼行。',
+      '六经责我开生面，七尺从天乞活埋。'
+    ],
+    influence: '王夫之是明清之际三大思想家之一，其哲学被视为中国古代唯物主义的高峰。他的思想在晚清被重新发现，对近代中国的思想变革产生了重要影响，被誉为"中国启蒙思想家"。',
+    influences: ['张载', '朱熹', '王阳明'],
+    influenced: ['清代实学', '谭嗣同', '近代中国思想'],
+    keyConcepts: ['气', '理', '器', '行', '日生日成'],
+    historicalContext: '王夫之生活在明末清初，曾参与抗清斗争。明亡后隐居石船山著书立说，其著述达百余种。他的哲学是对宋明理学的总结和批判，代表了古代哲学的最高水平。'
+  },
+  {
+    id: 'pascal',
+    name: '帕斯卡',
+    nameEn: 'Blaise Pascal',
+    birthYear: 1623,
+    deathYear: 1662,
+    nationality: '法国',
+    era: 'modern',
+    school: ['理性主义', '基督教哲学'],
+    themes: ['信仰', '人性', '赌注', '理性与情感'],
+    portrait: generatePortrait('帕', 'modern'),
+    works: ['《思想录》', '《致外省人书》'],
+    coreIdeas: [
+      '人是会思想的芦苇——脆弱但伟大',
+      '帕斯卡赌注——信仰上帝是最优选择',
+      '心的逻辑——心有其理，理性不知',
+      ' diversion——人用消遣逃避面对自己',
+      '无限空间的永恒沉默使人恐惧'
+    ],
+    quotes: [
+      '人只是一根芦苇，是自然界最脆弱的东西；但他是一根能思想的芦苇。',
+      '心有其理，而理性一无所知。',
+      '无限空间的永恒沉默使我恐惧。',
+      '如果我们太快乐或太不快乐，我们都无法认真思考。'
+    ],
+    influence: '帕斯卡是法国数学家、物理学家和哲学家，他的《思想录》是法国文学和哲学的杰作。他既以理性批判理性，又为信仰辩护，对存在主义和现代基督教哲学产生了深远影响。',
+    influences: ['奥古斯丁', '蒙田', '笛卡尔'],
+    influenced: ['存在主义', '克尔凯郭尔', '现代基督教哲学'],
+    keyConcepts: ['会思想的芦苇', '帕斯卡赌注', '心的逻辑', '消遣', '无限'],
+    historicalContext: '帕斯卡是天才的数学家和物理学家，39岁早逝。他晚年转向宗教沉思，为基督教辩护。《思想录》是他未完成的遗作，由后人整理出版，成为思想史上的经典。'
+  },
+  {
+    id: 'bentham',
+    name: '边沁',
+    nameEn: 'Jeremy Bentham',
+    birthYear: 1748,
+    deathYear: 1832,
+    nationality: '英国',
+    era: 'modern',
+    school: ['功利主义', '自由主义'],
+    themes: ['最大幸福', '功利原则', '法律改革', '监狱设计'],
+    portrait: generatePortrait('边', 'modern'),
+    works: ['《道德与立法原理导论》', '《政府片论》', '《义务论》'],
+    coreIdeas: [
+      '功利原则——最大多数人的最大幸福',
+      '快乐计算——快乐和痛苦可以量化',
+      '法律改革——以功利原则重构法律体系',
+      '圆形监狱——现代监控的设计理念',
+      '快乐七要素——强度、持续时间、确定性等'
+    ],
+    quotes: [
+      '最大多数人的最大幸福是衡量对错的标准。',
+      '自然将人置于快乐和痛苦两大主宰之下。',
+      '一切法律的目的都在于增加幸福。',
+      '废话是那些不增加意义的词语。'
+    ],
+    influence: '边沁是英国功利主义哲学的创始人，其思想深刻影响了19世纪的英国法律改革和社会政策。他是激进改革的倡导者，其学生密尔发展了功利主义理论，边沁的思想至今仍是伦理学和政治哲学的重要范式。',
+    influences: ['洛克', '休谟', '贝卡利亚'],
+    influenced: ['密尔', '英国法律改革', '现代福利经济学', '功利主义伦理学'],
+    keyConcepts: ['功利', '最大幸福', '快乐计算', '圆形监狱', '法律改革'],
+    historicalContext: '边沁是英国哲学家和法学家，12岁进入牛津大学。他一生致力于法律和社会改革，其遗体现仍保存于伦敦大学学院。他是激进哲学激进派的领袖，影响了19世纪英国的几乎所有改革。'
+  },
+  {
+    id: 'berkeley',
+    name: '贝克莱',
+    nameEn: 'George Berkeley',
+    birthYear: 1685,
+    deathYear: 1753,
+    nationality: '英国',
+    era: 'modern',
+    school: ['经验主义', '唯心主义'],
+    themes: ['存在即被感知', '观念论', '物质批判'],
+    portrait: generatePortrait('贝', 'modern'),
+    works: ['《人类知识原理》', '《视觉新论》', '《希勒斯和斐洛诺斯的三篇对话》'],
+    coreIdeas: [
+      '存在即被感知——物质不存在，只有观念',
+      '观念论——世界是心灵中的观念集合',
+      '物质批判——物质是哲学家的虚构',
+      '上帝保证——上帝感知一切，维持世界存在',
+      '视觉理论——视觉是触觉的经验习得'
+    ],
+    quotes: [
+      '存在就是被感知。',
+      '物质是不存在的，它只是哲学家们创造的一个词。',
+      '我们只知道我们的观念。',
+      '上帝一直在感知一切，因此世界持续存在。'
+    ],
+    influence: '贝克莱是英国经验主义哲学的重要代表，其唯心主义哲学挑战了物质概念，对后世产生了深远影响。他的思想启发了休谟的怀疑主义，也影响了现代现象学和唯心主义传统。加州大学伯克利分校即以他命名。',
+    influences: ['洛克', '笛卡尔', '牛顿'],
+    influenced: ['休谟', '康德', '现代唯心主义', '现象学'],
+    keyConcepts: ['存在即被感知', '观念', '物质', '上帝', '视觉'],
+    historicalContext: '贝克莱是爱尔兰哲学家和主教。他试图反驳怀疑论和无神论，却走向了彻底的唯心主义。他后来前往美洲传教，虽未成功但留下了深远影响。加州伯克利市以其命名。'
+  },
+  {
+    id: 'feuerbach',
+    name: '费尔巴哈',
+    nameEn: 'Ludwig Feuerbach',
+    birthYear: 1804,
+    deathYear: 1872,
+    nationality: '德国',
+    era: 'modern',
+    school: ['德国哲学', '唯物主义'],
+    themes: ['宗教批判', '人本学', '异化', '感性'],
+    portrait: generatePortrait('费', 'modern'),
+    works: ['《基督教的本质》', '《未来哲学原理》', '《宗教的本质》'],
+    coreIdeas: [
+      '上帝是人的本质的投射——宗教是人性的异化',
+      '人本学——哲学应从人出发',
+      '感性哲学——感性是认识的基础',
+      '批判黑格尔——唯心主义是神学的最后避难所',
+      '我与你——个体的关系是伦理基础'
+    ],
+    quotes: [
+      '上帝是人的本质的投射。',
+      '人之所以有宗教，是因为他害怕自己。',
+      '不是上帝创造了人，而是人创造了上帝。',
+      '哲学必须从感性确定性出发。'
+    ],
+    influence: '费尔巴哈是德国唯物主义哲学的代表，他的宗教批判思想深刻影响了马克思。恩格斯说费尔巴哈"打破了黑格尔体系的锁链"，为马克思主义的诞生扫清了道路。他的思想也影响了现代宗教学和人类学。',
+    influences: ['黑格尔', '康德'],
+    influenced: ['马克思', '恩格斯', '现代宗教学', '人本主义心理学'],
+    keyConcepts: ['宗教投射', '人本学', '感性', '异化', '我与你'],
+    historicalContext: '费尔巴哈是黑格尔的学生，后转向唯物主义。他因《基督教的本质》一书声名大噪，但也因此被学术界排斥。他隐居乡间，继续著述，对青年马克思产生了决定性影响。'
+  },
+  {
+    id: 'comte',
+    name: '孔德',
+    nameEn: 'Auguste Comte',
+    birthYear: 1798,
+    deathYear: 1857,
+    nationality: '法国',
+    era: 'modern',
+    school: ['实证主义', '社会学'],
+    themes: ['三阶段律', '实证科学', '人道教', '社会静力学'],
+    portrait: generatePortrait('孔', 'modern'),
+    works: ['《实证哲学教程》', '《实证政治体系》'],
+    coreIdeas: [
+      '三阶段律——人类思想经历神学、形而上学、实证三阶段',
+      '实证主义——知识应基于经验和观察',
+      '社会学——创立社会科学的尝试',
+      '人道教——以人类崇拜代替宗教',
+      '秩序与进步——秩序是基础，进步是目的'
+    ],
+    quotes: [
+      '知识为了预见，预见为了行动。',
+      '人类思想必然经历三个阶段：神学、形而上学和实证。',
+      '以爱为原则，以秩序为基础，以进步为目的。',
+      '活着就是为他人而活。'
+    ],
+    influence: '孔德是实证主义哲学的创始人，也是"社会学"一词的发明者。他的三阶段律和实证主义方法论深刻影响了19世纪和20世纪的社会科学，其思想奠定了现代科学哲学的基础。',
+    influences: ['圣西门', '休谟', '康德'],
+    influenced: ['社会学', '逻辑实证主义', '巴西国训"秩序与进步"'],
+    keyConcepts: ['三阶段律', '实证', '社会学', '秩序与进步', '人道教'],
+    historicalContext: '孔德是法国哲学家，曾担任圣西门的秘书。他创立了实证主义和社会学，提出了人类思想发展的三阶段律。晚年创立"人道教"，试图以科学精神替代传统宗教。'
+  },
+  {
+    id: 'bergson',
+    name: '柏格森',
+    nameEn: 'Henri Bergson',
+    birthYear: 1859,
+    deathYear: 1941,
+    nationality: '法国',
+    era: 'contemporary',
+    school: ['生命哲学', '直觉主义'],
+    themes: ['绵延', '生命冲动', '直觉', '时间', '记忆'],
+    portrait: generatePortrait('柏', 'contemporary'),
+    works: ['《创造进化论》', '《时间与自由意志》', '《物质与记忆》', '《笑》'],
+    coreIdeas: [
+      '绵延——真实的时间是连续的质的流动',
+      '生命冲动——生命是创造性的进化',
+      '直觉——通过直觉把握生命的本质',
+      '空间与时间——空间是量的，时间是质的',
+      '记忆——过去在现在中持续存在'
+    ],
+    quotes: [
+      '时间是发明，还是什么都不是。',
+      '直觉是那种将自己置于对象之中的同情。',
+      '生命冲动是宇宙的创造性力量。',
+      '行动不是必然性的产物，而是自由的展开。'
+    ],
+    influence: '柏格森是20世纪初法国最有影响力的哲学家，1927年获诺贝尔文学奖。他的生命哲学对现代主义文学、艺术和哲学产生了深远影响，影响了普鲁斯特、德彪西等人，也启发了存在主义和过程哲学。',
+    influences: ['斯宾塞', '拉马克', '叔本华'],
+    influenced: ['存在主义', '过程哲学', '现代主义文学', '德勒兹'],
+    keyConcepts: ['绵延', '生命冲动', '直觉', '记忆', '创造性进化'],
+    historicalContext: '柏格森是法国哲学家，出生于巴黎的犹太家庭。他在20世纪初风靡欧美，讲座一票难求。他的生命哲学是对机械论和决定论的挑战，后因健康状况退出公众生活。'
+  },
+  {
+    id: 'husserl',
+    name: '胡塞尔',
+    nameEn: 'Edmund Husserl',
+    birthYear: 1859,
+    deathYear: 1938,
+    nationality: '奥地利',
+    era: 'contemporary',
+    school: ['现象学'],
+    themes: ['意向性', '现象学还原', '生活世界', '本质直观'],
+    portrait: generatePortrait('胡', 'contemporary'),
+    works: ['《逻辑研究》', '《纯粹现象学和现象学哲学的观念》', '《欧洲科学的危机》', '《内时间意识现象学》'],
+    coreIdeas: [
+      '意向性——意识总是关于某物的意识',
+      '现象学还原——悬置自然态度，回到事物本身',
+      '本质直观——直接把握普遍本质',
+      '生活世界——科学世界的意义基础',
+      '欧洲科学的危机——客观主义遗忘了生活世界'
+    ],
+    quotes: [
+      '回到事物本身！',
+      '意识总是意识关于某物的。',
+      '一切原初给予的直观都是认识的合法源泉。',
+      '哲学是一门作为严格科学的学问。'
+    ],
+    influence: '胡塞尔是现象学的创始人，其思想深刻影响了20世纪哲学的走向。他的学生海德格尔、舍勒、伽达默尔等人将现象学发展为最重要的哲学运动之一，现象学方法影响了存在主义、解释学和认知科学。',
+    influences: ['布伦塔诺', '笛卡尔', '康德'],
+    influenced: ['海德格尔', '萨特', '梅洛-庞蒂', '伽达默尔', '德里达'],
+    keyConcepts: ['意向性', '现象学还原', '本质直观', '生活世界', '悬置'],
+    historicalContext: '胡塞尔是奥地利哲学家，先后在哈勒、哥廷根和弗莱堡大学任教。他是犹太人，在纳粹时期被剥夺教职和公民权。他的手稿被学生冒险保存，后成为科隆现象学档案馆的核心藏品。'
+  },
+  {
+    id: 'sartre',
+    name: '萨特',
+    nameEn: 'Jean-Paul Sartre',
+    birthYear: 1905,
+    deathYear: 1980,
+    nationality: '法国',
+    era: 'contemporary',
+    school: ['存在主义', '马克思主义'],
+    themes: ['自由', '存在先于本质', '恶心', '他人即地狱'],
+    portrait: generatePortrait('萨', 'contemporary'),
+    works: ['《存在与虚无》', '《存在主义是一种人道主义》', '《恶心》', '《禁闭》', '《辩证理性批判》'],
+    coreIdeas: [
+      '存在先于本质——人先存在，然后定义自己',
+      '自由——人被判定为自由的',
+      '自欺——逃避自由的行为',
+      '他人即地狱——他人的注视限制了我的自由',
+      '存在主义马克思主义——试图融合存在主义与马克思主义'
+    ],
+    quotes: [
+      '存在先于本质。',
+      '人被判定为自由的。',
+      '他人即地狱。',
+      '人类注定要自由。'
+    ],
+    influence: '萨特是20世纪法国最有影响力的知识分子之一，存在主义的代表人物。他拒绝了1964年的诺贝尔文学奖，认为作家不应让自己制度化。他的思想深刻影响了战后欧洲的文学、哲学和政治思潮。',
+    influences: ['胡塞尔', '海德格尔', '马克思'],
+    influenced: ['战后存在主义运动', '波伏娃', '加缪', '后殖民理论'],
+    keyConcepts: ['存在先于本质', '自由', '自欺', '他人', '恶心'],
+    historicalContext: '萨特是法国哲学家、作家和社会活动家。他与波伏娃的开放式伴侣关系成为传奇。他积极参与政治运动，支持阿尔及利亚独立和1968年学生运动，是战后欧洲知识分子的标志性人物。'
+  },
+  {
+    id: 'beauvoir',
+    name: '波伏娃',
+    nameEn: 'Simone de Beauvoir',
+    birthYear: 1908,
+    deathYear: 1986,
+    nationality: '法国',
+    era: 'contemporary',
+    school: ['存在主义', '女性主义'],
+    themes: ['女性主义', '自由', '他者', '身体'],
+    portrait: generatePortrait('波', 'contemporary'),
+    works: ['《第二性》', '《名士风流》', '《人都是要死的》', '《模糊性的伦理学》'],
+    coreIdeas: [
+      '女人不是天生的，而是后天成为的',
+      '他者——女性在社会中被定义为他者',
+      '模糊性的伦理学——人的存在本质上是模糊的',
+      '自由与处境——自由总是受处境制约的',
+      '身体是处境——身体不是命运，但也不是无关紧要的'
+    ],
+    quotes: [
+      '女人不是天生的，而是后天成为的。',
+      '今天，女人代表的是否定性和被动性。',
+      '人类的模糊性是所有伦理问题的根源。',
+      '一个人不是生来就是女人，而是被变成女人的。'
+    ],
+    influence: '波伏娃是20世纪最重要的女性主义哲学家，《第二性》被誉为"女性主义的圣经"。她的思想深刻影响了第二波女性主义运动，其存在主义伦理学对当代性别研究、社会学和伦理学产生了深远影响。',
+    influences: ['萨特', '胡塞尔', '黑格尔'],
+    influenced: ['第二波女性主义', '性别研究', '后现代女性主义'],
+    keyConcepts: ['他者', '成为女人', '模糊性', '处境', '身体'],
+    historicalContext: '波伏娃是法国哲学家、作家，与萨特是终身伴侣。她的《第二性》在1949年出版时引起轩然大波，后成为女性主义的奠基之作。她一生致力于写作和社会活动，是20世纪知识女性的象征。'
+  },
+  {
+    id: 'derrida',
+    name: '德里达',
+    nameEn: 'Jacques Derrida',
+    birthYear: 1930,
+    deathYear: 2004,
+    nationality: '法国',
+    era: 'contemporary',
+    school: ['后现代主义', '解构主义'],
+    themes: ['解构', '延异', '踪迹', '书写', '正义'],
+    portrait: generatePortrait('德', 'contemporary'),
+    works: ['《论文字学》', '《声音与现象》', '《写作与差异》', '《法律的力量》'],
+    coreIdeas: [
+      '解构——拆解二元对立的等级结构',
+      '延异——意义永远在推迟和差异化',
+      '踪迹——每个符号都承载着其他符号的痕迹',
+      '书写优于言语——书写揭示了语言的本质',
+      '正义是不可解构的——正义超越法律'
+    ],
+    quotes: [
+      '文本之外别无他物。',
+      '语言中不存在纯粹在场。',
+      '延异既不是一个词也不是一个概念。',
+      '正义是不可解构的。'
+    ],
+    influence: '德里达是20世纪后半叶最有影响力的哲学家之一，解构主义的创始人。他的思想深刻影响了文学批评、法学、建筑学和神学等多个领域，是后现代主义思潮的核心人物。',
+    influences: ['胡塞尔', '海德格尔', '尼采', '索绪尔'],
+    influenced: ['解构主义', '后现代批评理论', '法律与文学运动', '建筑理论'],
+    keyConcepts: ['解构', '延异', '踪迹', '书写', '正义'],
+    historicalContext: '德里达出生于阿尔及利亚的犹太家庭，后移居法国。他的解构主义在学术界引起激烈争论，既被推崇也被批评。他积极参与政治，支持种族隔离的受害者和其他社会正义事业。'
+  },
+  {
+    id: 'deleuze',
+    name: '德勒兹',
+    nameEn: 'Gilles Deleuze',
+    birthYear: 1925,
+    deathYear: 1995,
+    nationality: '法国',
+    era: 'contemporary',
+    school: ['后现代主义', '生命哲学'],
+    themes: ['差异', '块茎', '欲望生产', '生成', '游牧'],
+    portrait: generatePortrait('德', 'contemporary'),
+    works: ['《差异与重复》', '《反俄狄浦斯》（与加塔利合著）', '《千高原》（与加塔利合著）', '《什么是哲学》'],
+    coreIdeas: [
+      '差异哲学——差异先于同一性',
+      '块茎——非层级的、多入口的知识模型',
+      '欲望生产——欲望是生产性的，而非匮乏性的',
+      '生成——存在是不断生成的过程',
+      '游牧思想——对抗国家机器的游牧式思维'
+    ],
+    quotes: [
+      '哲学是创造概念的艺术。',
+      '不存在他者，只有生成。',
+      '欲望不是匮乏，而是生产。',
+      '块茎的任何一点都可以与任何其他点相连。'
+    ],
+    influence: '德勒兹是20世纪最具原创性的哲学家之一，他的思想融合了哲学、文学、电影和艺术。他与加塔利合著的《反俄狄浦斯》和《千高原》是后现代哲学的经典，对文化研究、艺术理论和数字人文产生了深远影响。',
+    influences: ['柏格森', '尼采', '斯宾诺莎', '福柯'],
+    influenced: ['后现代哲学', '文化研究', '数字人文', '当代艺术理论'],
+    keyConcepts: ['差异', '块茎', '欲望生产', '生成', '游牧'],
+    historicalContext: '德勒兹是法国哲学家，一生在巴黎任教。他与精神分析师加塔利的合作产生了最具影响力的著作。他在《什么是哲学》中总结了一生的哲学思考，1995年因健康原因自杀。'
+  },
+  {
+    id: 'adorno',
+    name: '阿多诺',
+    nameEn: 'Theodor Adorno',
+    birthYear: 1903,
+    deathYear: 1969,
+    nationality: '德国',
+    era: 'contemporary',
+    school: ['法兰克福学派', '批判理论'],
+    themes: ['文化工业', '否定辩证法', '启蒙辩证法', '审美理论'],
+    portrait: generatePortrait('阿', 'contemporary'),
+    works: ['《启蒙辩证法》（与霍克海默合著）', '《否定辩证法》', '《美学理论》', '《最低限度的道德》'],
+    coreIdeas: [
+      '文化工业——大众文化是统治的工具',
+      '否定辩证法——概念不能穷尽对象',
+      '启蒙的辩证法——启蒙走向了自己的反面',
+      '同一性批判——反对将差异还原为同一',
+      '奥斯维辛之后——诗歌不再可能'
+    ],
+    quotes: [
+      '奥斯维辛之后写诗是野蛮的。',
+      '整体是虚假的。',
+      '文化工业的欺骗在于它从不兑现承诺。',
+      '错误的生命无法正确地生活。'
+    ],
+    influence: '阿多诺是法兰克福学派的核心人物，其批判理论深刻影响了20世纪的社会哲学、美学和文化批评。他对文化工业的批判、对启蒙的反思以及对同一性思维的挑战，至今仍是批判理论的重要资源。',
+    influences: ['黑格尔', '马克思', '弗洛伊德', '本雅明'],
+    influenced: ['批判理论', '文化研究', '后马克思主义', '美学理论'],
+    keyConcepts: ['文化工业', '否定辩证法', '启蒙辩证法', '同一性', '非同一'],
+    historicalContext: '阿多诺是德国哲学家和社会学家，法兰克福学派的核心成员。他因犹太血统流亡美国，战后回到法兰比克。他对战后德国的精神重建和1968年学生运动都产生了重要影响。'
+  },
+  {
+    id: 'arendt',
+    name: '阿伦特',
+    nameEn: 'Hannah Arendt',
+    birthYear: 1906,
+    deathYear: 1975,
+    nationality: '德国/美国',
+    era: 'contemporary',
+    school: ['政治哲学', '现象学'],
+    themes: ['极权主义', '平庸的恶', '行动', '公共领域'],
+    portrait: generatePortrait('阿', 'contemporary'),
+    works: ['《极权主义的起源》', '《人的境况》', '《耶路撒冷的艾希曼》', '《精神生活》'],
+    coreIdeas: [
+      '极权主义——现代政治的新形式',
+      '平庸的恶——恶源于不思考',
+      '行动——人通过行动展现独特性',
+      '公共领域——政治是自由显现的空间',
+      '劳动、工作与行动——人类活动的三种基本形式'
+    ],
+    quotes: [
+      '恶的对立面不是善，而是思考。',
+      '在黑暗时代，唯一重要的行为是能够思考。',
+      '世界因为新人的到来而不断更新。',
+      '自由存在于行动之中。'
+    ],
+    influence: '阿伦特是20世纪最重要的政治哲学家之一，她对极权主义的分析和对"平庸的恶"的论述深刻影响了政治哲学和社会思想。她是海德格尔的学生和情人，但发展出独立的哲学体系。',
+    influences: ['海德格尔', '雅斯贝尔斯', '亚里士多德'],
+    influenced: ['政治哲学', '极权主义研究', '现代犹太思想', '共和主义'],
+    keyConcepts: ['极权主义', '平庸的恶', '行动', '公共领域', '人的境况'],
+    historicalContext: '阿伦特是德裔美国政治哲学家，因犹太身份流亡法国后移居美国。她对纳粹审判的报道引起巨大争议，《耶路撒冷的艾希曼》中"平庸的恶"概念至今仍是政治哲学的核心议题。'
+  },
+  {
+    id: 'rawls',
+    name: '罗尔斯',
+    nameEn: 'John Rawls',
+    birthYear: 1921,
+    deathYear: 2002,
+    nationality: '美国',
+    era: 'contemporary',
+    school: ['政治哲学', '自由主义'],
+    themes: ['正义', '公平', '原初状态', '无知之幕'],
+    portrait: generatePortrait('罗', 'contemporary'),
+    works: ['《正义论》', '《政治自由主义》', '《万民法》'],
+    coreIdeas: [
+      '正义即公平——社会基本结构应以公平为原则',
+      '原初状态——在无知之幕后面选择正义原则',
+      '两个正义原则——自由原则和差异原则',
+      '重叠共识——不同完备性学说的公共共识',
+      '公共理性——民主社会的推理方式'
+    ],
+    quotes: [
+      '正义是社会制度的首要价值，正如真理是思想体系的首要价值。',
+      '在无知之幕后面，没有人知道自己的社会地位。',
+      '自由只能为了自由本身而被限制。',
+      '社会和经济的安排应使最不利者获益最大。'
+    ],
+    influence: '罗尔斯是20世纪最重要的政治哲学家，《正义论》引发了政治哲学的复兴。他的正义理论深刻影响了当代政治哲学、法学和经济学，是自由主义传统在20世纪最重要的理论发展。',
+    influences: ['康德', '洛克', '卢梭'],
+    influenced: ['当代政治哲学', '诺齐克', '森', '桑德尔'],
+    keyConcepts: ['正义即公平', '无知之幕', '原初状态', '差异原则', '重叠共识'],
+    historicalContext: '罗尔斯是美国哲学家，在普林斯顿和哈佛任教。二战中他曾作为士兵在太平洋战场服役。《正义论》在1971年出版后立即成为政治哲学的里程碑，引发了持续数十年的学术讨论。'
+  }
+];
+
+export const filterOptions = {
+  era: [
+    { value: 'all', label: '全部时代' },
+    { value: 'ancient', label: '古代' },
+    { value: 'modern', label: '近代' },
+    { value: 'contemporary', label: '现代' }
+  ],
+  school: [
+    { value: 'all', label: '全部流派' },
+    { value: '古希腊哲学', label: '古希腊哲学' },
+    { value: '道家', label: '道家' },
+    { value: '儒家', label: '儒家' },
+    { value: '法家', label: '法家' },
+    { value: '墨家', label: '墨家' },
+    { value: '佛教', label: '佛教' },
+    { value: '禅宗', label: '禅宗' },
+    { value: '印度哲学', label: '印度哲学' },
+    { value: '斯多葛学派', label: '斯多葛学派' },
+    { value: '怀疑主义', label: '怀疑主义' },
+    { value: '新柏拉图主义', label: '新柏拉图主义' },
+    { value: '经院哲学', label: '经院哲学' },
+    { value: '基督教神学', label: '基督教神学' },
+    { value: '基督教哲学', label: '基督教哲学' },
+    { value: '启蒙思想', label: '启蒙思想' },
+    { value: '理性主义', label: '理性主义' },
+    { value: '经验主义', label: '经验主义' },
+    { value: '德国古典哲学', label: '德国古典哲学' },
+    { value: '德国哲学', label: '德国哲学' },
+    { value: '唯意志论', label: '唯意志论' },
+    { value: '功利主义', label: '功利主义' },
+    { value: '实证主义', label: '实证主义' },
+    { value: '宋明理学', label: '宋明理学' },
+    { value: '马克思主义', label: '马克思主义' },
+    { value: '存在主义', label: '存在主义' },
+    { value: '现象学', label: '现象学' },
+    { value: '生命哲学', label: '生命哲学' },
+    { value: '分析哲学', label: '分析哲学' },
+    { value: '后现代主义', label: '后现代主义' },
+    { value: '解构主义', label: '解构主义' },
+    { value: '法兰克福学派', label: '法兰克福学派' },
+    { value: '女性主义', label: '女性主义' },
+    { value: '自由主义', label: '自由主义' },
+    { value: '政治哲学', label: '政治哲学' }
+  ],
+  theme: [
+    { value: 'all', label: '全部主题' },
+    { value: '认识论', label: '认识论' },
+    { value: '伦理学', label: '伦理学' },
+    { value: '道德哲学', label: '道德哲学' },
+    { value: '政治哲学', label: '政治哲学' },
+    { value: '形而上学', label: '形而上学' },
+    { value: '逻辑学', label: '逻辑学' },
+    { value: '美学', label: '美学' },
+    { value: '辩证法', label: '辩证法' },
+    { value: '语言哲学', label: '语言哲学' },
+    { value: '宗教哲学', label: '宗教哲学' },
+    { value: '存在主义', label: '存在主义' },
+    { value: '自由', label: '自由' },
+    { value: '正义', label: '正义' },
+    { value: '权力', label: '权力' },
+    { value: '异化', label: '异化' },
+    { value: '信仰', label: '信仰' },
+    { value: '荒诞', label: '荒诞' },
+    { value: '技术批判', label: '技术批判' },
+    { value: '时间', label: '时间' },
+    { value: '女性主义', label: '女性主义' },
+    { value: '解脱', label: '解脱' },
+    { value: '空性', label: '空性' },
+    { value: '道', label: '道' },
+    { value: '心性', label: '心性' },
+    { value: '社会契约', label: '社会契约' },
+    { value: '极权主义', label: '极权主义' },
+    { value: '文化批判', label: '文化批判' },
+    { value: '生命', label: '生命' },
+    { value: '直觉', label: '直觉' }
+  ]
+};
+
+// 思想传承关系数据
+export const influenceRelations = [
+  { from: 'socrates', to: 'plato', type: 'direct' },
+  { from: 'plato', to: 'aristotle', type: 'direct' },
+  { from: 'aristotle', to: 'aquinas', type: 'direct' },
+  { from: 'confucius', to: 'plato', type: 'parallel' },
+  { from: 'laozi', to: 'zhuangzi', type: 'direct' },
+  { from: 'laozi', to: 'buddha', type: 'parallel' },
+  { from: 'upanishads', to: 'buddha', type: 'direct' },
+  { from: 'socrates', to: 'epictetus', type: 'direct' },
+  { from: 'pyrrho', to: 'skepticism', type: 'direct' },
+  { from: 'kant', to: 'hegel', type: 'direct' },
+  { from: 'kant', to: 'schopenhauer', type: 'direct' },
+  { from: 'schopenhauer', to: 'nietzsche', type: 'direct' },
+  { from: 'hegel', to: 'marx', type: 'critical' },
+  { from: 'rousseau', to: 'kant', type: 'direct' },
+  { from: 'voltaire', to: 'rousseau', type: 'critical' },
+  { from: 'nietzsche', to: 'heidegger', type: 'direct' },
+  { from: 'nietzsche', to: 'foucault', type: 'direct' },
+  { from: 'heidegger', to: 'foucault', type: 'indirect' },
+  { from: 'wittgenstein', to: 'foucault', type: 'parallel' },
+  { from: 'nietzsche', to: 'camus', type: 'direct' },
+  { from: 'kant', to: 'marx', type: 'indirect' },
+  { from: 'aristotle', to: 'kant', type: 'critical' },
+  { from: 'plato', to: 'kant', type: 'indirect' },
+  { from: 'buddha', to: 'nagarjuna', type: 'direct' },
+  { from: 'upanishads', to: 'shankara', type: 'direct' },
+  { from: 'nagarjuna', to: 'huineng', type: 'indirect' },
+  { from: 'confucius', to: 'dong_zhongshu', type: 'direct' },
+  { from: 'mencius', to: 'dong_zhongshu', type: 'indirect' },
+  { from: 'seneca', to: 'marcus_aurelius', type: 'indirect' },
+  { from: 'epictetus', to: 'marcus_aurelius', type: 'direct' },
+  { from: 'plato', to: 'plotinus', type: 'direct' },
+  { from: 'plotinus', to: 'augustine', type: 'direct' },
+  { from: 'plotinus', to: 'aquinas', type: 'indirect' },
+  { from: 'zhuangzi', to: 'wang_fuzhi', type: 'indirect' },
+  { from: 'zhuxi', to: 'wang_fuzhi', type: 'critical' },
+  { from: 'locke', to: 'bentham', type: 'indirect' },
+  { from: 'bentham', to: 'mill', type: 'direct' },
+  { from: 'berkeley', to: 'hume', type: 'direct' },
+  { from: 'locke', to: 'berkeley', type: 'direct' },
+  { from: 'descartes', to: 'pascal', type: 'critical' },
+  { from: 'hegel', to: 'feuerbach', type: 'critical' },
+  { from: 'feuerbach', to: 'marx', type: 'direct' },
+  { from: 'augustine', to: 'pascal', type: 'indirect' },
+  { from: 'husserl', to: 'heidegger', type: 'direct' },
+  { from: 'husserl', to: 'sartre', type: 'indirect' },
+  { from: 'heidegger', to: 'sartre', type: 'direct' },
+  { from: 'sartre', to: 'beauvoir', type: 'direct' },
+  { from: 'beauvoir', to: 'sartre', type: 'parallel' },
+  { from: 'heidegger', to: 'derrida', type: 'critical' },
+  { from: 'nietzsche', to: 'derrida', type: 'direct' },
+  { from: 'nietzsche', to: 'deleuze', type: 'direct' },
+  { from: 'bergson', to: 'deleuze', type: 'direct' },
+  { from: 'spinoza', to: 'deleuze', type: 'indirect' },
+  { from: 'marx', to: 'adorno', type: 'critical' },
+  { from: 'hegel', to: 'adorno', type: 'critical' },
+  { from: 'heidegger', to: 'arendt', type: 'direct' },
+  { from: 'arendt', to: 'foucault', type: 'indirect' },
+  { from: 'kant', to: 'rawls', type: 'direct' },
+  { from: 'rousseau', to: 'rawls', type: 'indirect' },
+  { from: 'mill', to: 'rawls', type: 'indirect' },
+  { from: 'foucault', to: 'derrida', type: 'parallel' },
+  { from: 'bergson', to: 'husserl', type: 'parallel' },
+  { from: 'comte', to: 'mill', type: 'indirect' },
+  { from: 'huineng', to: 'wangyangming', type: 'indirect' },
+  { from: 'schopenhauer', to: 'bergson', type: 'indirect' },
+  { from: 'dong_zhongshu', to: 'zhuxi', type: 'indirect' },
+  { from: 'shankara', to: 'schopenhauer', type: 'parallel' },
+  { from: 'augustine', to: 'descartes', type: 'indirect' },
+];

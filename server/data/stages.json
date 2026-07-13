@@ -1,0 +1,162 @@
+[
+  {
+    "id": "s1",
+    "chapter": "启蒙之门",
+    "title": "认识你自己",
+    "philosopherId": "socrates",
+    "topic": "请向苏格拉底阐述你对「美德是否可教」的看法，并准备回应他的诘问。",
+    "difficulty": 1,
+    "threshold": 55,
+    "reward": { "tp": 40, "in": 10 }
+  },
+  {
+    "id": "s2",
+    "chapter": "启蒙之门",
+    "title": "仁者爱人",
+    "philosopherId": "confucius",
+    "topic": "请向孔子阐述你对「仁」与「礼」的理解，并说明二者如何相辅相成。",
+    "difficulty": 1,
+    "threshold": 55,
+    "reward": { "tp": 40, "in": 10 }
+  },
+  {
+    "id": "s3",
+    "chapter": "启蒙之门",
+    "title": "道法自然",
+    "philosopherId": "laozi",
+    "topic": "请向老子阐述你对「无为而治」的理解，并解释柔弱为何能胜刚强。",
+    "difficulty": 1,
+    "threshold": 55,
+    "reward": { "tp": 40, "in": 10 }
+  },
+  {
+    "id": "s4",
+    "chapter": "启蒙之门",
+    "title": "理念之忆",
+    "philosopherId": "plato",
+    "topic": "请向柏拉图阐述你对「洞穴寓言」的解读，并论证可知世界与可感世界的区别。",
+    "difficulty": 1,
+    "threshold": 55,
+    "reward": { "tp": 40, "in": 10 }
+  },
+  {
+    "id": "s5",
+    "chapter": "理性之光",
+    "title": "中道之智",
+    "philosopherId": "aristotle",
+    "topic": "请向亚里士多德阐述你对「中庸之道」的理解，并用以分析一个具体的伦理困境。",
+    "difficulty": 2,
+    "threshold": 60,
+    "reward": { "tp": 60, "in": 15 }
+  },
+  {
+    "id": "s6",
+    "chapter": "理性之光",
+    "title": "我思之基",
+    "philosopherId": "descartes",
+    "topic": "请向笛卡尔阐述你对「我思故我在」的理解，并回应他对普遍怀疑的辩护。",
+    "difficulty": 2,
+    "threshold": 60,
+    "reward": { "tp": 60, "in": 15 }
+  },
+  {
+    "id": "s7",
+    "chapter": "理性之光",
+    "title": "因果之疑",
+    "philosopherId": "hume",
+    "topic": "请向休谟阐述你对「因果关系是习惯而非理性」这一观点的看法，并举例说明。",
+    "difficulty": 2,
+    "threshold": 60,
+    "reward": { "tp": 60, "in": 15 }
+  },
+  {
+    "id": "s8",
+    "chapter": "理性之光",
+    "title": "神即自然",
+    "philosopherId": "spinoza",
+    "topic": "请向斯宾诺莎阐述你对「自由是对必然的认识」的理解，并回应其实体一元论。",
+    "difficulty": 2,
+    "threshold": 60,
+    "reward": { "tp": 60, "in": 15 }
+  },
+  {
+    "id": "s9",
+    "chapter": "启蒙与批判",
+    "title": "绝对命令",
+    "philosopherId": "kant",
+    "topic": "请向康德阐述你对「人是目的而不仅仅是手段」的理解，并用以检验一个道德抉择。",
+    "difficulty": 3,
+    "threshold": 65,
+    "reward": { "tp": 80, "in": 20 }
+  },
+  {
+    "id": "s10",
+    "chapter": "启蒙与批判",
+    "title": "公意之约",
+    "philosopherId": "rousseau",
+    "topic": "请向卢梭阐述你对「社会契约」与「公意」的理解，并回应「人生而自由，却无往不在枷锁之中」。",
+    "difficulty": 3,
+    "threshold": 65,
+    "reward": { "tp": 80, "in": 20 }
+  },
+  {
+    "id": "s11",
+    "chapter": "启蒙与批判",
+    "title": "白板之知",
+    "philosopherId": "locke",
+    "topic": "请向洛克阐述你对「白板说」与「自然权利」的理解，并回应其对天赋观念的批判。",
+    "difficulty": 3,
+    "threshold": 65,
+    "reward": { "tp": 80, "in": 20 }
+  },
+  {
+    "id": "s12",
+    "chapter": "启蒙与批判",
+    "title": "理性之剑",
+    "philosopherId": "voltaire",
+    "topic": "请向伏尔泰阐述你对「宗教宽容」与「批判精神」的看法，并捍卫理性的边界。",
+    "difficulty": 3,
+    "threshold": 65,
+    "reward": { "tp": 80, "in": 20 }
+  },
+  {
+    "id": "s13",
+    "chapter": "现代深渊",
+    "title": "重估价值",
+    "philosopherId": "nietzsche",
+    "topic": "请向尼采阐述你对「上帝已死」与「权力意志」的理解，并回应他对庸常价值的重估。",
+    "difficulty": 4,
+    "threshold": 70,
+    "reward": { "tp": 100, "in": 25 }
+  },
+  {
+    "id": "s14",
+    "chapter": "现代深渊",
+    "title": "异化之析",
+    "philosopherId": "marx",
+    "topic": "请向马克思阐述你对「劳动异化」的理解，并用以分析当代某种社会现象。",
+    "difficulty": 4,
+    "threshold": 70,
+    "reward": { "tp": 100, "in": 25 }
+  },
+  {
+    "id": "s15",
+    "chapter": "现代深渊",
+    "title": "向死而在",
+    "philosopherId": "heidegger",
+    "topic": "请向海德格尔阐述你对「此在」与「向死而在」的理解，并回应他对存在意义的追问。",
+    "difficulty": 4,
+    "threshold": 70,
+    "reward": { "tp": 100, "in": 25 }
+  },
+  {
+    "id": "s16",
+    "chapter": "现代深渊",
+    "title": "荒诞反抗",
+    "philosopherId": "camus",
+    "topic": "请向加缪阐述你对「荒诞」与「反抗」的理解，并解释为何应当想象西西弗是幸福的。",
+    "difficulty": 4,
+    "threshold": 70,
+    "reward": { "tp": 100, "in": 25 }
+  }
+]

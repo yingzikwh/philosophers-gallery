@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" font-family="'PingFang SC','Microsoft YaHei',sans-serif">
+  <rect width="1200" height="800" fill="#0b0f17"/>
+  <!-- 顶栏 -->
+  <rect x="0" y="0" width="1200" height="64" fill="#111722"/>
+  <text x="40" y="40" fill="#e6edf3" font-size="20" font-weight="800">道德经 · 老子</text>
+  <text x="260" y="40" fill="#8b97a7" font-size="14">来源：内置公版全文（离线可读）</text>
+  <!-- 白色关闭 × -->
+  <text x="1150" y="42" fill="#ffffff" font-size="26" font-weight="700" text-anchor="middle">×</text>
+  <!-- 左侧章节目录 -->
+  <rect x="0" y="64" width="300" height="736" fill="#0e141d" stroke="#2a3340"/>
+  <text x="24" y="100" fill="#8b97a7" font-size="13">目录</text>
+  <g font-size="14">
+    <rect x="16" y="120" width="268" height="34" rx="8" fill="#1c2733"/>
+    <text x="32" y="142" fill="#e6edf3">第一章 道可道</text>
+    <rect x="16" y="162" width="268" height="34" rx="8" fill="#141a24"/>
+    <text x="32" y="184" fill="#8b97a7">第二章 天下皆知美</text>
+    <rect x="16" y="204" width="268" height="34" rx="8" fill="#141a24"/>
+    <text x="32" y="226" fill="#8b97a7">第三章 不尚贤</text>
+    <rect x="16" y="246" width="268" height="34" rx="8" fill="#141a24"/>
+    <text x="32" y="268" fill="#8b97a7">… 共 81 章</text>
+    <rect x="16" y="500" width="268" height="34" rx="8" fill="#141a24"/>
+    <text x="32" y="522" fill="#8b97a7">第三十八章 上德不德</text>
+    <rect x="16" y="542" width="268" height="34" rx="8" fill="#141a24"/>
+    <text x="32" y="564" fill="#8b97a7">第八十一章 信言不美</text>
+  </g>
+  <!-- 右侧正文 -->
+  <text x="340" y="120" fill="#e6edf3" font-size="22" font-weight="800">第一章 道可道</text>
+  <text x="340" y="170" fill="#c4cdd8" font-size="17">道可道，非常道；名可名，非常名。</text>
+  <text x="340" y="210" fill="#c4cdd8" font-size="17">无名天地之始，有名万物之母。</text>
+  <text x="340" y="250" fill="#c4cdd8" font-size="17">故常无欲，以观其妙；常有欲，以观其徼。</text>
+  <text x="340" y="290" fill="#c4cdd8" font-size="17">此两者同出而异名，同谓之玄。</text>
+  <text x="340" y="330" fill="#c4cdd8" font-size="17">玄之又玄，众妙之门。</text>
+  <text x="340" y="400" fill="#8b97a7" font-size="15">〔译文〕可以用言语表达的道，不是永恒不变的道……</text>
+  <!-- 底部亮色退出 / 重新获取 -->
+  <rect x="0" y="730" width="1200" height="70" fill="#111722" stroke="#2a3340"/>
+  <rect x="470" y="748" width="150" height="40" rx="20" fill="#ffffff"/>
+  <text x="545" y="774" fill="#0b0f17" font-size="16" font-weight="700" text-anchor="middle">退出阅读</text>
+  <rect x="640" y="748" width="150" height="40" rx="20" fill="#1c2733" stroke="#4f9cf9"/>
+  <text x="715" y="774" fill="#4f9cf9" font-size="16" font-weight="700" text-anchor="middle">重新获取</text>
+  <text x="40" y="774" fill="#8b97a7" font-size="13">滚轮阅读 · 章节快速跳转 · 联网来源自动缓存可离线重读</text>
+  <text x="40" y="790" fill="#5a6573" font-size="12">界面示意：原著阅读器（底部亮色「退出阅读」按钮，抓取失败可重试并回退概要）</text>
+</svg>
