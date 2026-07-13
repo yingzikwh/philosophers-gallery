@@ -1,0 +1,48 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" font-family="'PingFang SC','Microsoft YaHei',sans-serif">
+  <rect width="1200" height="800" fill="#0b0f17"/>
+  <rect x="0" y="0" width="1200" height="64" fill="#111722"/>
+  <text x="40" y="40" fill="#e6edf3" font-size="20" font-weight="800">影响图谱</text>
+  <text x="1150" y="42" fill="#ffffff" font-size="26" font-weight="700" text-anchor="middle">×</text>
+  <text x="40" y="100" fill="#8b97a7" font-size="14">思想家师承与影响关系（节点可点击查看详情与参考链接）</text>
+  <!-- 连线 -->
+  <g stroke="#3a4656" stroke-width="2" fill="none">
+    <path d="M180,300 C300,260 360,260 470,300"/>
+    <path d="M470,300 C580,340 640,340 740,300"/>
+    <path d="M180,300 C260,420 360,460 470,520"/>
+    <path d="M470,520 C560,560 640,560 740,520"/>
+    <path d="M740,300 C840,360 900,400 980,440"/>
+    <path d="M470,300 C470,400 470,440 470,520"/>
+  </g>
+  <!-- 节点 -->
+  <g font-size="14" font-weight="700" text-anchor="middle">
+    <!-- 苏格拉底 -->
+    <circle cx="180" cy="300" r="38" fill="#1f2a38" stroke="#4f9cf9"/>
+    <text x="180" y="296" fill="#4f9cf9" font-size="15">苏</text>
+    <text x="180" y="340" fill="#8b97a7" font-size="12">苏格拉底</text>
+    <!-- 柏拉图 -->
+    <circle cx="470" cy="300" r="42" fill="#1f2a38" stroke="#4f9cf9"/>
+    <text x="470" y="296" fill="#4f9cf9" font-size="16">柏</text>
+    <text x="470" y="342" fill="#8b97a7" font-size="12">柏拉图</text>
+    <!-- 亚里士多德 -->
+    <circle cx="740" cy="300" r="40" fill="#1f2a38" stroke="#4f9cf9"/>
+    <text x="740" y="296" fill="#4f9cf9" font-size="16">亚</text>
+    <text x="740" y="342" fill="#8b97a7" font-size="12">亚里士多德</text>
+    <!-- 孔子 -->
+    <circle cx="470" cy="520" r="40" fill="#1f2a38" stroke="#f5b301"/>
+    <text x="470" y="516" fill="#f5b301" font-size="16">孔</text>
+    <text x="470" y="562" fill="#8b97a7" font-size="12">孔子</text>
+    <!-- 孟子 -->
+    <circle cx="980" cy="440" r="38" fill="#1f2a38" stroke="#f5b301"/>
+    <text x="980" y="436" fill="#f5b301" font-size="16">孟</text>
+    <text x="980" y="480" fill="#8b97a7" font-size="12">孟子</text>
+  </g>
+  <!-- 图例 -->
+  <rect x="900" y="640" width="260" height="100" rx="12" fill="#111722" stroke="#2a3340"/>
+  <circle cx="925" cy="668" r="8" fill="#1f2a38" stroke="#4f9cf9"/>
+  <text x="945" y="673" fill="#8b97a7" font-size="13">西方哲学脉络</text>
+  <circle cx="925" cy="702" r="8" fill="#1f2a38" stroke="#f5b301"/>
+  <text x="945" y="707" fill="#8b97a7" font-size="13">东方思想脉络</text>
+  <text x="40" y="700" fill="#8b97a7" font-size="13">点击节点 → 展开详情弹窗（含著作、消息、参考链接）。</text>
+  <text x="40" y="730" fill="#8b97a7" font-size="13">另提供「时间轴」视图，按公元前/后横向排布 59 位思想家。</text>
+  <text x="40" y="785" fill="#5a6573" font-size="12">界面示意：影响图谱（节点-连线展示师承与影响关系）</text>
+</svg>
