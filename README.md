@@ -259,26 +259,3 @@ npm run preview  # 预览构建结果
 ## License
 
 MIT
-
-## 界面截图
-
-### 1. 哲思殿堂 · 首页
-![哲思殿堂首页](screenshots/gallery/gallery-home.jpg)
-首页以卡片网格展示 59 位东西方哲学家；顶部搜索栏可按姓名实时检索，下方提供按流派 / 时代的筛选与视图切换；每张卡片显示头像、姓名、流派与时代标签。
-
-### 2. 思想星座脉络图
-![思想星座脉络图](screenshots/gallery/influence-graph.png)
-以节点—连线呈现思想家之间的师承与影响关系网络，支持拖拽、缩放，点击节点查看关系详情。
-
-### 3. 星河思想时间轴
-![星河思想时间轴](screenshots/gallery/timeline.png)
-按时间顺序横向铺开的思想史星河，可定位到具体思想家（如朱熹，1130–1200）查看生卒年、时代与主要贡献。
-
-### 4. 思辨闯关 · PVE 关卡
-![思辨闯关 PVE 关卡](screenshots/gallery/pve-challenge.png)
-知识对战 PVE 玩法，以思想家命名关卡（苏格拉底 → 孔子 → 老子 → 柏拉图 → 亚里士多德 → 笛卡尔 → 休谟 → 斯宾诺莎 → 康德 → 卢梭 → 洛克 → 伏尔泰），每关显示难度、奖励积分与通关进度。
-
-> 更详细的图文说明见 [screenshots/gallery/README.md](screenshots/gallery/README.md)。
-### 5. AI 模拟对话
-![与柏拉图对话](screenshots/gallery/ai-chat.png)
-进入某位思想家的详情页后，可开启「AI 模拟对话」——以思想家的口吻和知识背景与用户交流。示例为与柏拉图对话，用户提问「柏拉图的理想国是什么」，AI 以柏拉图身份结合洞穴寓言、理想城邦与灵魂三分学说作答。

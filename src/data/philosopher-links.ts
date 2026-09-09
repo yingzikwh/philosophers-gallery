@@ -80,6 +80,9 @@ const OVERRIDES: Record<string, PhilosopherLinkOverride> = {
   schopenhauer: { enWiki: 'Arthur_Schopenhauer', sep: 'schopenhauer' },
   nietzsche: { enWiki: 'Friedrich_Nietzsche', sep: 'nietzsche' },
   marx: { enWiki: 'Karl_Marx', sep: 'marx' },
+  // 中国近现代革命家（SEP 无直接条目，使用搜索）
+  mao: { zhWiki: '毛泽东', enWiki: 'Mao_Zedong', sep: null, baidu: '毛泽东' },
+  zhou: { zhWiki: '周恩来', enWiki: 'Zhou_Enlai', sep: null, baidu: '周恩来' },
   comte: { enWiki: 'Auguste_Comte', sep: 'comte' },
   feuerbach: { enWiki: 'Ludwig_Feuerbach', sep: 'ludwig-feuerbach' },
   bergson: { enWiki: 'Henri_Bergson', sep: 'bergson' },

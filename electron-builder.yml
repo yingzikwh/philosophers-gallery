@@ -1,0 +1,28 @@
+# 哲思殿堂 · 桌面打包配置（electron-builder）
+# 用法：在 pkg-staging/ 临时目录（仅含发布文件，无 node_modules）下运行本配置，
+# 以避开 electron-builder 对庞大 node_modules 的依赖图分析（否则会卡死）。
+# 产物：release/win-unpacked/哲思殿堂.exe（双击即用，免安装）
+appId: com.philosophers.gallery
+productName: 哲思殿堂
+copyright: Copyright © 2026 哲思殿堂
+electronVersion: "30.5.1"
+# 不打包成 asar（改用解包目录 resources/app），规避 Electron 对 asar 内
+# ESM import 解析不稳定导致主进程无法加载的问题。
+asar: false
+directories:
+  output: ../release
+  buildResources: build
+# 仅打包运行所需文件；node_modules 不纳入（后端用纯 Node，前端已 bundle）。
+# 应用运行时零 npm 依赖，故无 node_modules 分析负担。
+files:
+  - dist
+  - server
+  - electron
+  - package.json
+  - .env
+  - "!**/*.map"
+win:
+  target:
+    - dir
+  artifactName: 哲思殿堂-${version}.${ext}
+  executableName: 哲思殿堂

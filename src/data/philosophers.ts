@@ -17,6 +17,231 @@ export interface Philosopher {
   influenced?: string[];
   keyConcepts?: string[];
   historicalContext?: string;
+  /** 语音配置：有 audio 则提供"原声"播放；否则（及作为原声缺失时的兜底）用 AI 朗读(TTS) */
+  voice?: PhilosopherVoice;
+}
+
+/** 哲学家语音配置 */
+export interface PhilosopherVoice {
+  /**
+   * 真实原声片段 URL（如 /voices/mao.mp3）。存在即提供「听原声」按钮。
+   * ⚠️ 仅适用于留有真实录音的现代人物（如毛泽东、周恩来）。
+   *    古代哲学家没有录音，切勿把有声书填在这里冒充"原声"。
+   */
+  audio?: string;
+  /**
+   * 原著有声书 URL（如 /voices/plato.mp3），即朗诵者朗读其著作。
+   * 提供「听原著」按钮。古代哲学家只能用这一类 —— 他们的本人口吻在物理上不存在。
+   */
+  recitation?: string;
+  /** TTS 朗读语言，默认 'zh-CN' */
+  lang?: string;
+  /** 音色风格：老年 / 中年 / 青年（用于逼近 AI 配音的年龄感） */
+  style?: VoiceStyle;
+  /** TTS 音调 -1~1，默认 0 */
+  pitch?: number;
+  /** TTS 语速 0.1~10，默认 1 */
+  rate?: number;
+  /** 优先选用的浏览器语音名（模糊匹配，可选） */
+  voiceName?: string;
+  /** 原声/朗读对应的参考文字（字幕/无障碍，可选） */
+  sampleText?: string;
+}
+
+/**
+ * 原著有声书来源：哲学家 id -> 音频路径
+ * ------------------------------------------------------------
+ * 这些文件由 scripts/fetch-voices.mjs 从 LibriVox 抓取后放到 public/voices/。
+ * ⚠️ 重要：这是「朗诵者朗读该哲学家的著作」，不是哲学家本人的声音 ——
+ *    古代哲学家（苏格拉底/柏拉图/孔子…）生活在录音技术之前，本人口吻并不存在。
+ *    因此它们走「听原著」按钮，绝不冒充「听原声」。
+ */
+export const RECITATION_SOURCES: Record<string, string> = {
+  // 古希腊 / 古罗马
+  plato: '/voices/plato.mp3',
+  aristotle: '/voices/aristotle.mp3',
+  socrates: '/voices/socrates.mp3',
+  marcus_aurelius: '/voices/marcus_aurelius.mp3',
+  epictetus: '/voices/epictetus.mp3',
+  seneca: '/voices/seneca.mp3',
+  plotinus: '/voices/plotinus.mp3',
+  pyrrho: '/voices/pyrrho.mp3',
+
+  // 中国 / 东方
+  confucius: '/voices/confucius.mp3',
+  laozi: '/voices/laozi.mp3',
+  zhuangzi: '/voices/zhuangzi.mp3',
+  mencius: '/voices/mencius.mp3',
+  huineng: '/voices/huineng.mp3',
+  buddha: '/voices/buddha.mp3',
+  upanishads: '/voices/upanishads.mp3',
+  nagarjuna: '/voices/nagarjuna.mp3',
+
+  // 中世纪 / 近代 / 19 世纪
+  augustine: '/voices/augustine.mp3',
+  aquinas: '/voices/aquinas.mp3',
+  descartes: '/voices/descartes.mp3',
+  spinoza: '/voices/spinoza.mp3',
+  leibniz: '/voices/leibniz.mp3',
+  pascal: '/voices/pascal.mp3',
+  locke: '/voices/locke.mp3',
+  berkeley: '/voices/berkeley.mp3',
+  hume: '/voices/hume.mp3',
+  rousseau: '/voices/rousseau.mp3',
+  voltaire: '/voices/voltaire.mp3',
+  kant: '/voices/kant.mp3',
+  hegel: '/voices/hegel.mp3',
+  schopenhauer: '/voices/schopenhauer.mp3',
+  bentham: '/voices/bentham.mp3',
+  mill: '/voices/mill.mp3',
+  comte: '/voices/comte.mp3',
+  feuerbach: '/voices/feuerbach.mp3',
+  marx: '/voices/marx.mp3',
+  kierkegaard: '/voices/kierkegaard.mp3',
+  nietzsche: '/voices/nietzsche.mp3',
+};
+
+/** 取该哲学家的原著有声书地址（优先用条目上显式配置的 recitation，其次查来源表） */
+export function getRecitationUrl(p: Philosopher): string | undefined {
+  return p.voice?.recitation ?? RECITATION_SOURCES[p.id];
+}
+
+/* ============================================================
+ * AI 朗读音色（TTS）配置
+ * ------------------------------------------------------------
+ * 说明：这些只是朗读的「语速/音调」参数，用于让不同哲学家的 AI 朗读
+ *       听起来有性格差异，**不涉及任何真实人声**，完全合规。
+ * ============================================================ */
+
+export interface VoiceProfile {
+  lang: string;
+  pitch: number;
+  rate: number;
+  voiceName?: string;
+  /** 风格名（便于界面提示） */
+  styleLabel?: string;
+}
+
+/** 音色风格：对应常见的 AI 配音年龄感（如"老年 AI 配音"） */
+export type VoiceStyle = 'elderly' | 'mature' | 'youthful';
+
+/**
+ * 音色风格预设（用于逼近"老年/中年/青年 AI 配音"这类参考音色）
+ * ⚠️ 说明：浏览器内置 TTS 只能调 pitch/rate，**无法克隆参考音频**；
+ *    这里是用「压低音调 + 放慢语速」来逼近老年音色，不是声音克隆。
+ */
+export const VOICE_STYLES: Record<VoiceStyle, { pitch: number; rate: number; label: string }> = {
+  elderly:  { pitch: -0.25, rate: 0.82, label: '老年·苍劲低缓' },
+  mature:   { pitch: -0.08, rate: 0.93, label: '中年·稳健' },
+  youthful: { pitch: 0.12,  rate: 1.05, label: '青年·明快' },
+};
+
+/**
+ * 性格音色表：哲学家 id -> { 音调, 语速 }
+ * 依据其思想气质设定（如老子低沉缓慢、尼采激昂明快）。
+ * 未列出的哲学家会按「时代 + 地域」自动取默认调子。
+ */
+export const PERSONALITY_VOICES: Record<string, { pitch: number; rate: number }> = {
+  // —— 中国思想：温厚、含蓄、舒缓 ——
+  confucius:     { pitch: -0.05, rate: 0.85 }, // 孔子：温厚从容，循循善诱
+  laozi:         { pitch: -0.25, rate: 0.78 }, // 老子：至缓至沉，言简意深
+  zhuangzi:      { pitch: 0.05,  rate: 0.98 }, // 庄子：汪洋恣肆，轻快旷达
+  mencius:       { pitch: 0.10,  rate: 0.95 }, // 孟子：气势充沛，雄辩滔滔
+  xunzi:         { pitch: -0.05, rate: 0.88 }, // 荀子：谨严笃实
+  mozi:          { pitch: 0.00,  rate: 0.90 }, // 墨子：质朴务实
+  hanfei:        { pitch: -0.10, rate: 0.90 }, // 韩非：冷峻峻切
+  zhuxi:         { pitch: -0.05, rate: 0.85 }, // 朱熹：沉静醇厚
+  wangyangming:  { pitch: 0.05,  rate: 0.90 }, // 王阳明：坚定明快
+  huineng:       { pitch: -0.10, rate: 0.85 }, // 慧能：顿挫直截
+
+  // —— 古希腊罗马 ——
+  socrates:      { pitch: 0.05,  rate: 1.00 }, // 苏格拉底：活泼诘问，如话家常
+  plato:         { pitch: 0.00,  rate: 0.90 }, // 柏拉图：典雅悠远
+  aristotle:     { pitch: -0.05, rate: 0.92 }, // 亚里士多德：条分缕析
+  marcus_aurelius:{ pitch: -0.15, rate: 0.85 },// 马可·奥勒留：自省克己
+  seneca:        { pitch: -0.05, rate: 0.90 }, // 塞内卡：恳切劝谕
+  epictetus:     { pitch: 0.00,  rate: 0.95 }, // 爱比克泰德：直白质朴
+  pyrrho:        { pitch: -0.05, rate: 0.85 }, // 皮浪：悬置判断，平和
+
+  // —— 东方其他 ——
+  buddha:        { pitch: -0.10, rate: 0.80 }, // 释迦牟尼：慈悲宁静
+  nagarjuna:     { pitch: -0.05, rate: 0.85 }, // 龙树：精微深妙
+  shankara:      { pitch: -0.10, rate: 0.85 }, // 商羯罗：峻烈不二
+  upanishads:    { pitch: -0.15, rate: 0.80 }, // 奥义书：悠远古朴
+
+  // —— 中世纪 / 近代 ——
+  augustine:     { pitch: 0.05,  rate: 0.90 }, // 奥古斯丁：热忱忏悔
+  aquinas:       { pitch: -0.05, rate: 0.85 }, // 阿奎那：缜密经院
+  descartes:     { pitch: 0.00,  rate: 0.88 }, // 笛卡尔：审慎沉思
+  spinoza:       { pitch: -0.10, rate: 0.85 }, // 斯宾诺莎：平静几何
+  leibniz:       { pitch: 0.00,  rate: 0.92 }, // 莱布尼茨：博雅流畅
+  pascal:        { pitch: 0.05,  rate: 0.90 }, // 帕斯卡：警策炽烈
+  locke:         { pitch: -0.05, rate: 0.92 }, // 洛克：稳健清明
+  berkeley:      { pitch: 0.00,  rate: 0.92 }, // 贝克莱：机敏善辩
+  hume:          { pitch: 0.05,  rate: 0.95 }, // 休谟：温文带讽
+  voltaire:      { pitch: 0.10,  rate: 1.05 }, // 伏尔泰：犀利诙谐
+  rousseau:      { pitch: 0.10,  rate: 0.98 }, // 卢梭：激情感伤
+  kant:          { pitch: -0.05, rate: 0.85 }, // 康德：精确持重
+
+  // —— 19 世纪 ——
+  hegel:         { pitch: -0.15, rate: 0.82 }, // 黑格尔：艰深庄重
+  schopenhauer:  { pitch: -0.10, rate: 0.90 }, // 叔本华：阴郁尖刻
+  bentham:       { pitch: 0.00,  rate: 0.95 }, // 边沁：冷静计算
+  mill:          { pitch: 0.00,  rate: 0.95 }, // 密尔：明晰公允
+  comte:         { pitch: -0.05, rate: 0.90 }, // 孔德：实证谨严
+  feuerbach:     { pitch: 0.05,  rate: 0.95 }, // 费尔巴哈：激昂批判
+  marx:          { pitch: 0.10,  rate: 1.00 }, // 马克思：雄辩愤慨
+  kierkegaard:   { pitch: 0.10,  rate: 0.95 }, // 克尔凯郭尔：焦虑内省
+  nietzsche:     { pitch: 0.15,  rate: 1.10 }, // 尼采：激越奔放
+
+  // —— 20 世纪 ——
+  husserl:       { pitch: -0.05, rate: 0.88 }, // 胡塞尔：细密严格
+  bergson:       { pitch: 0.05,  rate: 0.95 }, // 柏格森：绵延流动
+  heidegger:     { pitch: -0.15, rate: 0.82 }, // 海德格尔：沉郁顿挫
+  wittgenstein:  { pitch: 0.05,  rate: 0.95 }, // 维特根斯坦：短促警策
+  russell:       { pitch: 0.10,  rate: 1.00 }, // 罗素：明快机智
+  camus:         { pitch: 0.00,  rate: 0.95 }, // 加缪：克制清朗
+  sartre:        { pitch: 0.05,  rate: 1.00 }, // 萨特：斩钉截铁
+  beauvoir:      { pitch: 0.05,  rate: 0.95 }, // 波伏娃：清明有力
+  arendt:        { pitch: 0.05,  rate: 0.92 }, // 阿伦特：深思明晰
+  adorno:        { pitch: -0.10, rate: 0.88 }, // 阿多诺：晦涩低回
+  foucault:      { pitch: 0.00,  rate: 0.92 }, // 福柯：冷峻剖析
+  derrida:       { pitch: 0.05,  rate: 0.88 }, // 德里达：延宕迂回
+  deleuze:       { pitch: 0.10,  rate: 1.00 }, // 德勒兹：奔涌生成
+  rawls:         { pitch: 0.00,  rate: 0.90 }, // 罗尔斯：平稳严密
+};
+
+/** 时代 + 地域的兜底调子 */
+function eraVoiceTone(era: Philosopher['era'], nationality: string): { pitch: number; rate: number } {
+  if (era === 'ancient' && (nationality.includes('中国') || nationality.includes('印度'))) {
+    return { pitch: -0.2, rate: 0.82 };   // 古代东方：深沉缓慢
+  }
+  if (era === 'ancient') {
+    return { pitch: -0.1, rate: 0.88 };   // 古代西方：略慢稍低
+  }
+  if (era === 'modern') {
+    return { pitch: 0, rate: 0.95 };      // 近代：从容
+  }
+  return { pitch: 0.05, rate: 1.0 };      // 现代：明快
+}
+
+/**
+ * 解析该哲学家最终使用的 AI 朗读音色。
+ * 优先级：条目显式 voice 配置 > 性格音色表 > 时代地域兜底
+ */
+export function getVoiceProfile(p: Philosopher): VoiceProfile {
+  const explicit = p.voice;
+  const style = explicit?.style ? VOICE_STYLES[explicit.style] : undefined;
+  const personal = PERSONALITY_VOICES[p.id];
+  const fallback = eraVoiceTone(p.era, p.nationality || '');
+  return {
+    lang: explicit?.lang ?? 'zh-CN',
+    // 优先级：显式 pitch/rate > 风格预设 > 性格音色 > 时代地域兜底
+    pitch: explicit?.pitch ?? style?.pitch ?? personal?.pitch ?? fallback.pitch,
+    rate: explicit?.rate ?? style?.rate ?? personal?.rate ?? fallback.rate,
+    voiceName: explicit?.voiceName,
+    styleLabel: style?.label,
+  };
 }
 
 // 为新添加的哲学家生成占位头像（SVG data URI，无需网络）
@@ -33,6 +258,86 @@ function generatePortrait(name: string, era: string): string {
 }
 
 export const philosophers: Philosopher[] = [
+  {
+    id: 'mao',
+    name: '毛泽东',
+    nameEn: 'Mao Zedong',
+    birthYear: 1893,
+    deathYear: 1976,
+    nationality: '中国',
+    era: 'modern',
+    school: ['马克思主义哲学', '毛泽东思想', '辩证唯物主义'],
+    themes: ['实事求是', '群众路线', '矛盾论', '实践论', '独立自主'],
+    portrait: generatePortrait('毛', 'modern'),
+    works: ['《实践论》', '《矛盾论》', '《星星之火，可以燎原》', '《论持久战》', '《为人民服务》', '《人的正确思想是从哪里来的？》'],
+    coreIdeas: [
+      '实事求是——一切从实际出发，理论联系实际',
+      '实践论——认识来源于实践，实践是检验真理的唯一标准',
+      '矛盾论——矛盾普遍存在，要抓住主要矛盾和矛盾的主要方面',
+      '群众路线——从群众中来，到群众中去',
+      '独立自主、自力更生——立足本国实际，依靠自身力量',
+      '为人民服务——以最广大人民的根本利益为出发点'
+    ],
+    quotes: [
+      '星星之火，可以燎原。',
+      '枪杆子里面出政权。',
+      '为人民服务。',
+      '没有调查，就没有发言权。',
+      '一切反动派都是纸老虎。',
+      '实事求是。'
+    ],
+    influence: '毛泽东是中国共产党、中国人民解放军、中华人民共和国的主要缔造者之一，其思想（毛泽东思想）深刻影响了中国的近现代历史进程，并被确立为中国革命与建设的重要指导思想。',
+    influences: ['马克思', '列宁'],
+    influenced: ['马克思主义中国化', '中国革命实践'],
+    keyConcepts: ['实事求是', '群众路线', '矛盾', '实践', '独立自主', '为人民服务'],
+    historicalContext: '毛泽东生活于清末民初至改革开放前的中国，亲历民族危亡与社会剧烈变革，领导了新民主主义革命，建立了中华人民共和国，并探索了社会主义建设的道路。',
+    voice: {
+      audio: '/voices/mao.mp3',
+      lang: 'zh-CN',
+      style: 'elderly', // 老年 AI 配音风格：苍劲低缓
+      voiceName: 'Chinese',
+      sampleText: '没有调查，就没有发言权。'
+    }
+  },
+  {
+    id: 'zhou',
+    name: '周恩来',
+    nameEn: 'Zhou Enlai',
+    birthYear: 1898,
+    deathYear: 1976,
+    nationality: '中国',
+    era: 'modern',
+    school: ['中国现代政治思想', '外交思想', '无产阶级革命理论'],
+    themes: ['全心全意为人民服务', '求同存异', '和平共处', '外交智慧', '顾全大局'],
+    portrait: generatePortrait('周', 'modern'),
+    works: ['《大江歌罢掉头东》（诗）', '万隆会议补充发言（1955）', '《我的修养要则》'],
+    coreIdeas: [
+      '全心全意为人民服务——甘当人民的勤务员',
+      '求同存异——在分歧中寻求共同基础，团结大多数人',
+      '和平共处五项原则——互相尊重主权和领土完整、互不侵犯、互不干涉内政、平等互利、和平共处',
+      '顾全大局、忍辱负重——以国家和人民的利益为重',
+      '鞠躬尽瘁，死而后已——把毕生精力献给党和人民'
+    ],
+    quotes: [
+      '为中华之崛起而读书。',
+      '我们是人民的勤务员。',
+      '我们应该求同而存异。',
+      '和平共处五项原则。',
+      '鞠躬尽瘁，死而后已。'
+    ],
+    influence: '周恩来是中华人民共和国首任国务院总理，杰出的无产阶级革命家、政治家、军事家、外交家。他以儒雅谦和、鞠躬尽瘁的品格与卓越的外交智慧深受人民爱戴，为中国革命、建设与外交事业奉献了毕生精力。',
+    influences: ['马克思', '列宁'],
+    influenced: ['新中国外交', '和平共处外交传统'],
+    keyConcepts: ['为人民服务', '求同存异', '和平共处', '大局观', '外交智慧'],
+    historicalContext: '周恩来早年投身革命，长期担任党和国家重要领导职务，参与创建人民军队与新中国外交。1955年他在万隆会议上提出"求同存异"，奠定了新中国外交的基调。',
+    voice: {
+      audio: '/voices/zhou.mp3',
+      lang: 'zh-CN',
+      style: 'elderly', // 老年 AI 配音风格：苍劲低缓
+      voiceName: 'Chinese',
+      sampleText: '我们应该求同而存异。'
+    }
+  },
   {
     id: 'socrates',
     name: '苏格拉底',
@@ -1861,7 +2166,7 @@ export const philosophers: Philosopher[] = [
     influenced: ['当代政治哲学', '诺齐克', '森', '桑德尔'],
     keyConcepts: ['正义即公平', '无知之幕', '原初状态', '差异原则', '重叠共识'],
     historicalContext: '罗尔斯是美国哲学家，在普林斯顿和哈佛任教。二战中他曾作为士兵在太平洋战场服役。《正义论》在1971年出版后立即成为政治哲学的里程碑，引发了持续数十年的学术讨论。'
-  }
+  },
 ];
 
 export const filterOptions = {
@@ -2012,4 +2317,9 @@ export const influenceRelations = [
   { from: 'dong_zhongshu', to: 'zhuxi', type: 'indirect' },
   { from: 'shankara', to: 'schopenhauer', type: 'parallel' },
   { from: 'augustine', to: 'descartes', type: 'indirect' },
+
+  // —— 马克思主义中国化脉络 ——
+  { from: 'marx', to: 'mao', type: 'direct' },       // 马克思 → 毛泽东：直接继承与发展
+  { from: 'marx', to: 'zhou', type: 'indirect' },     // 马克思 → 周恩来：间接影响
+  { from: 'mao', to: 'zhou', type: 'parallel' },      // 毛泽东 ↔ 周恩来：并肩作战的革命战友
 ];

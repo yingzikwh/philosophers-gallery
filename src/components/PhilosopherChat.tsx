@@ -11,10 +11,16 @@ import {
   ChevronDown,
   ChevronUp,
   Bot,
-  User
+  User,
+  Volume2,
+  Headphones,
+  Mic,
+  MicOff,
+  BookOpen,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import type { Philosopher } from '@/data/philosophers';
+import { getRecitationUrl, getVoiceProfile, type Philosopher } from '@/data/philosophers';
+import { useSpeech, isRecognitionSupported, startDictation as startDictationFn } from '@/lib/speech';
 import { 
   requestPhilosopherChat, 
   ChatMessage,
@@ -33,6 +39,7 @@ import {
   ScrollArea,
 } from '@/components/ui/scroll-area';
 import { TypewriterText } from './TypewriterText';
+import { PhilosopherPersonaCard } from './PhilosopherPersonaCard';
 
 interface PhilosopherChatProps {
   philosopher: Philosopher;
@@ -49,6 +56,84 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
   const [streamingText, setStreamingText] = useState('');
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
+
+  // —— 语音：AI 朗读(TTS) / 原声 / 语音输入 ——
+  const speech = useSpeech();
+  const [listening, setListening] = useState(false);
+  const dictationRef = useRef<{ stop: () => void } | null>(null);
+  const recognitionSupported = isRecognitionSupported();
+
+    // AI 朗读音色：条目显式配置 > 性格音色表 > 时代地域兜底
+  // 让每位哲学家的朗读都有性格（老子低沉缓慢、尼采激越奔放…），纯参数不涉及真实人声
+  const voiceOpts = getVoiceProfile(philosopher);
+
+  const handleRead = (text: string) => {
+    if (speech.speaking) {
+      speech.stop();
+    } else {
+      speech.read(text, voiceOpts);
+    }
+  };
+
+  /** 听原声：哲学家本人的真实录音（仅现代人物有，如毛泽东/周恩来） */
+  const handleOriginal = (fallbackText: string) => {
+    if (!philosopher.voice?.audio) return;
+    if (speech.speaking) {
+      speech.stop();
+    } else {
+      speech.playClip(philosopher.voice.audio, fallbackText, voiceOpts);
+    }
+  };
+
+  /** 听原著：朗诵者朗读该哲学家的著作（非本人口吻；古代哲学家只有这一类） */
+  const recitationUrl = getRecitationUrl(philosopher);
+
+  const handleRecitation = (fallbackText: string) => {
+    if (!recitationUrl) return;
+    if (speech.speaking) {
+      speech.stop();
+    } else {
+      speech.playClip(recitationUrl, fallbackText, voiceOpts);
+    }
+  };
+
+  const stopDictation = useCallback(() => {
+    dictationRef.current?.stop();
+    dictationRef.current = null;
+    setListening(false);
+  }, []);
+
+  const startDictation = useCallback(() => {
+    if (listening) {
+      stopDictation();
+      return;
+    }
+    const ctrl = startDictationFn({
+      lang: voiceOpts.lang || 'zh-CN',
+      onResult: (text, isFinal) => {
+        if (isFinal) {
+          setInput((prev) => (prev ? prev + (prev.endsWith(' ') ? '' : ' ') : '') + text);
+        }
+      },
+      onEnd: () => {
+        dictationRef.current = null;
+        setListening(false);
+      },
+      onError: () => {
+        dictationRef.current = null;
+        setListening(false);
+      },
+    });
+    if (ctrl) {
+      dictationRef.current = ctrl;
+      setListening(true);
+    }
+  }, [listening, stopDictation, voiceOpts.lang]);
+
+  // 开始新一轮回答时，停掉所有语音
+  useEffect(() => {
+    if (isLoading) speech.stop();
+  }, [isLoading, speech]);
 
   // Load chat history when opened
   useEffect(() => {
@@ -100,6 +185,8 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
       wittgenstein: '你好，我是维特根斯坦。让我们澄清语言的界限，思考可说与不可说之事。',
       camus: '你好，我是加缪。世界是荒诞的，但我们可以反抗并赋予生命以意义。你想讨论什么？',
       foucault: '你好，我是福柯。让我们分析权力、知识和话语的运作机制。你有何疑问？',
+      mao: '你好！我是毛泽东。我们谈问题要从实际出发，实事求是。你想探讨什么？',
+      zhou: '你好，我是周恩来。为人民服务，应当从大局出发。你有什么想交流的？',
     };
     return messages[id] || '你好，让我们开始一场哲学对话吧。';
   };
@@ -191,8 +278,8 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-4xl h-[85vh] overflow-hidden bg-card border-border/50">
-        <DialogHeader className="border-b border-border/50 pb-4">
+      <DialogContent className="max-w-4xl h-[85vh] overflow-hidden bg-card border-border/50 flex flex-col">
+        <DialogHeader className="border-b border-border/50 pb-4 shrink-0">
           <DialogTitle className="flex items-center gap-3">
             <div className="relative">
               <img
@@ -232,9 +319,13 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
           </DialogTitle>
         </DialogHeader>
 
-        <div className="flex flex-col h-full">
+        {/* flex-1 + min-h-0：让消息区真正可滚动（缺 min-h-0 时滚轮会失效） */}
+        <div className="flex flex-1 flex-col min-h-0">
+          {/* 人格卡：展示学派 / 立场 / 一句话简介 */}
+          <PhilosopherPersonaCard philosopher={philosopher} className="mb-3 shrink-0" />
+
           {/* Chat Messages */}
-          <ScrollArea ref={scrollAreaRef} className="flex-1 pr-4">
+          <ScrollArea ref={scrollAreaRef} className="flex-1 min-h-0 pr-4" scrollbarType="always">
             <div className="space-y-4 py-4">
               {messages.map((message, index) => (
                 <div
@@ -274,9 +365,44 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
                     <p className="text-sm leading-relaxed whitespace-pre-wrap">
                       {message.content}
                     </p>
-                    <span className="text-[10px] text-white/50 mt-1 block">
-                      {message.timestamp && new Date(message.timestamp).toLocaleTimeString()}
-                    </span>
+                    <div className="flex items-center gap-2 mt-1">
+                      <span className="text-[10px] text-white/50">
+                        {message.timestamp && new Date(message.timestamp).toLocaleTimeString()}
+                      </span>
+                      {message.role === 'assistant' && message.content && (
+                        <div className="flex items-center gap-0.5 ml-auto">
+                          <button
+                              onClick={() => handleRead(message.content)}
+                              title={
+                                speech.speaking
+                                  ? '停止朗读'
+                                  : `AI 朗读${voiceOpts.styleLabel ? `（${voiceOpts.styleLabel}）` : ''}`
+                              }
+                            className="p-1 rounded hover:bg-background/60 transition-colors text-white/55 hover:text-foreground"
+                          >
+                            <Volume2 className="w-3.5 h-3.5" />
+                          </button>
+                          {philosopher.voice?.audio && (
+                            <button
+                              onClick={() => handleOriginal(message.content)}
+                              title="听原声（本人真实录音）"
+                              className="p-1 rounded hover:bg-background/60 transition-colors text-white/55 hover:text-foreground"
+                            >
+                              <Headphones className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+                          {recitationUrl && (
+                            <button
+                              onClick={() => handleRecitation(message.content)}
+                              title="听原著（朗诵者朗读其著作，非本人口吻）"
+                              className="p-1 rounded hover:bg-background/60 transition-colors text-white/55 hover:text-foreground"
+                            >
+                              <BookOpen className="w-3.5 h-3.5" />
+                            </button>
+                          )}
+                        </div>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))}
@@ -329,8 +455,22 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
           </ScrollArea>
 
           {/* Input Area */}
-          <div className="border-t border-border/50 pt-4 mt-4">
+          <div className="border-t border-border/50 pt-4 mt-4 shrink-0">
             <div className="flex gap-2">
+              {recognitionSupported && (
+                <button
+                  onClick={startDictation}
+                  title={listening ? '停止聆听' : '语音输入（说给哲学家听）'}
+                  className={cn(
+                    'px-3 rounded-xl border border-border/50 transition-all flex items-center justify-center',
+                    listening
+                      ? 'bg-primary/20 text-primary'
+                      : 'bg-muted/50 text-muted-foreground hover:text-foreground'
+                  )}
+                >
+                  {listening ? <MicOff className="w-4 h-4 animate-pulse" /> : <Mic className="w-4 h-4" />}
+                </button>
+              )}
               <div className="flex-1 relative">
                 <textarea
                   value={input}
@@ -355,6 +495,11 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
                 </button>
               </div>
             </div>
+            {listening && (
+              <p className="text-xs text-primary mt-2 text-center flex items-center justify-center gap-1">
+                <MicOff className="w-3 h-3 animate-pulse" /> 聆听中…请对麦克风说出你的问题
+              </p>
+            )}
             <p className="text-xs text-white/50 mt-2 text-center">
               AI模拟对话，仅供学习和娱乐使用
             </p>

@@ -11,6 +11,12 @@
  *   OPENAI_BASE_URL - API 基础地址（如 https://api.openai.com/v1）
  *   OPENAI_MODEL    - 模型名称（如 gpt-4o-mini）
  *   PORT            - 服务器端口（默认 3016）
+ *
+ * 语音合成（可选，用于"AI 配音"，未配置则前端回退浏览器内置朗读）：
+ *   TTS_BASE_URL    - TTS 服务基础地址（须兼容 OpenAI /audio/speech，如 https://api.siliconflow.cn/v1）
+ *   TTS_API_KEY     - TTS 服务 Key（不填则用 OPENAI_API_KEY）
+ *   TTS_MODEL       - TTS 模型名（默认 tts-1）
+ *   TTS_VOICE       - 默认音色（默认 alloy）
  */
 
 import http from 'node:http';
@@ -20,6 +26,7 @@ import { fileURLToPath } from 'node:url';
 import { philosopherPrompts } from './philosopherPrompts.js';
 import { loadProgress, saveProgress } from './store.js';
 import { JUDGE_SYSTEM_PROMPT } from './judgePrompt.js';
+import { retrieveKnowledge } from './knowledgeRetriever.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -57,6 +64,20 @@ const corsHeaders = {
 function sendJSON(res, status, data) {
   res.writeHead(status, { ...corsHeaders, 'Content-Type': 'application/json' });
   res.end(JSON.stringify(data));
+}
+
+function buildSystemPrompt(philosopherId, userQuery) {
+  const base = philosopherPrompts[philosopherId] || philosopherPrompts.socrates;
+  const knowledge = retrieveKnowledge(philosopherId, userQuery);
+  const knowledgeBlock = knowledge
+    ? `\n\n【你的真实知识与观点（请优先依据这些作答，不要编造你未表达过的内容）】\n${knowledge}`
+    : '';
+  const grounding = `
+【约束与引用规则】
+1. 只能依据上方“真实知识与观点”作答，不编造该哲学家未曾表达过的观点、事件或名言；不清楚时坦诚说明。
+2. 回答时可自然引用自己的金句（用引号标注），增强真实感与代入感。
+3. 始终以第一人称“我”思考和回应，保持专属口吻。`;
+  return base + knowledgeBlock + grounding;
 }
 
 function parseBody(req) {
@@ -188,7 +209,10 @@ async function handleNewsRoute(req, res) {
 // 思想家代表著作 · 完整原文抓取（维基文库 / 古登堡）+ 本地缓存
 // 供前端「阅读完整原著」使用；首次联网拉取后缓存，之后离线可重读。
 // ============================================================
-const WORKS_CACHE_DIR = path.join(__dirname, 'data', 'works-cache');
+// 原著缓存目录：桌面/打包模式下 asar 只读，重定向到可写目录（ZS_DATA_DIR）
+const WORKS_CACHE_DIR = process.env.ZS_DATA_DIR
+  ? path.join(process.env.ZS_DATA_DIR, 'works-cache')
+  : path.join(__dirname, 'data', 'works-cache');
 try { fs.mkdirSync(WORKS_CACHE_DIR, { recursive: true }); } catch {}
 
 /** 去除 Wikitext 模板/引用/标签，转为可读纯文本 */
@@ -565,6 +589,72 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // ===== TTS 语音合成端点（可插拔）=====
+  // 仅在配置了 TTS_BASE_URL / TTS_API_KEY 时生效；未配置返回 501，
+  // 前端会自动回退到浏览器内置朗读（Web Speech API）。
+  if (req.url === '/api/tts' && req.method === 'POST') {
+    const ttsBase = process.env.TTS_BASE_URL || '';
+    const ttsKey = process.env.TTS_API_KEY || OPENAI_API_KEY || '';
+    const ttsModel = process.env.TTS_MODEL || 'tts-1';
+    const ttsVoice = process.env.TTS_VOICE || 'alloy';
+
+    if (!ttsBase || !ttsKey) {
+      sendJSON(res, 501, {
+        error: '未配置语音合成服务（需在 .env 设置 TTS_BASE_URL / TTS_API_KEY）。当前回退为浏览器内置朗读。',
+        configured: false,
+      });
+      return;
+    }
+
+    try {
+      const body = await parseBody(req);
+      const input = String(body.text || '').slice(0, 2000); // 限长，避免超长文本
+      const voice = body.voice || ttsVoice;
+      const speed = typeof body.speed === 'number' ? body.speed : 1;
+
+      if (!input.trim()) {
+        sendJSON(res, 400, { error: '缺少要合成的文本' });
+        return;
+      }
+
+      const ttsUrl = ttsBase.replace(/\/+$/, '') + '/audio/speech';
+      const upstream = await fetch(ttsUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${ttsKey}`,
+        },
+        body: JSON.stringify({
+          model: body.model || ttsModel,
+          input,
+          voice,
+          speed,
+          response_format: 'mp3',
+        }),
+      });
+
+      if (!upstream.ok) {
+        const detail = await upstream.text().catch(() => '');
+        sendJSON(res, 502, {
+          error: `语音合成服务返回错误 ${upstream.status}`,
+          detail: detail.slice(0, 300),
+        });
+        return;
+      }
+
+      const buf = Buffer.from(await upstream.arrayBuffer());
+      res.writeHead(200, {
+        'Content-Type': 'audio/mpeg',
+        'Content-Length': buf.length,
+        'Cache-Control': 'no-store',
+      });
+      res.end(buf);
+    } catch (e) {
+      sendJSON(res, 500, { error: '语音合成失败：' + e.message });
+    }
+    return;
+  }
+
   // 哲学家聊天 API
   // 兼容两种路径：/functions/v1/philosopher-chat 和 /api/philosopher-chat
   const isChatEndpoint =
@@ -582,8 +672,9 @@ const server = http.createServer(async (req, res) => {
     const philosopherId = body.philosopherId || 'socrates';
     const model = body.model || OPENAI_MODEL;
 
-    // 获取系统提示词
-    const systemPrompt = philosopherPrompts[philosopherId] || philosopherPrompts.socrates;
+    // 构建系统提示词：人格 prompt + 检索到的真实知识 + 约束规则
+    const lastUser = [...messages].reverse().find((m) => m.role === 'user');
+    const systemPrompt = buildSystemPrompt(philosopherId, lastUser?.content || '');
 
     // 构建消息数组
     const chatMessages = [

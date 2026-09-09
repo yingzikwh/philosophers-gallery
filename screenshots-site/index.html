@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>哲思殿堂 · 界面截图</title>
+<style>
+  :root { color-scheme: dark; }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: #0e0c08; color: #f3ead6;
+    font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+    line-height: 1.7;
+  }
+  header {
+    padding: 48px 24px 32px; text-align: center;
+    background: radial-gradient(1200px 400px at 50% -10%, #3a2f17, #0e0c08);
+    border-bottom: 1px solid #2a2316;
+  }
+  header h1 { margin: 0 0 8px; font-size: 30px; letter-spacing: 2px; color: #e6c479; }
+  header p { margin: 0; color: #b9ab8a; }
+  main { max-width: 980px; margin: 0 auto; padding: 32px 20px 64px; }
+  .card {
+    background: #16130c; border: 1px solid #2a2316; border-radius: 16px;
+    overflow: hidden; margin-bottom: 32px; box-shadow: 0 10px 30px rgba(0,0,0,.35);
+  }
+  .card img { width: 100%; display: block; background: #000; }
+  .card .body { padding: 20px 24px 24px; }
+  .card h2 { margin: 0 0 4px; font-size: 20px; color: #e6c479; }
+  .card .sub { margin: 0 0 12px; color: #9c8f70; font-size: 14px; }
+  .card ul { margin: 0; padding-left: 20px; color: #d8cdb2; }
+  .card li { margin: 4px 0; }
+  footer { text-align: center; color: #7d7257; font-size: 13px; padding: 24px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>哲思殿堂 · 界面截图</h1>
+  <p>「哲学家画廊」Web 应用的 4 张核心界面</p>
+</header>
+<main>
+
+  <section class="card">
+    <img src="images/gallery-home.jpg" alt="哲思殿堂首页" />
+    <div class="body">
+      <h2>1. 哲思殿堂 · 首页</h2>
+      <p class="sub">gallery-home.jpg</p>
+      <ul>
+        <li>顶部搜索栏可按姓名实时检索 59 位思想家。</li>
+        <li>下方提供筛选（流派 / 时代）与视图切换。</li>
+        <li>卡片网格展示哲学家：苏格拉底、柏拉图、亚里士多德、皮浪、伊壁鸠鲁、老子、庄子、孔子等。</li>
+        <li>每张卡片含头像、姓名、流派与时代标签，点击进入详情。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card">
+    <img src="images/influence-graph.png" alt="思想星座脉络图" />
+    <div class="body">
+      <h2>2. 思想星座脉络图</h2>
+      <p class="sub">influence-graph.png</p>
+      <ul>
+        <li>节点—连线呈现思想家之间的师承与影响关系网络。</li>
+        <li>示例高亮「董仲舒」，连线指向受其影响或对其产生影响的思想家。</li>
+        <li>支持拖拽、缩放，点击节点查看关系详情。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card">
+    <img src="images/timeline.png" alt="星河思想时间轴" />
+    <div class="body">
+      <h2>3. 星河思想时间轴</h2>
+      <p class="sub">timeline.png</p>
+      <ul>
+        <li>按时间顺序横向铺开的「思想星河」，从古至今排列各家思想家。</li>
+        <li>示例定位「朱熹」，展示生卒年（1130–1200）、时代（宋）、主要贡献与关联人物。</li>
+        <li>可左右滚动浏览整条思想史时间线。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card">
+    <img src="images/pve-challenge.png" alt="思辨闯关 PVE 关卡" />
+    <div class="body">
+      <h2>4. 思辨闯关 · PVE 关卡</h2>
+      <p class="sub">pve-challenge.png</p>
+      <ul>
+        <li>知识对战 PVE 玩法，以关卡推进，与历史人物「思辨对决」。</li>
+        <li>关卡以思想家命名：苏格拉底 → 孔子 → 老子 → 柏拉图 → 亚里士多德 → 笛卡尔 → 休谟 → 斯宾诺莎 → 康德 → 卢梭 → 洛克 → 伏尔泰。</li>
+        <li>每关显示难度、奖励积分与通关进度。</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="card">
+    <img src="images/ai-chat.png" alt="与柏拉图 AI 模拟对话" />
+    <div class="body">
+      <h2>5. AI 模拟对话</h2>
+      <p class="sub">ai-chat.png</p>
+      <ul>
+        <li>进入思想家详情页后，可开启「AI 模拟对话」功能。</li>
+        <li>示例：与柏拉图对话，用户提问「柏拉图的理想国是什么」。</li>
+        <li>AI 以柏拉图身份作答，结合洞穴寓言、理想城邦与灵魂三分学说进行回应。</li>
+      </ul>
+    </div>
+  </section>
+
+</main>
+<footer>截图来源：用户本地运行「哲思殿堂」后截取的真实界面</footer>
+</body>
+</html>

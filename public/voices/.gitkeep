@@ -1,0 +1,5 @@
+# 将真实原声音频放在这个目录：
+#   public/voices/mao.mp3   （毛泽东原声片段）
+#   public/voices/zhou.mp3  （周恩来原声片段）
+# 文件名需与 src/data/philosophers.ts 中 voice.audio 一致。
+# 缺失时，界面上的"听原声"会自动降级为 AI 朗读(TTS)。
