@@ -1,9 +1,0 @@
-{
-  "name": "philosophers-gallery",
-  "version": "1.0.0",
-  "description": "哲思殿堂 - 哲学家画廊与 PVE 闯关知识对战",
-  "author": "哲思殿堂",
-  "main": "electron/main.cjs",
-  "type": "module",
-  "license": "MIT"
-}

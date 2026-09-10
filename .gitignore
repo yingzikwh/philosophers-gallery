@@ -37,6 +37,11 @@ yarn-error.log*
 pnpm-debug.log*
 .pnpm-store/
 
+# 桌面打包产物（electron-builder 输出与暂存目录，体积大且可重新生成）
+release/
+pkg-staging/
+log.txt
+
 # Python
 __pycache__/
 *.py[cod]
