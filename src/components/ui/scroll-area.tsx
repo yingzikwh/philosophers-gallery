@@ -7,7 +7,7 @@ const ScrollArea = React.forwardRef<
   React.ElementRef<typeof ScrollAreaPrimitive.Root>,
   React.ComponentPropsWithoutRef<typeof ScrollAreaPrimitive.Root> & {
     /**
-     * 滚动条显示方式：
+     * 滚动条显示方式（透传给 Radix Root 的 type：模式由 Root 统一控制，Scrollbar 无此属性）：
      *  - "hover"（默认）：悬停才出现
      *  - "always"：常驻显示，便于鼠标长按拖动
      *  - "scroll"：滚动时出现
@@ -19,12 +19,13 @@ const ScrollArea = React.forwardRef<
   <ScrollAreaPrimitive.Root
     ref={ref}
     className={cn("relative overflow-hidden", className)}
+    type={scrollbarType}
     {...props}
   >
     <ScrollAreaPrimitive.Viewport className="h-full w-full rounded-[inherit]">
       {children}
     </ScrollAreaPrimitive.Viewport>
-    <ScrollBar type={scrollbarType} />
+    <ScrollBar />
     <ScrollAreaPrimitive.Corner />
   </ScrollAreaPrimitive.Root>
 ));
