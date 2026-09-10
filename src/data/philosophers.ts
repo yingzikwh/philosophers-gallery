@@ -268,7 +268,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['马克思主义哲学', '毛泽东思想', '辩证唯物主义'],
     themes: ['实事求是', '群众路线', '矛盾论', '实践论', '独立自主'],
-    portrait: generatePortrait('毛', 'modern'),
+    portrait: '/portraits/mao.jpg',
     works: ['《实践论》', '《矛盾论》', '《星星之火，可以燎原》', '《论持久战》', '《为人民服务》', '《人的正确思想是从哪里来的？》'],
     coreIdeas: [
       '实事求是——一切从实际出发，理论联系实际',
@@ -309,7 +309,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['中国现代政治思想', '外交思想', '无产阶级革命理论'],
     themes: ['全心全意为人民服务', '求同存异', '和平共处', '外交智慧', '顾全大局'],
-    portrait: generatePortrait('周', 'modern'),
+    portrait: '/portraits/zhou.jpg',
     works: ['《大江歌罢掉头东》（诗）', '万隆会议补充发言（1955）', '《我的修养要则》'],
     coreIdeas: [
       '全心全意为人民服务——甘当人民的勤务员',

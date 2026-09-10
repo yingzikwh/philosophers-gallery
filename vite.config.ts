@@ -25,7 +25,7 @@ export default defineConfig({
     allowedHosts: true,
     hmr: false,
     proxy: {
-      // 将前端 Supabase API 请求代理到本地 Express 服务器
+      // 将前端 Supabase API 请求代理到本地 Node 后端服务器（server/index.js，纯 node:http 实现，无 Express）
       "/sb-api": {
         target: "http://localhost:3016",
         changeOrigin: true,
