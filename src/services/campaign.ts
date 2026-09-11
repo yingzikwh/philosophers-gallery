@@ -1,11 +1,11 @@
 /**
  * PVE 闯关对战 —— 前端 API 服务
  *
- * 所有请求经前端 getSupabaseUrl()（返回 origin + '/sb-api'）经 Vite 代理
+ * 所有请求经 getApiBase()（返回 origin + '/sb-api'）经 Vite 代理
  * 转发到本地后端（localhost:3016）的 /api/... 端点。
  */
 
-import { getSupabaseUrl } from '@/supabase/client';
+import { getApiBase } from '@/lib/apiBase';
 import type { ChatMessage } from '@/services/philosopherAI';
 
 export type StageStatus = 'cleared' | 'available' | 'locked';
@@ -79,7 +79,7 @@ export interface JudgeResult {
 async function request<T>(path: string, init?: RequestInit): Promise<T> {
   let res: Response;
   try {
-    res = await fetch(`${getSupabaseUrl()}${path}`, {
+    res = await fetch(`${getApiBase()}${path}`, {
       headers: { 'Content-Type': 'application/json' },
       ...init,
     });

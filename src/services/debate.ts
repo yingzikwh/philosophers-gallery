@@ -1,11 +1,11 @@
 /**
  * 圆桌辩论 —— 前端 API 服务
  *
- * 经 getSupabaseUrl()（origin + '/sb-api'）由 Vite 代理转发到本地后端 /api/debate。
+ * 经 getApiBase()（origin + '/sb-api'）由 Vite 代理转发到本地后端 /api/debate。
  * 后端以 SSE 流式返回多轮发言事件，本服务解析为强类型事件逐个回调，
  * 供 UI 实时渲染「开场陈词 → 交叉质询 → 总结陈词」的交锋过程。
  */
-import { getSupabaseUrl } from '@/supabase/client';
+import { getApiBase } from '@/lib/apiBase';
 
 export type DebatePhase = 'opening' | 'rebuttal' | 'closing';
 
@@ -39,7 +39,7 @@ export async function requestDebate(
   onEvent: (event: DebateEvent) => void,
   options?: { signal?: AbortSignal }
 ): Promise<void> {
-  const response = await fetch(`${getSupabaseUrl()}/api/debate`, {
+  const response = await fetch(`${getApiBase()}/api/debate`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(params),

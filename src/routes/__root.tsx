@@ -6,6 +6,7 @@ import {
   createRootRouteWithContext,
   useRouterState,
 } from '@tanstack/react-router';
+import { Toaster } from '@/components/ui/sonner';
 
 function NotFoundComponent() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
@@ -33,6 +34,13 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <Outlet />
+      {/*
+        全局 toast 渲染器。sonner 的 toast() 只是把消息推进队列，必须有 Toaster
+        挂载才会渲染；此前 ui/sonner.tsx 从未被引用，导致闯关页的
+        toast.success / toast.error（通关、未达通关线、清空对谈撤销等）全部静默失效。
+        position 用顶部居中，避开右下角的悬浮胶囊入口。
+      */}
+      <Toaster position="top-center" />
     </QueryClientProvider>
   );
 }

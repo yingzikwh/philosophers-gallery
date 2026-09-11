@@ -7,6 +7,8 @@
  * 所有接口都对不支持的环境做了降级（不报错、返回 false / 隐藏按钮）。
  */
 
+import { getApiBase } from '@/lib/apiBase';
+
 export interface SpeakOptions {
   lang?: string;
   pitch?: number;
@@ -177,8 +179,7 @@ export async function speakViaServer(
   if (!text.trim()) return null;
 
   try {
-    const { getSupabaseUrl } = await import('@/supabase/client');
-    const res = await fetch(`${getSupabaseUrl()}/api/tts`, {
+    const res = await fetch(`${getApiBase()}/api/tts`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

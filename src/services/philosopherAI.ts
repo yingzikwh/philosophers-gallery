@@ -1,4 +1,4 @@
-import { getSupabaseUrl } from '@/supabase/client';
+import { getApiBase } from '@/lib/apiBase';
 
 export type ChatMessage = {
   role: 'user' | 'assistant';
@@ -25,7 +25,7 @@ export async function requestPhilosopherChat(
   const { signal } = options ?? {};
 
   const response = await fetch(
-    `${getSupabaseUrl()}/functions/v1/philosopher-chat`,
+    `${getApiBase()}/api/philosopher-chat`,
     {
       method: 'POST',
       headers: {
