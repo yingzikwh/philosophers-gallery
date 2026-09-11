@@ -1,8 +1,9 @@
 import { useState, useRef, useEffect } from 'react';
-import { X, Scale, Quote, Lightbulb, BookOpen, MessageCircle, Loader2, Send } from 'lucide-react';
+import { X, Scale, Quote, Lightbulb, BookOpen, MessageCircle, Loader2, Send, Swords } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import type { Philosopher } from '@/data/philosophers';
 import { requestPhilosopherChat } from '@/services/philosopherAI';
+import { DebateArena } from '@/components/DebateArena';
 import {
   Sheet,
   SheetContent,
@@ -38,6 +39,7 @@ export function ComparisonPanel({
 }: ComparisonPanelProps) {
   const [sharedQuestion, setSharedQuestion] = useState('');
   const [answers, setAnswers] = useState<Record<string, { text: string; loading: boolean; error?: string }>>({});
+  const [debateOpen, setDebateOpen] = useState(false);
   const abortRef = useRef<AbortController | null>(null);
 
   const selectedPhilosophers = philosophers.filter((p) => selectedIds.includes(p.id));
@@ -174,6 +176,21 @@ export function ComparisonPanel({
             <span className="px-2 py-0.5 bg-primary/20 text-primary text-xs rounded-full">
               {selectedPhilosophers.length} 位
             </span>
+            <button
+              type="button"
+              onClick={() => setDebateOpen(true)}
+              disabled={selectedIds.length < 2}
+              title={selectedIds.length >= 2 ? '让他们就同一命题当场交锋' : '需先选择 2 位以上思想家'}
+              className={cn(
+                'ml-auto flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition-all whitespace-nowrap',
+                selectedIds.length >= 2
+                  ? 'bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20'
+                  : 'bg-muted text-muted-foreground cursor-not-allowed'
+              )}
+            >
+              <Swords className="w-3.5 h-3.5" />
+              圆桌辩论
+            </button>
           </div>
 
           {/* Scrollable content — wheel to browse selected philosophers */}
@@ -400,6 +417,13 @@ export function ComparisonPanel({
           </div>
         </SheetContent>
       </Sheet>
+
+      {/* 圆桌辩论——由对比面板已选的 2-4 位思想家直接入场 */}
+      <DebateArena
+        philosophers={selectedPhilosophers}
+        open={debateOpen}
+        onOpenChange={setDebateOpen}
+      />
     </>
   );
 }

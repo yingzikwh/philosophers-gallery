@@ -27,6 +27,7 @@ import { philosopherPrompts } from './philosopherPrompts.js';
 import { loadProgress, saveProgress } from './store.js';
 import { JUDGE_SYSTEM_PROMPT } from './judgePrompt.js';
 import { retrieveKnowledge } from './knowledgeRetriever.js';
+import { handleDebate } from './debate.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -586,6 +587,18 @@ const server = http.createServer(async (req, res) => {
 
   // ===== PVE 闯关对战端点（位于 chat 端点之前，互不影响）=====
   if (await handleCampaignRoutes(req, res)) {
+    return;
+  }
+
+  // ===== 圆桌辩论端点（多位思想家回合制交锋，SSE 流式）=====
+  if (req.url === '/api/debate' && req.method === 'POST') {
+    await handleDebate(req, res, {
+      buildSystemPrompt,
+      parseBody,
+      sendJSON,
+      corsHeaders,
+      config: { OPENAI_API_KEY, OPENAI_BASE_URL, OPENAI_MODEL },
+    });
     return;
   }
 
