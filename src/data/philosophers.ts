@@ -335,7 +335,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['古希腊哲学', '伦理学'],
     themes: ['认识论', '伦理学', '辩证法'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/3eca.png?auth_key=REDACTED',
+    portrait: '/portraits/socrates.jpg',
     works: ['《对话录》（柏拉图记录）', '《申辩篇》', '《克里托篇》', '《斐多篇》'],
     coreIdeas: [
       '认识你自己——未经审视的人生不值得过',
@@ -366,7 +366,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['古希腊哲学', '理念论', '唯心主义'],
     themes: ['理念论', '灵魂不朽', '理想国', '知识回忆说'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/2a01.png?auth_key=REDACTED',
+    portrait: '/portraits/plato.jpg',
     works: ['《理想国》', '《会饮篇》', '《斐多篇》', '《智者篇》', '《蒂迈欧篇》', '《法律篇》'],
     coreIdeas: [
       '理念论——可感世界之外存在永恒的理念世界',
@@ -397,7 +397,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['古希腊哲学', '实在论', '逻辑学'],
     themes: ['形而上学', '逻辑学', '伦理学', '政治学'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/6530.png?auth_key=REDACTED',
+    portrait: '/portraits/aristotle.jpg',
     works: ['《形而上学》', '《尼各马可伦理学》', '《政治学》', '《工具论》', '《诗学》', '《物理学》'],
     coreIdeas: [
       '实体学说——个体事物是首要的实体',
@@ -428,7 +428,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['怀疑主义', '皮浪主义'],
     themes: ['怀疑', '悬置判断', '不动心'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/bd40.png?auth_key=REDACTED',
+    portrait: '/portraits/pyrrho.jpg',
     works: ['《皮浪主义纲要》（塞克斯都·恩披里柯记录）'],
     coreIdeas: [
       '悬置判断——对事物的真实本质不作判断',
@@ -459,7 +459,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['斯多葛学派', '伦理学'],
     themes: ['控制二分法', '自由', '德性', '顺应自然'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/9834.png?auth_key=REDACTED',
+    portrait: '/portraits/epictetus.jpg',
     works: ['《爱比克泰德论说集》', '《手册》'],
     coreIdeas: [
       '控制二分法——区分可控与不可控之事',
@@ -490,7 +490,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['道家', '自然哲学'],
     themes: ['道', '无为', '自然', '柔弱胜刚强'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/1f31.png?auth_key=REDACTED',
+    portrait: '/portraits/laozi.jpg',
     works: ['《道德经》'],
     coreIdeas: [
       '道可道，非常道——道是不可言说的终极实在',
@@ -521,7 +521,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['道家', '相对主义'],
     themes: ['逍遥', '齐物', '梦蝶', '无用之用'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/8ed1.png?auth_key=REDACTED',
+    portrait: '/portraits/zhuangzi.jpg',
     works: ['《庄子》'],
     coreIdeas: [
       '逍遥游——精神的绝对自由',
@@ -552,7 +552,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['儒家', '伦理学', '政治哲学'],
     themes: ['仁', '礼', '中庸', '君子'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/abf4.png?auth_key=REDACTED',
+    portrait: '/portraits/confucius.jpg',
     works: ['《论语》', '《春秋》', '《诗经》', '《尚书》', '《礼记》', '《易经》'],
     coreIdeas: [
       '仁——爱人，道德修养的核心',
@@ -583,7 +583,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['佛教', '解脱哲学'],
     themes: ['四圣谛', '八正道', '缘起', '涅槃'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/b33d.png?auth_key=REDACTED',
+    portrait: '/portraits/buddha.jpg',
     works: ['《阿含经》', '《法句经》', '《心经》', '《金刚经》'],
     coreIdeas: [
       '四圣谛——苦、集、灭、道',
@@ -614,7 +614,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['印度哲学', '吠檀多'],
     themes: ['梵我合一', '轮回', '解脱', '业力'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/d3c7.png?auth_key=REDACTED',
+    portrait: '/portraits/upanishads.jpg',
     works: ['《奥义书》', '《薄伽梵歌》'],
     coreIdeas: [
       '梵我合一——个体灵魂与宇宙灵魂的统一',
@@ -645,7 +645,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['经院哲学', '基督教神学', '托马斯主义'],
     themes: ['自然神学', '信仰与理性', '存在', '因果'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/598f.png?auth_key=REDACTED',
+    portrait: '/portraits/aquinas.jpg',
     works: ['《神学大全》', '《反异教大全》', '《论存在与本质》'],
     coreIdeas: [
       '信仰与理性的和谐——理性可以证明上帝存在',
@@ -676,7 +676,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['德国古典哲学', '先验唯心主义', '批判哲学'],
     themes: ['先验哲学', '道德哲学', '认识论', '美学'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/4646.png?auth_key=REDACTED',
+    portrait: '/portraits/kant.jpg',
     works: ['《纯粹理性批判》', '《实践理性批判》', '《判断力批判》', '《道德形而上学基础》', '《永久和平论》'],
     coreIdeas: [
       '哥白尼式革命——对象必须符合我们的认知方式',
@@ -707,7 +707,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['启蒙思想', '社会契约论', '浪漫主义'],
     themes: ['自然状态', '社会契约', '公意', '教育'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/ad84.png?auth_key=REDACTED',
+    portrait: '/portraits/rousseau.jpg',
     works: ['《社会契约论》', '《论人类不平等的起源和基础》', '《爱弥儿》', '《忏悔录》'],
     coreIdeas: [
       '自然状态——人在自然状态下是善良的',
@@ -738,7 +738,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['启蒙思想', '理性主义', '自然神论'],
     themes: ['理性', '自由', '宽容', '批判'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/598f.png?auth_key=REDACTED',
+    portrait: '/portraits/voltaire.jpg',
     works: ['《哲学通信》', '《老实人》', '《论宽容》', '《哲学词典》'],
     coreIdeas: [
       '理性至上——用理性批判一切',
@@ -769,7 +769,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['德国古典哲学', '绝对唯心主义', '辩证法'],
     themes: ['辩证法', '绝对精神', '历史哲学', '逻辑学'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/1c77.png?auth_key=REDACTED',
+    portrait: '/portraits/hegel.jpg',
     works: ['《精神现象学》', '《逻辑学》', '《法哲学原理》', '《历史哲学讲演录》', '《美学讲演录》'],
     coreIdeas: [
       '辩证法——正题、反题、合题的发展过程',
@@ -800,7 +800,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['唯意志论', '悲观主义', '非理性主义'],
     themes: ['意志', '表象', '悲观主义', '审美直观'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/7f03.png?auth_key=REDACTED',
+    portrait: '/portraits/schopenhauer.jpg',
     works: ['《作为意志和表象的世界》', '《论充足理由律的四重根》', '《伦理学的两个基本问题》', '《附录与补遗》'],
     coreIdeas: [
       '世界是意志和表象——意志是世界的本质',
@@ -831,7 +831,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['存在主义', '后现代主义', '虚无主义'],
     themes: ['权力意志', '超人哲学', '上帝已死', '永恒轮回'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/09af.png?auth_key=REDACTED',
+    portrait: '/portraits/nietzsche.jpg',
     works: ['《查拉图斯特拉如是说》', '《善恶的彼岸》', '《悲剧的诞生》', '《权力意志》', '《道德的谱系》'],
     coreIdeas: [
       '上帝已死——传统价值体系的崩塌与重估',
@@ -862,7 +862,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['马克思主义', '历史唯物主义', '政治经济学'],
     themes: ['阶级斗争', '异化', '剩余价值', '共产主义'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/1820.png?auth_key=REDACTED',
+    portrait: '/portraits/marx.jpg',
     works: ['《资本论》', '《共产党宣言》', '《德意志意识形态》', '《1844年经济学哲学手稿》', '《路易·波拿巴的雾月十八日》'],
     coreIdeas: [
       '历史唯物主义——物质生产方式决定社会发展',
@@ -893,7 +893,7 @@ export const philosophers: Philosopher[] = [
     era: 'contemporary',
     school: ['存在主义', '现象学', '解释学'],
     themes: ['存在', '此在', '时间性', '技术批判'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/8319.png?auth_key=REDACTED',
+    portrait: '/portraits/heidegger.jpg',
     works: ['《存在与时间》', '《形而上学导论》', '《林中路》', '《技术的追问》', '《路标》'],
     coreIdeas: [
       '存在之问——重新提出被遗忘的存在问题',
@@ -924,7 +924,7 @@ export const philosophers: Philosopher[] = [
     era: 'contemporary',
     school: ['分析哲学', '语言哲学', '逻辑实证主义'],
     themes: ['语言', '逻辑', '意义', '私人语言'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/ddcf.png?auth_key=REDACTED',
+    portrait: '/portraits/wittgenstein.jpg',
     works: ['《逻辑哲学论》', '《哲学研究》', '《蓝皮书》', '《棕皮书》', '《论确定性》'],
     coreIdeas: [
       '语言游戏——语言的意义在于使用',
@@ -955,7 +955,7 @@ export const philosophers: Philosopher[] = [
     era: 'contemporary',
     school: ['存在主义', '荒诞主义'],
     themes: ['荒诞', '反抗', '自由', '死亡'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/cacb.png?auth_key=REDACTED',
+    portrait: '/portraits/camus.jpg',
     works: ['《局外人》', '《鼠疫》', '《西西弗神话》', '《反抗者》', '《堕落》'],
     coreIdeas: [
       '荒诞哲学——人类对意义的渴求与世界的沉默之间的冲突',
@@ -986,7 +986,7 @@ export const philosophers: Philosopher[] = [
     era: 'contemporary',
     school: ['后现代主义', '结构主义', '知识考古学'],
     themes: ['权力', '知识', '话语', '规训'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/9052.png?auth_key=REDACTED',
+    portrait: '/portraits/foucault.jpg',
     works: ['《疯癫与文明》', '《规训与惩罚》', '《性史》', '《词与物》', '《知识考古学》'],
     coreIdeas: [
       '权力/知识——权力与知识相互建构',
@@ -1017,7 +1017,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['儒家', '心性学'],
     themes: ['性善论', '仁政', '王道', '义利之辨'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/34a1.png?auth_key=REDACTED',
+    portrait: '/portraits/mencius.jpg',
     works: ['《孟子》'],
     coreIdeas: [
       '性善论——人性本善，有四端之心',
@@ -1048,7 +1048,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['儒家', '礼学'],
     themes: ['性恶论', '礼治', '化性起伪', '天人之分'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/69c1.png?auth_key=REDACTED',
+    portrait: '/portraits/xunzi.jpg',
     works: ['《荀子》'],
     coreIdeas: [
       '性恶论——人性本恶，需要教化',
@@ -1079,7 +1079,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['法家', '政治哲学'],
     themes: ['法', '术', '势', '君主专制'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/fa7f.png?auth_key=REDACTED',
+    portrait: '/portraits/hanfei.jpg',
     works: ['《韩非子》'],
     coreIdeas: [
       '法、术、势——统治的三大法宝',
@@ -1110,7 +1110,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['墨家', '功利主义'],
     themes: ['兼爱', '非攻', '尚贤', '节用'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/8f35.png?auth_key=REDACTED',
+    portrait: '/portraits/mozi.jpg',
     works: ['《墨子》'],
     coreIdeas: [
       '兼爱——无差别的爱所有人',
@@ -1141,7 +1141,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['宋明理学', '程朱理学'],
     themes: ['理气论', '格物致知', '存天理灭人欲'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/616e.png?auth_key=REDACTED',
+    portrait: '/portraits/zhuxi.jpg',
     works: ['《四书章句集注》', '《近思录》', '《朱子语类》'],
     coreIdeas: [
       '理气论——理在气先，理一分殊',
@@ -1172,7 +1172,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['宋明理学', '心学'],
     themes: ['心即理', '知行合一', '致良知'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/0900.png?auth_key=REDACTED',
+    portrait: '/portraits/wangyangming.jpg',
     works: ['《传习录》', '《大学问》'],
     coreIdeas: [
       '心即理——心外无理，心外无物',
@@ -1203,7 +1203,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['基督教神学', '教父哲学'],
     themes: ['原罪', '恩典', '时间', '上帝之城'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/db02.png?auth_key=REDACTED',
+    portrait: '/portraits/augustine.jpg',
     works: ['《忏悔录》', '《上帝之城》', '《论三位一体》'],
     coreIdeas: [
       '原罪论——人类因亚当的堕落而有罪',
@@ -1234,7 +1234,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['理性主义', '近代哲学'],
     themes: ['我思故我在', '心物二元', '怀疑方法'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/d866.png?auth_key=REDACTED',
+    portrait: '/portraits/descartes.jpg',
     works: ['《第一哲学沉思集》', '《方法论》', '《几何学》'],
     coreIdeas: [
       '我思故我在——哲学的第一原理',
@@ -1265,7 +1265,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['经验主义', '自由主义'],
     themes: ['白板说', '自然权利', '社会契约', '分权'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/d761.png?auth_key=REDACTED',
+    portrait: '/portraits/locke.jpg',
     works: ['《政府论》', '《人类理解论》', '《论宽容》'],
     coreIdeas: [
       '白板说——心灵如白板，知识来自经验',
@@ -1296,7 +1296,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['经验主义', '怀疑主义'],
     themes: ['因果怀疑', '印象与观念', '情感主义伦理学'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/098b.png?auth_key=REDACTED',
+    portrait: '/portraits/hume.jpg',
     works: ['《人性论》', '《人类理解研究》', '《道德原则研究》'],
     coreIdeas: [
       '因果怀疑——因果联系只是习惯性联想',
@@ -1327,7 +1327,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['理性主义', '泛神论'],
     themes: ['实体一元论', '神即自然', '自由', '情感'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/4f42.png?auth_key=REDACTED',
+    portrait: '/portraits/spinoza.jpg',
     works: ['《伦理学》', '《神学政治论》', '《知性改进论》'],
     coreIdeas: [
       '实体一元论——只有一个实体，即神或自然',
@@ -1358,7 +1358,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['理性主义', '单子论'],
     themes: ['单子论', '前定和谐', '可能世界', '微积分'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/b167.png?auth_key=REDACTED',
+    portrait: '/portraits/leibniz.jpg',
     works: ['《单子论》', '《神正论》', '《人类理解新论》'],
     coreIdeas: [
       '单子论——世界由无数单子构成',
@@ -1389,7 +1389,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['存在主义', '基督教哲学'],
     themes: ['存在', '焦虑', '信仰', '主观真理'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/e538.png?auth_key=REDACTED',
+    portrait: '/portraits/kierkegaard.jpg',
     works: ['《非此即彼》', '《恐惧与战栗》', '《致死的疾病》'],
     coreIdeas: [
       '存在先于本质——人的存在先于其定义',
@@ -1420,7 +1420,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['功利主义', '自由主义'],
     themes: ['最大幸福原则', '自由', '妇女权利'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/f720.png?auth_key=REDACTED',
+    portrait: '/portraits/mill.jpg',
     works: ['《论自由》', '《功利主义》', '《妇女的屈从地位》'],
     coreIdeas: [
       '最大幸福原则——最大多数人的最大幸福',
@@ -1451,7 +1451,7 @@ export const philosophers: Philosopher[] = [
     era: 'contemporary',
     school: ['分析哲学', '逻辑实证主义'],
     themes: ['逻辑分析', '摹状词理论', '和平主义'],
-    portrait: 'https://g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/93fa.png?auth_key=REDACTED',
+    portrait: '/portraits/russell.jpg',
     works: ['《数学原理》', '《西方哲学史》', '《我为什么不是基督徒》'],
     coreIdeas: [
       '逻辑分析——用逻辑分析解决哲学问题',

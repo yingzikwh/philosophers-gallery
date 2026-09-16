@@ -1,10 +1,13 @@
 # 肖像图像来源与许可
 
-本目录存放**已本地化**的思想家肖像：真实历史照片、古代雕塑与画像的照片、以及著作权已届满的原作，
-共 24 位，全部取自 Wikimedia Commons，许可为 Public domain / CC0 / CC BY / CC BY-SA，逐条登记于下表。
+本目录存放**已本地化**的思想家肖像，共 61 位，分两类：
 
-其余 37 位思想家的肖像为 AI 生成图，以 CDN 链接形式写在 `src/data/philosophers.ts` 中
-（`g.cdn.meoo.host/agent-generated-images/...`），不在本目录内。
+- **24 位**取自 Wikimedia Commons：真实历史照片、古代雕塑与画像的照片、著作权已届满的原作，
+  许可为 Public domain / CC0 / CC BY / CC BY-SA，逐条登记于下表。
+- **37 位**为项目自有的 AI 生成肖像：原托管于 `g.cdn.meoo.host/agent-generated-images/...`
+  （1024×1024 PNG、单张约 1.5 MB），本次优化已全部下载本地化并压缩，登记于「AI 生成肖像」一节。
+
+本地化后全部 61 张肖像均不依赖外部 CDN 与 `auth_key`，克隆仓库即可离线显示。
 
 | 文件 | 人物 | 来源 | 许可 |
 |------|------|------|------|
@@ -33,6 +36,28 @@
 | `arendt.jpg` | 阿伦特 | Wikimedia Commons · [Hannah Arendt 1933](https://commons.wikimedia.org/wiki/File:Hannah_Arendt_1933.jpg)，1933 年 | Public domain |
 | `rawls.jpg` | 罗尔斯 | Wikimedia Commons · [John Rawls (1971 photo portrait)](https://commons.wikimedia.org/wiki/File:John_Rawls_(1971_photo_portrait).jpg)，Belknap Press 出版 | Public domain |
 
+## AI 生成肖像（37 位）
+
+原图为项目自有的 AI 生成图像，托管于 `g.cdn.meoo.host/agent-generated-images/snrdd5y0ces8/`，
+无第三方著作权主张、无需署名。画风按文化区分：西方哲学家为油画肖像，中国哲学家为水墨线描，
+印度与佛教人物为唐卡/宗教画风。原图均为 1024×1024 PNG（单张约 1.5 MB），本地化为 512×512 JPEG
+（合计 2.48 MB，较 CDN 原图约 55 MB 降低 95%）。
+
+本地文件与原 CDN 文件名（`.png`）对应：
+
+- `socrates`=3eca、`plato`=2a01、`aristotle`=6530、`pyrrho`=bd40、`epictetus`=9834
+- `laozi`=1f31、`zhuangzi`=8ed1、`confucius`=abf4、`buddha`=b33d、`upanishads`=d3c7
+- `aquinas`=598f、`kant`=4646、`rousseau`=ad84、`voltaire`=598f、`hegel`=1c77
+- `schopenhauer`=7f03、`nietzsche`=09af、`marx`=1820、`heidegger`=8319、`wittgenstein`=ddcf
+- `camus`=cacb、`foucault`=9052、`mencius`=34a1、`xunzi`=69c1、`hanfei`=fa7f
+- `mozi`=8f35、`zhuxi`=616e、`wangyangming`=0900、`augustine`=db02、`descartes`=d866
+- `locke`=d761、`hume`=098b、`spinoza`=4f42、`leibniz`=b167、`kierkegaard`=e538
+- `mill`=f720、`russell`=93fa
+
+> **已知缺陷（待修）**：`aquinas`（阿奎那）与 `voltaire`（伏尔泰）在原 CDN 数据中即共用同一张图
+> （`598f.png`），本地化时如实保留、未擅自替换。计划待 Wikimedia Commons 可达后为两人各换一张
+> 公有领域真实历史肖像；本次执行时 Commons API 连接超时、Wikidata 返回 403，无法在线核验许可。
+
 ## 处理说明
 
 - 原图经等比缩放至**宽不超过 512px**，并以 JPEG（质量 0.88）重编码，未做裁剪或其他修改
@@ -41,6 +66,8 @@
 - 非 JPEG 源统一转为 JPEG（`derrida` 源为 PNG、`deleuze` 源为 WebP），透明区先铺白底再合成
 - 在 `src/data/philosophers.ts` 中以 `/portraits/<id>.jpg` 引用，由 Vite 从 `public/` 静态提供
 - 相比 CDN 外链，本地图像不依赖外部 `auth_key`，克隆仓库即可离线显示
+- AI 生成图原为 1024×1024 PNG，统一等比缩放至 512×512 后以 JPEG（质量 0.88）重编码；
+  经 contact sheet 目检确认压缩后人物面部与画风细节无损
 - 取图流程：Wikidata `P18` 定位该人物的标准肖像 → Commons API 核验许可、作者与尺寸 →
   浏览器内 fetch 原图/缩略图 → canvas 等比缩放与重编码 → 落盘本目录
 
