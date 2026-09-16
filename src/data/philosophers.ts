@@ -244,19 +244,6 @@ export function getVoiceProfile(p: Philosopher): VoiceProfile {
   };
 }
 
-// 为新添加的哲学家生成占位头像（SVG data URI，无需网络）
-function generatePortrait(name: string, era: string): string {
-  const eraColors: Record<string, [string, string]> = {
-    ancient: ['#8B7355', '#A0826D'],
-    modern: ['#4A6FA5', '#6B8CBE'],
-    contemporary: ['#6B5B95', '#8B7BA8'],
-  };
-  const [c1, c2] = eraColors[era] || ['#555555', '#777777'];
-  const char = name.charAt(0);
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256"><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs><rect width="256" height="256" fill="url(#g)"/><text x="128" y="165" font-size="100" text-anchor="middle" fill="rgba(255,255,255,0.9)" font-family="serif" font-weight="bold">${char}</text></svg>`;
-  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
-}
-
 export const philosophers: Philosopher[] = [
   {
     id: 'mao',
@@ -1495,7 +1482,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['斯多葛学派', '伦理学'],
     themes: ['伦理学', '自省', '命运', '德性'],
-    portrait: generatePortrait('马', 'ancient'),
+    portrait: '/portraits/marcus_aurelius.jpg',
     works: ['《沉思录》'],
     coreIdeas: [
       '顺应自然——接受命运安排，按照理性生活',
@@ -1526,7 +1513,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['斯多葛学派', '伦理学'],
     themes: ['伦理学', '时间', '死亡', '愤怒'],
-    portrait: generatePortrait('塞', 'ancient'),
+    portrait: '/portraits/seneca.jpg',
     works: ['《论生命之短暂》', '《论愤怒》', '《道德书简》', '《论心灵的安宁》'],
     coreIdeas: [
       '生命之短暂——不是时间不够，而是浪费太多',
@@ -1557,7 +1544,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['新柏拉图主义', '唯心主义'],
     themes: ['形而上学', '太一', '流溢', '灵魂回归'],
-    portrait: generatePortrait('普', 'ancient'),
+    portrait: '/portraits/plotinus.jpg',
     works: ['《九章集》'],
     coreIdeas: [
       '太一——万物归一的终极本原',
@@ -1588,7 +1575,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['佛教', '中观学派'],
     themes: ['空性', '中道', '缘起', '二谛'],
-    portrait: generatePortrait('龙', 'ancient'),
+    portrait: '/portraits/nagarjuna.jpg',
     works: ['《中论》', '《大智度论》', '《十二门论》'],
     coreIdeas: [
       '空性——一切法无自性',
@@ -1619,7 +1606,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['印度哲学', '吠檀多'],
     themes: ['梵我合一', '摩耶', '解脱', '不二论'],
-    portrait: generatePortrait('商', 'modern'),
+    portrait: '/portraits/shankara.jpg',
     works: ['《梵经注》', '《薄伽梵歌注》', '《分辨宝鬘》'],
     coreIdeas: [
       '不二论——梵是唯一的实在',
@@ -1650,7 +1637,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['佛教', '禅宗'],
     themes: ['顿悟', '无念', '自性', '平常心'],
-    portrait: generatePortrait('慧', 'modern'),
+    portrait: '/portraits/huineng.jpg',
     works: ['《坛经》'],
     coreIdeas: [
       '顿悟——直指人心，见性成佛',
@@ -1681,7 +1668,7 @@ export const philosophers: Philosopher[] = [
     era: 'ancient',
     school: ['儒家', '政治哲学'],
     themes: ['天人感应', '大一统', '罢黜百家', '三纲五常'],
-    portrait: generatePortrait('董', 'ancient'),
+    portrait: '/portraits/dong_zhongshu.jpg',
     works: ['《春秋繁露》', '《天人三策》'],
     coreIdeas: [
       '天人感应——天人之间相互感应',
@@ -1712,7 +1699,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['宋明理学', '实学'],
     themes: ['气一元论', '理在气中', '日生日成', '实践'],
-    portrait: generatePortrait('王', 'modern'),
+    portrait: '/portraits/wang_fuzhi.jpg',
     works: ['《张子正蒙注》', '《读通鉴论》', '《周易外传》', '《尚书引义》'],
     coreIdeas: [
       '气一元论——理在气中，无气则无理',
@@ -1743,7 +1730,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['理性主义', '基督教哲学'],
     themes: ['信仰', '人性', '赌注', '理性与情感'],
-    portrait: generatePortrait('帕', 'modern'),
+    portrait: '/portraits/pascal.jpg',
     works: ['《思想录》', '《致外省人书》'],
     coreIdeas: [
       '人是会思想的芦苇——脆弱但伟大',
@@ -1774,7 +1761,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['功利主义', '自由主义'],
     themes: ['最大幸福', '功利原则', '法律改革', '监狱设计'],
-    portrait: generatePortrait('边', 'modern'),
+    portrait: '/portraits/bentham.jpg',
     works: ['《道德与立法原理导论》', '《政府片论》', '《义务论》'],
     coreIdeas: [
       '功利原则——最大多数人的最大幸福',
@@ -1805,7 +1792,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['经验主义', '唯心主义'],
     themes: ['存在即被感知', '观念论', '物质批判'],
-    portrait: generatePortrait('贝', 'modern'),
+    portrait: '/portraits/berkeley.jpg',
     works: ['《人类知识原理》', '《视觉新论》', '《希勒斯和斐洛诺斯的三篇对话》'],
     coreIdeas: [
       '存在即被感知——物质不存在，只有观念',
@@ -1836,7 +1823,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['德国哲学', '唯物主义'],
     themes: ['宗教批判', '人本学', '异化', '感性'],
-    portrait: generatePortrait('费', 'modern'),
+    portrait: '/portraits/feuerbach.jpg',
     works: ['《基督教的本质》', '《未来哲学原理》', '《宗教的本质》'],
     coreIdeas: [
       '上帝是人的本质的投射——宗教是人性的异化',
@@ -1867,7 +1854,7 @@ export const philosophers: Philosopher[] = [
     era: 'modern',
     school: ['实证主义', '社会学'],
     themes: ['三阶段律', '实证科学', '人道教', '社会静力学'],
-    portrait: generatePortrait('孔', 'modern'),
+    portrait: '/portraits/comte.jpg',
     works: ['《实证哲学教程》', '《实证政治体系》'],
     coreIdeas: [
       '三阶段律——人类思想经历神学、形而上学、实证三阶段',
@@ -1898,7 +1885,7 @@ export const philosophers: Philosopher[] = [
     era: 'contemporary',
     school: ['生命哲学', '直觉主义'],
     themes: ['绵延', '生命冲动', '直觉', '时间', '记忆'],
-    portrait: generatePortrait('柏', 'contemporary'),
+    portrait: '/portraits/bergson.jpg',
     works: ['《创造进化论》', '《时间与自由意志》', '《物质与记忆》', '《笑》'],
     coreIdeas: [
       '绵延——真实的时间是连续的质的流动',
@@ -1929,7 +1916,7 @@ export const philosophers: Philosopher[] = [
     era: 'contemporary',
     school: ['现象学'],
     themes: ['意向性', '现象学还原', '生活世界', '本质直观'],
-    portrait: generatePortrait('胡', 'contemporary'),
+    portrait: '/portraits/husserl.jpg',
     works: ['《逻辑研究》', '《纯粹现象学和现象学哲学的观念》', '《欧洲科学的危机》', '《内时间意识现象学》'],
     coreIdeas: [
       '意向性——意识总是关于某物的意识',
@@ -1960,7 +1947,7 @@ export const philosophers: Philosopher[] = [
     era: 'contemporary',
     school: ['存在主义', '马克思主义'],
     themes: ['自由', '存在先于本质', '恶心', '他人即地狱'],
-    portrait: generatePortrait('萨', 'contemporary'),
+    portrait: '/portraits/sartre.jpg',
     works: ['《存在与虚无》', '《存在主义是一种人道主义》', '《恶心》', '《禁闭》', '《辩证理性批判》'],
     coreIdeas: [
       '存在先于本质——人先存在，然后定义自己',
@@ -1991,7 +1978,7 @@ export const philosophers: Philosopher[] = [
     era: 'contemporary',
     school: ['存在主义', '女性主义'],
     themes: ['女性主义', '自由', '他者', '身体'],
-    portrait: generatePortrait('波', 'contemporary'),
+    portrait: '/portraits/beauvoir.jpg',
     works: ['《第二性》', '《名士风流》', '《人都是要死的》', '《模糊性的伦理学》'],
     coreIdeas: [
       '女人不是天生的，而是后天成为的',
@@ -2022,7 +2009,7 @@ export const philosophers: Philosopher[] = [
     era: 'contemporary',
     school: ['后现代主义', '解构主义'],
     themes: ['解构', '延异', '踪迹', '书写', '正义'],
-    portrait: generatePortrait('德', 'contemporary'),
+    portrait: '/portraits/derrida.jpg',
     works: ['《论文字学》', '《声音与现象》', '《写作与差异》', '《法律的力量》'],
     coreIdeas: [
       '解构——拆解二元对立的等级结构',
@@ -2053,7 +2040,7 @@ export const philosophers: Philosopher[] = [
     era: 'contemporary',
     school: ['后现代主义', '生命哲学'],
     themes: ['差异', '块茎', '欲望生产', '生成', '游牧'],
-    portrait: generatePortrait('德', 'contemporary'),
+    portrait: '/portraits/deleuze.jpg',
     works: ['《差异与重复》', '《反俄狄浦斯》（与加塔利合著）', '《千高原》（与加塔利合著）', '《什么是哲学》'],
     coreIdeas: [
       '差异哲学——差异先于同一性',
@@ -2084,7 +2071,7 @@ export const philosophers: Philosopher[] = [
     era: 'contemporary',
     school: ['法兰克福学派', '批判理论'],
     themes: ['文化工业', '否定辩证法', '启蒙辩证法', '审美理论'],
-    portrait: generatePortrait('阿', 'contemporary'),
+    portrait: '/portraits/adorno.jpg',
     works: ['《启蒙辩证法》（与霍克海默合著）', '《否定辩证法》', '《美学理论》', '《最低限度的道德》'],
     coreIdeas: [
       '文化工业——大众文化是统治的工具',
@@ -2115,7 +2102,7 @@ export const philosophers: Philosopher[] = [
     era: 'contemporary',
     school: ['政治哲学', '现象学'],
     themes: ['极权主义', '平庸的恶', '行动', '公共领域'],
-    portrait: generatePortrait('阿', 'contemporary'),
+    portrait: '/portraits/arendt.jpg',
     works: ['《极权主义的起源》', '《人的境况》', '《耶路撒冷的艾希曼》', '《精神生活》'],
     coreIdeas: [
       '极权主义——现代政治的新形式',
@@ -2146,7 +2133,7 @@ export const philosophers: Philosopher[] = [
     era: 'contemporary',
     school: ['政治哲学', '自由主义'],
     themes: ['正义', '公平', '原初状态', '无知之幕'],
-    portrait: generatePortrait('罗', 'contemporary'),
+    portrait: '/portraits/rawls.jpg',
     works: ['《正义论》', '《政治自由主义》', '《万民法》'],
     coreIdeas: [
       '正义即公平——社会基本结构应以公平为原则',
