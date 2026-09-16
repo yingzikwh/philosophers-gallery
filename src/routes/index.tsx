@@ -1,15 +1,23 @@
-import { useState, useMemo, useEffect } from 'react';
+import { useState, useMemo, useEffect, lazy, Suspense } from 'react';
 import { createFileRoute, Link } from '@tanstack/react-router';
 import { BookOpen, Sparkles, GraduationCap, Search, Heart, GitBranch, Clock, Menu, X, Swords } from 'lucide-react';
 import { philosophers } from '@/data/philosophers';
 import { EnhancedPhilosopherCard } from '@/components/EnhancedPhilosopherCard';
 import { FilterBar } from '@/components/FilterBar';
-import { ComparisonPanel } from '@/components/ComparisonPanel';
 import { ParticleBackground } from '@/components/ParticleBackground';
-import { InfluenceGraph } from '@/components/InfluenceGraph';
-import { Timeline } from '@/components/Timeline';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { TypewriterText } from '@/components/TypewriterText';
+
+/* 弹窗类重组件按需加载：首屏不下载 d3 与对比/辩论链路，点击打开时才拉取 */
+const ComparisonPanel = lazy(() =>
+  import('@/components/ComparisonPanel').then((m) => ({ default: m.ComparisonPanel }))
+);
+const InfluenceGraph = lazy(() =>
+  import('@/components/InfluenceGraph').then((m) => ({ default: m.InfluenceGraph }))
+);
+const Timeline = lazy(() =>
+  import('@/components/Timeline').then((m) => ({ default: m.Timeline }))
+);
 import { cn } from '@/lib/utils';
 
 export const Route = createFileRoute('/')({
@@ -350,31 +358,43 @@ function Index() {
         )}
       </main>
 
-      {/* Comparison Panel */}
-      <ComparisonPanel
-        selectedIds={selectedIds}
-        philosophers={philosophers}
-        onRemove={handleRemoveFromComparison}
-        onClear={handleClearComparison}
-        open={isComparisonOpen}
-        onOpenChange={setIsComparisonOpen}
-      />
+      {/* Comparison Panel：打开才挂载，首屏不下载该链路 */}
+      {isComparisonOpen && (
+        <Suspense fallback={null}>
+          <ComparisonPanel
+            selectedIds={selectedIds}
+            philosophers={philosophers}
+            onRemove={handleRemoveFromComparison}
+            onClear={handleClearComparison}
+            open={isComparisonOpen}
+            onOpenChange={setIsComparisonOpen}
+          />
+        </Suspense>
+      )}
 
-      {/* Influence Graph */}
-      <ErrorBoundary>
-        <InfluenceGraph
-          isOpen={isInfluenceGraphOpen}
-          onOpenChange={setIsInfluenceGraphOpen}
-        />
-      </ErrorBoundary>
+      {/* Influence Graph：打开才挂载，d3 依赖随之延迟 */}
+      {isInfluenceGraphOpen && (
+        <ErrorBoundary>
+          <Suspense fallback={null}>
+            <InfluenceGraph
+              isOpen={isInfluenceGraphOpen}
+              onOpenChange={setIsInfluenceGraphOpen}
+            />
+          </Suspense>
+        </ErrorBoundary>
+      )}
 
-      {/* Timeline */}
-      <ErrorBoundary>
-        <Timeline
-          isOpen={isTimelineOpen}
-          onOpenChange={setIsTimelineOpen}
-        />
-      </ErrorBoundary>
+      {/* Timeline：打开才挂载 */}
+      {isTimelineOpen && (
+        <ErrorBoundary>
+          <Suspense fallback={null}>
+            <Timeline
+              isOpen={isTimelineOpen}
+              onOpenChange={setIsTimelineOpen}
+            />
+          </Suspense>
+        </ErrorBoundary>
+      )}
 
       {/* Footer */}
       <footer className="border-t border-border/50 py-6 mt-12 relative z-10">

@@ -47,6 +47,15 @@ export default defineConfig({
         entryFileNames: "assets/[name]-[hash].js",
         chunkFileNames: "assets/[name]-[hash].js",
         assetFileNames: "assets/[name]-[hash][extname]",
+        // 按依赖族拆包：d3 仅图谱/时间线弹窗使用，配合路由内 React.lazy 可延迟到打开时下载
+        manualChunks(id) {
+          if (!id.includes("node_modules")) return;
+          if (/[\\/]node_modules[\\/](react|react-dom|scheduler)[\\/]/.test(id)) return "vendor-react";
+          if (id.includes("@tanstack")) return "vendor-tanstack";
+          if (/[\\/]node_modules[\\/]d3-/.test(id)) return "vendor-d3";
+          if (id.includes("@radix-ui") || id.includes("lucide-react")) return "vendor-ui";
+          return "vendor-misc";
+        },
       },
     },
   },
