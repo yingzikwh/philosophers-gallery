@@ -11,6 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { Portrait } from './Portrait';
 
 interface InfluenceGraphProps {
   isOpen: boolean;
@@ -434,7 +435,7 @@ export function InfluenceGraph({ isOpen, onOpenChange }: InfluenceGraphProps) {
                 return (
                   <div className="space-y-4">
                     <div className="flex items-center gap-3">
-                      <img src={p.portrait} alt={p.name} className="w-16 h-16 rounded-full object-cover border-2" style={{ borderColor: ERA_COLORS[p.era] }} />
+                      <Portrait src={p.portrait} alt={p.name} className="w-16 h-16 rounded-full object-cover border-2" style={{ borderColor: ERA_COLORS[p.era] }} />
                       <div>
                         <h3 className="font-display text-lg font-semibold text-slate-100">{p.name}</h3>
                         <p className="text-xs text-slate-400">{p.nameEn}</p>

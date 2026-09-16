@@ -1,5 +1,6 @@
 import type { Philosopher } from '@/data/philosophers';
 import { cn } from '@/lib/utils';
+import { Portrait } from './Portrait';
 
 function formatYears(p: Philosopher): string {
   const fmt = (y: number) => (y < 0 ? `前${-y}` : `${y}`);
@@ -31,7 +32,7 @@ export function PhilosopherPersonaCard({
       )}
     >
       <div className="flex items-start gap-3">
-        <img
+        <Portrait
           src={p.portrait}
           alt={p.name}
           className="w-11 h-11 rounded-full object-cover border border-primary/40 flex-shrink-0"

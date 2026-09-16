@@ -10,6 +10,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from '@/components/ui/dialog';
+import { Portrait } from './Portrait';
 
 interface TimelineProps {
   isOpen: boolean;
@@ -365,7 +366,7 @@ export function Timeline({ isOpen, onOpenChange }: TimelineProps) {
             {selectedPhil ? (
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
-                  <img src={selectedPhil.portrait} alt={selectedPhil.name} className="w-14 h-14 rounded-full object-cover border-2" style={{ borderColor: ERA_COLORS[selectedPhil.era] }} />
+                  <Portrait src={selectedPhil.portrait} alt={selectedPhil.name} className="w-14 h-14 rounded-full object-cover border-2" style={{ borderColor: ERA_COLORS[selectedPhil.era] }} />
                   <div>
                     <h3 className="font-display text-lg font-semibold text-slate-100">{selectedPhil.name}</h3>
                     <p className="text-xs text-slate-400">{selectedPhil.nameEn}</p>

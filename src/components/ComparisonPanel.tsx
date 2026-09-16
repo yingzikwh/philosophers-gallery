@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import type { Philosopher } from '@/data/philosophers';
 import { requestPhilosopherChat } from '@/services/philosopherAI';
 import { DebateArena } from '@/components/DebateArena';
+import { Portrait } from '@/components/Portrait';
 import {
   Sheet,
   SheetContent,
@@ -118,7 +119,7 @@ export function ComparisonPanel({
             </div>
             <div className="flex -space-x-2">
               {selectedPhilosophers.slice(0, 3).map((philosopher) => (
-                <img
+                <Portrait
                   key={philosopher.id}
                   src={philosopher.portrait}
                   alt={philosopher.name}
@@ -250,7 +251,7 @@ export function ComparisonPanel({
                         className="p-3 bg-muted/30 border border-border/30 rounded-lg space-y-2"
                       >
                         <div className="flex items-center gap-2">
-                          <img
+                          <Portrait
                             src={p.portrait}
                             alt={p.name}
                             className="w-8 h-8 rounded-full object-cover border border-border/50"

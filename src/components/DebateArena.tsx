@@ -4,6 +4,7 @@ import { cn } from '@/lib/utils';
 import type { Philosopher } from '@/data/philosophers';
 import { requestDebate, type DebateEvent, type DebatePhase } from '@/services/debate';
 import { Dialog, DialogContent, DialogTitle } from '@/components/ui/dialog';
+import { Portrait } from '@/components/Portrait';
 
 const PRESET_TOPICS = [
   '人性本善还是本恶？',
@@ -143,7 +144,7 @@ export function DebateArena({ philosophers, open, onOpenChange }: DebateArenaPro
           </div>
           <div className="flex -space-x-2 shrink-0">
             {philosophers.slice(0, 4).map((p) => (
-              <img key={p.id} src={p.portrait} alt={p.name} className="w-8 h-8 rounded-full object-cover border-2 border-card" />
+              <Portrait key={p.id} src={p.portrait} alt={p.name} className="w-8 h-8 rounded-full object-cover border-2 border-card" />
             ))}
           </div>
         </div>
@@ -231,7 +232,7 @@ export function DebateArena({ philosophers, open, onOpenChange }: DebateArenaPro
             const p = pMap[turn.speaker];
             return (
               <div key={i} className="flex gap-3">
-                <img
+                <Portrait
                   src={p?.portrait}
                   alt={turn.name}
                   className="w-10 h-10 rounded-full object-cover border-2 border-primary/40 shrink-0"

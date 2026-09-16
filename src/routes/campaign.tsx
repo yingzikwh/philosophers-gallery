@@ -27,6 +27,7 @@ import {
   type ProgressResponse,
 } from '@/services/campaign';
 import { CampaignChallenge } from '@/components/CampaignChallenge';
+import { Portrait } from '@/components/Portrait';
 
 export const Route = createFileRoute('/campaign')({
   component: CampaignPage,
@@ -245,7 +246,7 @@ function StageCard({ stage, philosopher, onOpen }: StageCardProps) {
         <div className="flex items-start gap-3">
           <div className="relative shrink-0">
             {philosopher ? (
-              <img
+              <Portrait
                 src={philosopher.portrait}
                 alt={philosopher.name}
                 className="w-12 h-12 rounded-full object-cover border border-border/50"

@@ -8,6 +8,7 @@ import { getPhilosopherLinks } from '@/data/philosopher-links';
 import { TypewriterText } from './TypewriterText';
 import { WorkReader } from './WorkReader';
 import { PhilosopherChat } from './PhilosopherChat';
+import { Portrait } from './Portrait';
 import {
   Dialog,
   DialogContent,
@@ -192,7 +193,7 @@ export function EnhancedPhilosopherCard({
         {/* Card Header with Portrait */}
         <div className="relative h-52 overflow-hidden">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-card" />
-          <img
+          <Portrait
             src={philosopher.portrait}
             alt={philosopher.name}
             className={cn(
@@ -421,7 +422,7 @@ export function EnhancedPhilosopherCard({
         <DialogContent className="max-w-3xl max-h-[90vh] overflow-y-auto bg-card">
           <DialogHeader>
             <DialogTitle className="font-display text-2xl flex items-center gap-3">
-              <img
+              <Portrait
                 src={philosopher.portrait}
                 alt={philosopher.name}
                 className="w-12 h-12 rounded-full object-cover border-2 border-primary"

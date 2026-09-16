@@ -35,6 +35,7 @@ import {
   DialogDescription,
 } from '@/components/ui/dialog';
 import { Progress } from '@/components/ui/progress';
+import { Portrait } from '@/components/Portrait';
 
 interface CampaignChallengeProps {
   stage: Stage;
@@ -169,7 +170,7 @@ const MessageRow = memo(function MessageRow({
         {isUser ? (
           <User className="w-4 h-4 text-campaign-gold-strong" />
         ) : philosopher ? (
-          <img
+          <Portrait
             src={philosopher.portrait}
             alt={philosopher.name}
             className="w-full h-full rounded-full object-cover"
@@ -506,7 +507,7 @@ export function CampaignChallenge({
           <DialogTitle className="flex items-center gap-3">
             <div className="relative">
               {philosopher ? (
-                <img
+                <Portrait
                   src={philosopher.portrait}
                   alt={philosopher.name}
                   className={cn(
@@ -649,7 +650,7 @@ export function CampaignChallenge({
                       )}
                     >
                       {philosopher ? (
-                        <img
+                        <Portrait
                           src={philosopher.portrait}
                           alt={philosopher.name}
                           className="w-full h-full rounded-full object-cover"
@@ -677,7 +678,7 @@ export function CampaignChallenge({
                       )}
                     >
                       {philosopher ? (
-                        <img
+                        <Portrait
                           src={philosopher.portrait}
                           alt={philosopher.name}
                           className="w-full h-full rounded-full object-cover"

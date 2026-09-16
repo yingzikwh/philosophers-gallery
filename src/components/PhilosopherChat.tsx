@@ -40,6 +40,7 @@ import {
 } from '@/components/ui/scroll-area';
 import { TypewriterText } from './TypewriterText';
 import { PhilosopherPersonaCard } from './PhilosopherPersonaCard';
+import { Portrait } from './Portrait';
 
 interface PhilosopherChatProps {
   philosopher: Philosopher;
@@ -282,7 +283,7 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
         <DialogHeader className="border-b border-border/50 pb-4 shrink-0">
           <DialogTitle className="flex items-center gap-3">
             <div className="relative">
-              <img
+              <Portrait
                 src={philosopher.portrait}
                 alt={philosopher.name}
                 className="w-12 h-12 rounded-full object-cover border-2 border-primary"
@@ -345,7 +346,7 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
                     {message.role === 'user' ? (
                       <User className="w-4 h-4 text-primary" />
                     ) : (
-                      <img
+                      <Portrait
                         src={philosopher.portrait}
                         alt={philosopher.name}
                         className="w-full h-full rounded-full object-cover"
@@ -411,7 +412,7 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
               {isLoading && streamingText && (
                 <div className="flex gap-3">
                   <div className="w-8 h-8 rounded-full bg-muted flex-shrink-0">
-                    <img
+                    <Portrait
                       src={philosopher.portrait}
                       alt={philosopher.name}
                       className="w-full h-full rounded-full object-cover"
@@ -430,7 +431,7 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
               {isLoading && !streamingText && (
                 <div className="flex gap-3">
                   <div className="w-8 h-8 rounded-full bg-muted flex-shrink-0">
-                    <img
+                    <Portrait
                       src={philosopher.portrait}
                       alt={philosopher.name}
                       className="w-full h-full rounded-full object-cover"
