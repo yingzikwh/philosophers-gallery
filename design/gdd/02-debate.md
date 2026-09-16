@@ -179,9 +179,11 @@
 
 ### 9.5 实现与 GDD 的偏差（据实记录）
 
-- §1 所述「评分也走同函数（mode='judge'）」**未按此实现**：评判为独立端点 `POST /api/judge`；关卡与进度为 `GET /api/stages`、`GET|POST /api/progress`。
+- §1 所述「评分也走同函数（mode='judge'）」**未按此实现**：在线的评判是**思辨闯关**的独立端点 `POST /api/judge`；关卡与进度为 `GET /api/stages`、`GET|POST /api/progress`。
 - §1 所述端点 `/functions/v1/philosopher-chat`：前端现走 `/api/philosopher-chat`，服务端保留旧路径兼容路由。
-- 五维维度名与 §4.3 有出入：实现为 `relevance / depth / logic / originality / civility`（切题·深度·逻辑·原创·风度），而非「逻辑/深度/广度/修辞/守位」。
+- **§4.3 的五维（逻辑/深度/广度/修辞/守位）至今零代码实现**，故不存在「与实现不符」：全仓无 M2 对辩评分逻辑，`DebateArena.tsx` 亦无评分 UI（圆桌辩论按 §1 的术语区分本就是「无评分无奖励」）。
+- 在线的五维评分属于**思辨闯关**——可视为 §1 PVE 对辩的简化子集（有对辩 + rubric + 通关阈值，无立场对立、无回合限时、无评级印章、无 PVP/ELO）：维度为 `relevance / depth / logic / originality / civility`（相关性·深度·逻辑性·原创性·礼节，标签见 `CampaignChallenge.tsx` 的 `DIMENSION_LABELS`），权重与公式见 `docs/architecture/pve-campaign.md` §4，**该文档与实现逐字一致**。
+- 两套五维**服务对象不同、非冲突，不应互相替换**：闯关是单人作答评判，故取「原创性/礼节」；§4.3 是对抗性对辩，故取「广度/守位」。将来若实现 M2 完整对辩评分，按 §4.3 单独立项，勿沿用闯关维度。
 
 ### 9.6 验收状态
 
