@@ -11,7 +11,10 @@
 - **PVE**：玩家与某位哲学家 AI 就话题立场对辩，AI 用该哲学家 `systemPrompt` + `coreIdeas` 流式回应，并按五维 rubric 给玩家评分。
 - **PVP**：两位玩家就同一话题各自立论，系统双盲互评 + AI 复核，ELO 结算声望 `RP`。
 
-**复用既有**：`/functions/v1/philosopher-chat` 的 SSE 通道，扩展请求体 `{ mode:'debate', topicId, opponentId?, rubric:true }`。评分也走同函数（mode='judge'），零新增流式基础设施。
+> **术语区分（重要）**：本文档的「辩论」= M2 玩家参与的对战（PVE/PVP，含评分与奖励）。
+> 另有一个**已实现但 v1.0 未收录**的独立机制「**圆桌辩论**」——AI 之间互相交锋、玩家旁观、无评分无奖励，详见 **§9**。二者命名相近但机制不同，不可混用。
+
+**复用既有**：`/api/philosopher-chat` 的 SSE 通道（旧路径 `/functions/v1/philosopher-chat` 服务端仍保留兼容路由），扩展请求体 `{ mode:'debate', topicId, opponentId?, rubric:true }`。评分也走同函数（mode='judge'），零新增流式基础设施。（实现偏差见 §9.5）
 
 ---
 
@@ -123,3 +126,66 @@
 - [ ] 指标 D3（周参与 ≥40%）、D6（放弃率 ≤12%）达标。
 
 > 评分/匹配公式与概率见 `balancing.md` §3；资源闭环见 §6。
+
+---
+
+## 9. 附：圆桌辩论（Roundtable）—— 已实现的独立机制
+
+> 状态：**已实现并端到端验证**（commit `9e1c16c`）　|　支柱：P3 对撞生智　|　动词：旁观交锋
+> 本节为 v1.0 之后的增补，用于消除与 M2「辩论」的术语冲突。
+
+### 9.1 与 M2「辩论」的本质差异
+
+| 维度 | M2 辩论（PVE/PVP） | 圆桌辩论 |
+|---|---|---|
+| 参与者 | **玩家** 与 AI / 玩家与玩家 | **2–4 位思想家 AI 之间** |
+| 玩家角色 | 立论、被诘问、被评分 | **旁观者**（只出命题，不发言） |
+| 评分 | 五维 rubric，S / D~S 评级 | **无评分** |
+| 奖励 | TP / IN / RP(ELO) | **无奖励** |
+| 目的 | 思辨即玩、可评可竞赛 | 呈现同一命题下不同思想体系的**真实交锋** |
+| 入口 | 思辨闯关 `/campaign` | 主页 → 思想对比面板 → 「圆桌辩论」 |
+
+### 9.2 机制
+
+三段式回合制，**串行编排**：维护 `transcript`（发言记录），每位发言时上下文都含「命题 + 此前所有人的发言」，因此后发言者能真正引用、回应、反驳前者，而非各说各话。
+
+| 轮次 | phase | 环节 | 长度约束 |
+|---|---|---|---|
+| 1 | `opening` | 开场陈词：阐述立场与核心论点 | — |
+| 2 | `rebuttal` | 交叉质询：针对他人观点回应/反驳并深化 | ≤180 字 |
+| 3 | `closing` | 总结陈词：凝练立场，回应最关键交锋点 | ≤150 字 |
+
+- **命题**：用户自填（截断 200 字）或选预设（人性善恶 / 自由意志 / 何为正义 / 知行合一 / 人生意义）。
+- **人设保真**：每位发言复用主服务的 `buildSystemPrompt(id, query)`（人设 prompt + RAG 知识检索 + 不编造约束），与单聊同源。
+- **中止**：客户端断开即停止后续编排，避免无谓 token 消耗。
+
+### 9.3 接口
+
+`POST /api/debate`（SSE 流式）
+
+- 请求体：`{ participants: [{ id, name }], topic, rounds? }`
+- 校验：过滤非法 id 且上限 4 人、`topic` 截断 200 字、`rounds` 钳制、缺参返回 400
+- 事件序列：`debate_start` → 每位 `turn_start` / 多个 `delta` / `turn_end`（异常时 `turn_error`）→ `debate_end`（含完整 transcript）→ `[DONE]`
+
+### 9.4 实现位置
+
+| 层 | 文件 |
+|---|---|
+| 编排 | `server/debate.js`（依赖注入 `buildSystemPrompt`，避免 `index.js` 继续膨胀） |
+| 路由 | `server/index.js` 中 `POST /api/debate` |
+| 前端服务 | `src/services/debate.ts`（强类型事件解析） |
+| 前端 UI | `src/components/DebateArena.tsx`（弹窗层级 `z-[70]`，压过对比面板 Sheet 的 `z-[55]`） |
+| 入口 | `src/components/ComparisonPanel.tsx` 头部按钮 |
+
+### 9.5 实现与 GDD 的偏差（据实记录）
+
+- §1 所述「评分也走同函数（mode='judge'）」**未按此实现**：评判为独立端点 `POST /api/judge`；关卡与进度为 `GET /api/stages`、`GET|POST /api/progress`。
+- §1 所述端点 `/functions/v1/philosopher-chat`：前端现走 `/api/philosopher-chat`，服务端保留旧路径兼容路由。
+- 五维维度名与 §4.3 有出入：实现为 `relevance / depth / logic / originality / civility`（切题·深度·逻辑·原创·风度），而非「逻辑/深度/广度/修辞/守位」。
+
+### 9.6 验收状态
+
+- [x] SSE 协议正确，多轮编排完整（苏格拉底 vs 孔子实测 4 轮发言、87 个流式片段、零错误）。
+- [x] 出现**真实交锋**：第 2 轮苏格拉底「我认同孔子：善须学与教……但我不认同把纵欲失礼视作本性趋恶」；孔子「然未尽同：真知善者未必即行善」，直接反诘「美德即知识」。
+- [x] 人设保真（苏格拉底对话体 / 孔子「仁礼」口吻），RAG 约束生效。
+- [x] 前端逐字流式渲染、可中止；控制台零 error 零 warn。
