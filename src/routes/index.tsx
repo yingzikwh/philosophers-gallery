@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, lazy, Suspense } from 'react';
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { BookOpen, Sparkles, GraduationCap, Search, Heart, GitBranch, Clock, Menu, X, Swords } from 'lucide-react';
+import { BookOpen, Sparkles, GraduationCap, Search, Heart, GitBranch, Clock, Menu, X, Swords, MessagesSquare } from 'lucide-react';
 import { philosophers } from '@/data/philosophers';
 import { EnhancedPhilosopherCard } from '@/components/EnhancedPhilosopherCard';
 import { FilterBar } from '@/components/FilterBar';
@@ -8,9 +8,12 @@ import { ParticleBackground } from '@/components/ParticleBackground';
 import { ErrorBoundary } from '@/components/ErrorBoundary';
 import { TypewriterText } from '@/components/TypewriterText';
 
-/* 弹窗类重组件按需加载：首屏不下载 d3 与对比/辩论链路，点击打开时才拉取 */
+/* 弹窗类重组件按需加载：首屏不下载 d3 与对比/辩论链路，选中思想家时才拉取 */
 const ComparisonPanel = lazy(() =>
   import('@/components/ComparisonPanel').then((m) => ({ default: m.ComparisonPanel }))
+);
+const DebateArena = lazy(() =>
+  import('@/components/DebateArena').then((m) => ({ default: m.DebateArena }))
 );
 const InfluenceGraph = lazy(() =>
   import('@/components/InfluenceGraph').then((m) => ({ default: m.InfluenceGraph }))
@@ -36,6 +39,7 @@ function Index() {
   const [showFavoritesOnly, setShowFavoritesOnly] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isComparisonOpen, setIsComparisonOpen] = useState(false);
+  const [isDebateOpen, setIsDebateOpen] = useState(false);
 
   // Load favorites from localStorage
   useEffect(() => {
@@ -80,6 +84,12 @@ function Index() {
     });
     return result;
   }, [selectedEra, selectedSchool, selectedTheme, searchQuery, favorites, showFavoritesOnly]);
+
+  // 已勾选的思想家：作为圆桌辩论的初始参赛选手
+  const selectedPhilosophers = useMemo(
+    () => philosophers.filter((p) => selectedIds.includes(p.id)),
+    [selectedIds]
+  );
 
   // Handle philosopher selection for comparison
   const handleSelect = (id: string) => {
@@ -200,6 +210,16 @@ function Index() {
                 <span className="hidden xl:inline">时间轴</span>
               </button>
 
+              {/* Roundtable Debate */}
+              <button
+                onClick={() => setIsDebateOpen(true)}
+                title="让已勾选的思想家就同一命题互相交锋"
+                className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm bg-muted/50 text-muted-foreground hover:text-foreground transition-all"
+              >
+                <MessagesSquare className="w-4 h-4" />
+                <span className="hidden xl:inline">圆桌辩论</span>
+              </button>
+
               {/* Campaign */}
               <Link
                 to="/campaign"
@@ -272,6 +292,13 @@ function Index() {
                   <Clock className="w-4 h-4" />
                   时间轴
                 </button>
+                <button
+                  onClick={() => setIsDebateOpen(true)}
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm bg-muted/50 text-muted-foreground flex-1 justify-center"
+                >
+                  <MessagesSquare className="w-4 h-4" />
+                  圆桌辩论
+                </button>
                 <Link
                   to="/campaign"
                   className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm bg-muted/50 text-muted-foreground flex-1 justify-center"
@@ -309,11 +336,31 @@ function Index() {
           </div>
           <p className="text-muted-foreground max-w-2xl mx-auto font-body text-sm lg:text-base leading-relaxed">
             <TypewriterText
-              text="从古希腊的苏格拉底到现代的加缪，这些伟大的思想家用他们的智慧照亮了人类文明的进程。点击卡片右上角的选择按钮，最多可选择4位思想家进行对比分析。"
+              text="从古希腊的苏格拉底到现代的加缪，这些伟大的思想家用他们的智慧照亮了人类文明的进程。点击下方「圆桌辩论」即可直接开一场交锋，或勾选卡片右上角的选择按钮，最多 4 位进行对比分析。"
               speed={30}
               delay={500}
             />
           </p>
+
+          {/* 快速入口：把以往藏在二级面板里的能力显式摆到首屏 */}
+          <div className="flex flex-wrap items-center justify-center gap-2 mt-5">
+            <button
+              onClick={() => setIsDebateOpen(true)}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg shadow-primary/20 transition-all"
+            >
+              <MessagesSquare className="w-4 h-4" />
+              圆桌辩论
+              <span className="text-xs opacity-75 hidden sm:inline">思想家互相交锋</span>
+            </button>
+            <Link
+              to="/campaign"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-muted/50 border border-border/50 text-foreground hover:border-primary/40 transition-all"
+            >
+              <Swords className="w-4 h-4 text-primary" />
+              思辨闯关
+              <span className="text-xs text-muted-foreground hidden sm:inline">与先贤论道得分</span>
+            </Link>
+          </div>
         </div>
 
         {/* Philosopher Cards Grid */}
@@ -358,8 +405,8 @@ function Index() {
         )}
       </main>
 
-      {/* Comparison Panel：打开才挂载，首屏不下载该链路 */}
-      {isComparisonOpen && (
+      {/* Comparison Panel：有选中才挂载（面板内部自行渲染浮动入口与 Sheet），首屏不下载该链路 */}
+      {selectedIds.length > 0 && (
         <Suspense fallback={null}>
           <ComparisonPanel
             selectedIds={selectedIds}
@@ -391,6 +438,20 @@ function Index() {
             <Timeline
               isOpen={isTimelineOpen}
               onOpenChange={setIsTimelineOpen}
+            />
+          </Suspense>
+        </ErrorBoundary>
+      )}
+
+      {/* Roundtable Debate：首屏/导航栏独立入口，弹窗内可自选参赛选手 */}
+      {isDebateOpen && (
+        <ErrorBoundary>
+          <Suspense fallback={null}>
+            <DebateArena
+              philosophers={selectedPhilosophers}
+              availablePhilosophers={philosophers}
+              open={isDebateOpen}
+              onOpenChange={setIsDebateOpen}
             />
           </Suspense>
         </ErrorBoundary>

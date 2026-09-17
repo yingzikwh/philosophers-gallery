@@ -14,6 +14,9 @@ const PRESET_TOPICS = [
   '人生的意义是什么？',
 ];
 
+/** 与首页对比勾选保持一致的上限 */
+const MAX_PARTICIPANTS = 4;
+
 const PHASE_BADGE: Record<DebatePhase, string> = {
   opening: 'bg-sky-500/15 text-sky-300 border-sky-500/30',
   rebuttal: 'bg-amber-500/15 text-amber-300 border-amber-500/30',
@@ -32,23 +35,73 @@ interface Turn {
 }
 
 interface DebateArenaProps {
+  /** 参赛哲学家：对比面板入口传入已勾选的 2-4 位；独立入口可传空，改由弹窗内自选 */
   philosophers: Philosopher[];
+  /** 传入则启用「弹窗内自选参赛选手」，其值为可选池 */
+  availablePhilosophers?: Philosopher[];
   open: boolean;
   onOpenChange: (open: boolean) => void;
 }
 
-export function DebateArena({ philosophers, open, onOpenChange }: DebateArenaProps) {
+export function DebateArena({
+  philosophers,
+  availablePhilosophers,
+  open,
+  onOpenChange,
+}: DebateArenaProps) {
   const [topic, setTopic] = useState('');
   const [rounds, setRounds] = useState(2);
   const [running, setRunning] = useState(false);
   const [turns, setTurns] = useState<Turn[]>([]);
   const [error, setError] = useState<string | null>(null);
+  const [pickQuery, setPickQuery] = useState('');
+  const [participantIds, setParticipantIds] = useState<string[]>(() => philosophers.map((p) => p.id));
   const abortRef = useRef<AbortController | null>(null);
   const scrollRef = useRef<HTMLDivElement>(null);
 
+  /* 外部勾选变化时同步参赛名单（用 id 串做稳定依赖，避开内联数组的引用抖动） */
+  const seedKey = philosophers.map((p) => p.id).join(',');
+  useEffect(() => {
+    setParticipantIds(seedKey ? seedKey.split(',') : []);
+  }, [seedKey]);
+
+  /** id → 思想家：合并已选与可选池，供名单与辩论流取头像/姓名 */
+  const pool = useMemo(() => {
+    const m = new Map<string, Philosopher>();
+    for (const p of philosophers) m.set(p.id, p);
+    for (const p of availablePhilosophers ?? []) m.set(p.id, p);
+    return m;
+  }, [philosophers, availablePhilosophers]);
+
+  const participants = useMemo(
+    () => participantIds.map((id) => pool.get(id)).filter((p): p is Philosopher => !!p),
+    [participantIds, pool]
+  );
+
   const pMap = useMemo(
-    () => Object.fromEntries(philosophers.map((p) => [p.id, p])) as Record<string, Philosopher>,
-    [philosophers]
+    () => Object.fromEntries([...pool.values()].map((p) => [p.id, p])) as Record<string, Philosopher>,
+    [pool]
+  );
+
+  const toggleParticipant = useCallback((id: string) => {
+    setParticipantIds((prev) => {
+      if (prev.includes(id)) return prev.filter((x) => x !== id);
+      if (prev.length >= MAX_PARTICIPANTS) return prev;
+      return [...prev, id];
+    });
+  }, []);
+
+  const poolQuery = pickQuery.trim().toLowerCase();
+  const candidates = useMemo(
+    () =>
+      (availablePhilosophers ?? []).filter(
+        (p) =>
+          !poolQuery ||
+          p.name.toLowerCase().includes(poolQuery) ||
+          p.nameEn.toLowerCase().includes(poolQuery) ||
+          p.school.some((s) => s.toLowerCase().includes(poolQuery))
+      ),
+    [availablePhilosophers, poolQuery]
   );
 
   useEffect(() => () => { abortRef.current?.abort(); }, []);
@@ -73,7 +126,7 @@ export function DebateArena({ philosophers, open, onOpenChange }: DebateArenaPro
 
   const handleStart = useCallback(async () => {
     const t = topic.trim();
-    if (t.length < 2 || philosophers.length < 2 || running) return;
+    if (t.length < 2 || participants.length < 2 || running) return;
     abortRef.current?.abort();
     const controller = new AbortController();
     abortRef.current = controller;
@@ -82,7 +135,7 @@ export function DebateArena({ philosophers, open, onOpenChange }: DebateArenaPro
     setTurns([]);
     try {
       await requestDebate(
-        { participants: philosophers.map((p) => ({ id: p.id, name: p.name })), topic: t, rounds },
+        { participants: participants.map((p) => ({ id: p.id, name: p.name })), topic: t, rounds },
         (e: DebateEvent) => {
           switch (e.type) {
             case 'turn_start':
@@ -114,14 +167,14 @@ export function DebateArena({ philosophers, open, onOpenChange }: DebateArenaPro
     } finally {
       if (abortRef.current === controller) setRunning(false);
     }
-  }, [topic, philosophers, rounds, running, patchLastTurn]);
+  }, [topic, participants, rounds, running, patchLastTurn]);
 
   const handleStop = useCallback(() => {
     abortRef.current?.abort();
     setRunning(false);
   }, []);
 
-  const canStart = topic.trim().length >= 2 && philosophers.length >= 2 && !running;
+  const canStart = topic.trim().length >= 2 && participants.length >= 2 && !running;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -139,11 +192,13 @@ export function DebateArena({ philosophers, open, onOpenChange }: DebateArenaPro
           <div className="flex-1 min-w-0">
             <DialogTitle className="font-display text-lg text-foreground">圆桌辩论</DialogTitle>
             <p className="text-xs text-muted-foreground truncate">
-              {philosophers.map((p) => p.name).join(' · ')} 就同一命题交锋
+              {participants.length >= 2
+                ? `${participants.map((p) => p.name).join(' · ')} 就同一命题交锋`
+                : '尚未选足参赛选手（至少 2 位）'}
             </p>
           </div>
           <div className="flex -space-x-2 shrink-0">
-            {philosophers.slice(0, 4).map((p) => (
+            {participants.slice(0, 4).map((p) => (
               <Portrait key={p.id} src={p.portrait} alt={p.name} className="w-8 h-8 rounded-full object-cover border-2 border-card" />
             ))}
           </div>
@@ -151,6 +206,58 @@ export function DebateArena({ philosophers, open, onOpenChange }: DebateArenaPro
 
         {/* 控制区 */}
         <div className="px-6 py-4 border-b border-border/40 space-y-3 shrink-0 bg-muted/20">
+          {/* 参赛选手自选：仅独立入口（传入可选池）时展示 */}
+          {availablePhilosophers && (
+            <div className="space-y-2">
+              <div className="flex items-center justify-between gap-3 flex-wrap">
+                <span className="text-xs text-muted-foreground">
+                  参赛选手
+                  <span
+                    className={cn(
+                      'ml-1.5 tabular-nums',
+                      participants.length >= 2 ? 'text-primary' : 'text-destructive'
+                    )}
+                  >
+                    {participants.length}/{MAX_PARTICIPANTS}
+                  </span>
+                  <span className="ml-1.5">至少 2 位</span>
+                </span>
+                <input
+                  type="text"
+                  value={pickQuery}
+                  onChange={(e) => setPickQuery(e.target.value)}
+                  disabled={running}
+                  placeholder="搜索思想家…"
+                  className="w-40 px-2.5 py-1 text-xs rounded-md bg-background/60 border border-border/40 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-1 focus:ring-primary/50 disabled:opacity-60"
+                />
+              </div>
+              <div className="flex flex-wrap gap-1.5 max-h-28 overflow-y-auto pr-1">
+                {candidates.map((p) => {
+                  const on = participantIds.includes(p.id);
+                  const full = !on && participantIds.length >= MAX_PARTICIPANTS;
+                  return (
+                    <button
+                      key={p.id}
+                      type="button"
+                      disabled={running || full}
+                      onClick={() => toggleParticipant(p.id)}
+                      className={cn(
+                        'px-2.5 py-1 text-xs rounded-full border transition-colors disabled:opacity-40 disabled:cursor-not-allowed',
+                        on
+                          ? 'bg-primary/20 border-primary/50 text-primary'
+                          : 'bg-background/60 border-border/40 text-muted-foreground hover:text-foreground hover:border-primary/40'
+                      )}
+                    >
+                      {p.name}
+                    </button>
+                  );
+                })}
+                {candidates.length === 0 && (
+                  <span className="text-xs text-muted-foreground">无匹配的思想家</span>
+                )}
+              </div>
+            </div>
+          )}
           <textarea
             value={topic}
             onChange={(e) => setTopic(e.target.value)}
@@ -224,7 +331,9 @@ export function DebateArena({ philosophers, open, onOpenChange }: DebateArenaPro
             <div className="text-center py-16 text-muted-foreground">
               <Sparkles className="w-10 h-10 mx-auto mb-3 text-primary/40" />
               <p className="text-sm">
-                选定命题后点击「开始辩论」，{philosophers.length} 位思想家将依次开场、互相质询。
+                {participants.length >= 2
+                  ? `选定命题后点击「开始辩论」，${participants.length} 位思想家将依次开场、互相质询。`
+                  : '先在上方选定至少 2 位参赛选手，再挑一个命题点击「开始辩论」。'}
               </p>
             </div>
           )}
