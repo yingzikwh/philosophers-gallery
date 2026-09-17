@@ -120,7 +120,7 @@ function CampaignPage() {
                   思辨闯关
                 </h1>
                 <p className="text-xs text-muted-foreground hidden sm:block">
-                  与哲学先贤论道，逐关解锁思想疆域
+                  与哲学先贤论道，自由挑选你的挑战对手
                 </p>
               </div>
             </div>

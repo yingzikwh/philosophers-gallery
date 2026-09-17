@@ -592,7 +592,7 @@ export function CampaignChallenge({
                 </div>
                 {justCleared && (
                   <span className="flex items-center gap-1 text-xs text-campaign-gold">
-                    <CheckCircle2 className="w-4 h-4" /> 已解锁下一关
+                    <CheckCircle2 className="w-4 h-4" /> 首次通关达成
                   </span>
                 )}
               </div>

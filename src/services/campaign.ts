@@ -24,7 +24,7 @@ export interface Stage {
   difficulty: number;
   threshold: number;
   reward: StageReward;
-  /** 前端展示用，由后端按线性解锁规则计算 */
+  /** 前端展示用，由后端标记通关状态（所有关卡均可直接挑战） */
   status?: StageStatus;
   /** 历史最佳分（已通关或曾挑战过时存在） */
   bestScore?: number;

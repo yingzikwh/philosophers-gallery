@@ -435,15 +435,12 @@ async function handleCampaignRoutes(req, res) {
   const url = new URL(req.url, 'http://localhost');
   const p = url.pathname;
 
-  // GET /api/stages —— 关卡列表 + 线性解锁状态
+  // GET /api/stages —— 关卡列表 + 通关状态（所有关卡均可自由挑战，无线性解锁）
   if (method === 'GET' && p === '/api/stages') {
     const progress = loadProgress();
     const cleared = new Set(progress.clearedStages);
-    const stages = STAGES.map((stage, i) => {
-      let status = 'locked';
-      if (cleared.has(stage.id)) status = 'cleared';
-      else if (i === 0 || cleared.has(STAGES[i - 1].id)) status = 'available';
-      else status = 'locked';
+    const stages = STAGES.map((stage) => {
+      const status = cleared.has(stage.id) ? 'cleared' : 'available';
       const best = progress.bestScores[stage.id];
       return {
         ...stage,
@@ -470,7 +467,7 @@ async function handleCampaignRoutes(req, res) {
     return true;
   }
 
-  // POST /api/progress —— 提交分数、发放奖励、解锁下一关
+  // POST /api/progress —— 提交分数、发放奖励、记录首通
   if (method === 'POST' && p === '/api/progress') {
     let body;
     try {
