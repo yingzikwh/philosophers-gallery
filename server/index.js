@@ -24,10 +24,12 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { philosopherPrompts } from './philosopherPrompts.js';
+import { compileById, compileWithEra, loadEraContexts } from './personaCompiler.js';
 import { loadProgress, saveProgress } from './store.js';
 import { JUDGE_SYSTEM_PROMPT } from './judgePrompt.js';
 import { retrieveKnowledge } from './knowledgeRetriever.js';
 import { handleDebate } from './debate.js';
+import { handleBottleRoutes } from './bottleRoutes.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -59,7 +61,7 @@ const OPENAI_MODEL = process.env.OPENAI_MODEL || 'gpt-4o-mini';
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
-  'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+  'Access-Control-Allow-Methods': 'GET, POST, DELETE, OPTIONS',
 };
 
 function sendJSON(res, status, data) {
@@ -67,13 +69,29 @@ function sendJSON(res, status, data) {
   res.end(JSON.stringify(data));
 }
 
-function buildSystemPrompt(philosopherId, userQuery) {
-  const base = philosopherPrompts[philosopherId] || philosopherPrompts.socrates;
+function buildSystemPrompt(philosopherId, userQuery, eraId) {
+  // 人格引擎（阶段 1/2）：优先用 19 字段档案 + 风格档（+ 可选时代语境事件卡）
+  // 编译出带防编造约束的模板；编译失败（如档案/事件卡缺失）回退 legacy 手写提示词。
+  let base;
+  let compiled = false;
+  try {
+    base = eraId ? compileWithEra(philosopherId, eraId) : compileById(philosopherId);
+    compiled = true;
+  } catch {
+    // 事件卡无效时再试一次无时代语境编译，最后才回退 legacy
+    try {
+      base = compileById(philosopherId);
+      compiled = true;
+    } catch {
+      base = philosopherPrompts[philosopherId] || philosopherPrompts.socrates;
+    }
+  }
   const knowledge = retrieveKnowledge(philosopherId, userQuery);
   const knowledgeBlock = knowledge
     ? `\n\n【你的真实知识与观点（请优先依据这些作答，不要编造你未表达过的内容）】\n${knowledge}`
     : '';
-  const grounding = `
+  // 编译产物已内置【约束与引用规则（防编造）】；仅 legacy 兜底分支补旧 grounding
+  const grounding = compiled ? '' : `
 【约束与引用规则】
 1. 只能依据上方“真实知识与观点”作答，不编造该哲学家未曾表达过的观点、事件或名言；不清楚时坦诚说明。
 2. 回答时可自然引用自己的金句（用引号标注），增强真实感与代入感。
@@ -570,6 +588,15 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // 时代语境事件卡列表（阶段 2）：供前端选择器与评测/演示脚本发现可用 eraId
+  if (req.url === '/eras' && req.method === 'GET') {
+    const ctxs = loadEraContexts();
+    sendJSON(res, 200, Object.entries(ctxs).map(([id, e]) => ({
+      id, year: e.year, label: e.label, eventCount: (e.events || []).length,
+    })));
+    return;
+  }
+
   // 思想家最新消息：联网抓取（失败回退本地快照）
   if (req.url?.startsWith('/api/philosopher-news') && req.method === 'GET') {
     await handleNewsRoute(req, res);
@@ -584,6 +611,16 @@ const server = http.createServer(async (req, res) => {
 
   // ===== PVE 闯关对战端点（位于 chat 端点之前，互不影响）=====
   if (await handleCampaignRoutes(req, res)) {
+    return;
+  }
+
+  // ===== 漂流瓶端点（阶段 3：扔瓶/匹配/拾瓶而答/撤销/删除）=====
+  if (await handleBottleRoutes(req, res, {
+    parseBody,
+    sendJSON,
+    buildSystemPrompt,
+    config: { OPENAI_API_KEY, OPENAI_BASE_URL, OPENAI_MODEL },
+  })) {
     return;
   }
 
@@ -681,10 +718,12 @@ const server = http.createServer(async (req, res) => {
     const messages = body.messages || [];
     const philosopherId = body.philosopherId || 'socrates';
     const model = body.model || OPENAI_MODEL;
+    // 阶段 2：可选时代语境事件卡；未传/无效时由 buildSystemPrompt 内部降级
+    const eraId = body.eraId || '';
 
-    // 构建系统提示词：人格 prompt + 检索到的真实知识 + 约束规则
+    // 构建系统提示词：人格编译产物（+时代语境） + 检索到的真实知识
     const lastUser = [...messages].reverse().find((m) => m.role === 'user');
-    const systemPrompt = buildSystemPrompt(philosopherId, lastUser?.content || '');
+    const systemPrompt = buildSystemPrompt(philosopherId, lastUser?.content || '', eraId);
 
     // 构建消息数组
     const chatMessages = [

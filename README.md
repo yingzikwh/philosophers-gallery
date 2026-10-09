@@ -115,6 +115,10 @@ curl http://localhost:3016/health
 - **PVE 思辨闯关**：关卡制知识对战。选择哲学家就指定议题进行思辨对谈，AI 从相关性 / 深度 / 逻辑 / 原创性 / 文明度五维评分，关卡线性解锁、进度本地持久化
 - **思想脉络图**：可视化展示哲学家之间的思想传承关系
 - **时间轴**：按时间线查看哲学家的历史分布
+- **人格引擎（阶段 1）**：61 位思想家的系统提示词不再靠手写自由文本，而由 `server/personaCompiler.js` 从 19 字段结构化档案 + 风格档**编译**生成，内置防编造约束与 `[persona:vN]` 版本标记；编译失败自动回退 legacy 提示词
+- **人格评测**：`npm run eval` 零成本回归评测集（锚点校验）；`npm run eval:live` 真调模型做规则判定——让「像康德」可证伪
+- **时代语境（阶段 2）**：事件卡（1900/2026/2035）作为独立层注入人格，`[persona:v2|era:<eraId>]` 版本标记 + 归因评测——让「哲学家随时代迭代思考」可证伪
+- **思考漂流瓶（阶段 3）**：写下一个思考扔进时间之海，主题匹配后由哲学家拾瓶而答；授权三件套（用途范围/一键撤销/彻底删除）从第一天内置，`npm run test:bottle` 闭环回归
 
 ### 哲学家覆盖范围
 
@@ -182,7 +186,7 @@ npm run dev          # 启动前端 (端口 3015)
 node server/index.js # 启动后端 (端口 3016)
 ```
 
-启动后访问 http://localhost:3015 即可使用。首页顶部导航含「闯关」入口（PVE 思辨闯关）；思想家卡片右上角按钮可收藏 / 对话 / 加入对比。
+启动后访问 http://localhost:3015 即可使用。首页顶部导航含「闯关」（PVE 思辨闯关）与「漂流瓶」（思考漂流瓶）入口；思想家卡片右上角按钮可收藏 / 对话 / 加入对比。
 
 ### 构建生产版本
 
@@ -225,13 +229,29 @@ npm run preview  # 预览构建结果
 │   ├── data/
 │   │   └── philosophers.ts      # 61 位哲学家数据 + 筛选选项 + 传承关系
 │   ├── services/
-│   │   └── philosopherAI.ts     # AI 对话服务（流式 SSE）
+│   │   ├── philosopherAI.ts     # AI 对话服务（流式 SSE）
+│   │   └── bottles.ts           # 漂流瓶 API 服务（阶段 3）
 │   ├── components/               # React 组件
-│   ├── routes/                   # 页面路由
+│   ├── routes/                   # 页面路由（index / campaign / bottles）
 │   └── main.tsx                  # 应用入口
 ├── server/
 │   ├── index.js                 # 后端服务器（端口 3016）
-│   └── philosopherPrompts.js    # 61 位哲学家 AI 系统提示词
+│   ├── philosopherPrompts.js    # 61 位哲学家 AI 系统提示词（legacy 兜底）
+│   ├── personaCompiler.js       # 人格编译器：19 字段档案 + 风格档 + 时代事件卡 → 约束模板
+│   ├── bottleStore.js           # 漂流瓶 JSON 持久化（原子写，阶段 3）
+│   ├── bottleService.js         # 漂流瓶业务：扔瓶/匹配/应答/撤销/删除
+│   ├── bottleRoutes.js          # /api/bottles 端点组
+│   ├── llm.js                   # OpenAI 兼容 API 非流式补全助手
+│   ├── evals/                   # 人格评测（cases.json + runEvals.js）
+│   └── data/
+│       ├── philosopher-knowledge.json  # 19 字段结构化档案
+│       ├── persona-styles.json         # 风格档（迁移脚本生成）
+│       ├── era-contexts.json           # 时代语境事件卡（阶段 2）
+│       └── bottles.json                # 漂流瓶运行时数据（用户内容，.gitignore 排除）
+├── scripts/
+│   ├── migrate-personas.mjs     # legacy 手写提示词 → 风格档 迁移工具
+│   ├── demo-era-diff.mjs        # 阶段 2 演示：有无时代语境的差异对比
+│   └── test-bottle-loop.mjs     # 阶段 3 闭环测试（stub 应答，无需 Key/服务）
 ├── .env.example                 # 配置文件模板
 ├── .env                         # 你的实际配置（不入库）
 ├── start.bat                    # Windows 一键启动
@@ -241,14 +261,86 @@ npm run preview  # 预览构建结果
 
 ---
 
+## 人格引擎与评测（阶段 1）
+
+「与哲学家对话」的对象本质不是复活的人，而是**思维风格的可计算表示**。因此本项目把系统提示词从手写自由文本改为由结构化资产编译：
+
+| 资产 | 文件 | 作用 |
+|------|------|------|
+| 19 字段结构化档案 | `server/data/philosopher-knowledge.json` | 思想/原话/著作/学派等（与前端 `src/data/philosophers.ts` 同源） |
+| 风格档 | `server/data/persona-styles.json` | intro/风格 bullet/禁忌/口吻收尾，由 `npm run personas:migrate` 从 legacy 手写提示词解析 |
+| 编译器 | `server/personaCompiler.js` | 编译为带防编造条款与 `[persona:vN]` 版本标记的约束模板；`opts.era` 预留时代语境钩子（阶段 2） |
+| 评测集 | `server/evals/cases.json` | 锚点用例：grounding 必含、身后事件防编造含一、破格串必不含 |
+| 评测 runner | `server/evals/runEvals.js` | check 模式（不调模型、可进 CI）/ live 模式（真调模型规则判定） |
+
+```bash
+npm run eval              # check 模式：校验评测锚点确实被编译产物供给
+npm run eval:live         # live 模式：需 .env 配置有效 OPENAI_*；报告落盘 server/evals/last-report.json
+npm run personas:migrate  # 重新解析 legacy 手写提示词为风格档（幂等）
+```
+
+约定：改编译器约束条款或分段结构时递增 `PERSONA_VERSION` 并跑 `npm run eval` 回归；对话服务编译失败时自动回退 `server/philosopherPrompts.js` 的 legacy 手写提示词，可用性不受影响。
+
+---
+
+## 时代语境层（阶段 2）
+
+让「随时代迭代思考」可证伪：事件卡作为独立层注入人格，且差异**只能归因于时代层**。
+
+- **事件卡数据**：`server/data/era-contexts.json` — `era-1900`（第二次工业革命）、`era-2026-ai`（大模型普及）、`era-2035-6g`（6G 与虚拟仿真，卡内显式标注「推演」）
+- **编译器 v2**：`compileWithEra(id, eraId)` 注入【时代语境】段并写入 `[persona:v2|era:<eraId>]` 标记；事件卡注明「他人转述，不得假装亲身经历」
+- **API**：chat 请求体可选 `eraId`；`GET /eras` 返回事件卡列表（供前端选择器）
+- **归因评测**：带 `eraId` 的用例校验「事件词仅注入版出现」——check 模式对比两份人格，live 模式额外要求两版回答不得相同
+- **演示**：`npm run demo:era`（编译演示，不调模型）；`npm run demo:era -- kant era-1900 --live` 真调模型并排对比两版回答
+
+---
+
+## 思考漂流瓶（阶段 3 · 最小闭环）
+
+让思考变成漂流瓶：从「一个思考」开始（不收人生数据），授权三件套是存在前提而非功能。
+
+**闭环**：扔瓶（选授权范围）→ 主题匹配 → 哲学家拾瓶而答（人格编译器 + 可选时代语境）→ 一键撤销 / 彻底删除。前端入口：首页导航「漂流瓶」或直接访问 `/bottles`。
+
+**授权三件套**：
+
+| 能力 | 实现 |
+|------|------|
+| 用途范围 | 扔瓶时三选一：`private`（仅自己可见）/ `reply-only`（仅供匹配的哲学家回应，默认）/ `public-anon`（匿名进公共瓶墙）；范围随瓶落库为 `consent`（scope/version/grantedAt） |
+| 一键撤销 | `POST /api/bottles/:id/revoke`：正文、回信、匹配、向量立即抹除，仅留审计元数据；撤销后再应答返回 409，瓶墙与匹配池同步退出 |
+| 彻底删除 | `DELETE /api/bottles/:id`：整条记录移出存储，不可恢复 |
+
+**模块**：`server/bottleStore.js`（JSON 持久化，原子写，运行时文件不入库）→ `server/bottleService.js`（业务 + 主题词匹配，`generateReply` 可注入）→ `server/bottleRoutes.js`（`/api/bottles` 端点组）→ `server/llm.js`（非流式补全，复用阶段 1/2 人格编译产物）。匹配为零依赖的主题词重叠打分（themes/keyConcepts/school 子串命中加权，确定性可测试）；瓶子预留 `vector` 字段，接入 embedding 后可升级为向量检索。
+
+```bash
+npm run test:bottle   # 闭环回归：扔瓶/瓶墙可见性/应答/撤销/删除/参数校验 28 项断言，
+                      # stub 应答 + 临时目录，无需 API Key、无需起服务，可进 CI
+```
+
+边界说明：本地单人部署无账号体系，「我的瓶子」即本机全部瓶子；多用户授权隔离属阶段 4（人生数据）议题。
+
+---
+
+## 产品愿景（路线图，非已交付）
+
+> 以下为产品愿景与技术路线，**不代表当前已交付功能**。
+
+- **时代命题**：物质丰裕之后，精神与哲学层面的思考成为新的刚需，平台提供更多思想碰撞的场所
+- **虚拟仿真交互（阶段 5 渠道层）**：6G 时代 AI、物联网、虚拟仿真等新质生产力下，人能与时代潮汐中的哲学家沉浸式交互；其内核——时代语境层（事件卡注入 + 归因评测）已在阶段 2 交付，沉浸式渠道仍在路线图
+- **思考漂流瓶（阶段 3 起）**：最小闭环已交付——扔瓶/授权三件套/主题匹配/哲学家拾瓶而答；愿景中「人生数据经本人授权后上传交互」的深度形态属阶段 4，授权三件套已是其存在前提
+- **随大模型变强**：平台沉淀的是不随模型贬值的互补资产——结构化语料、评测集、授权关系与交互记忆
+
+---
+
 ## 自定义
 
 ### 添加新哲学家
 
 1. 在 `src/data/philosophers.ts` 的 `philosophers` 数组中添加新的哲学家对象
-2. 在 `server/philosopherPrompts.js` 中添加对应的 AI 系统提示词
-3. 在 `influenceRelations` 数组中添加思想传承关系
-4. 在 `filterOptions` 中添加新的流派/主题（如需要）
+2. 在 `server/data/philosopher-knowledge.json` 添加对应的 19 字段结构化档案（人格编译器的数据源）
+3. （可选）在 `server/data/persona-styles.json` 补风格档条目；缺失时编译器仅用结构化档案编译
+4. 在 `influenceRelations` 数组中添加思想传承关系
+5. 在 `filterOptions` 中添加新的流派/主题（如需要）
+6. 在 `server/evals/cases.json` 为新哲学家补至少一条锚点用例，跑 `npm run eval` 回归
 
 ### 修改 AI 模型
 

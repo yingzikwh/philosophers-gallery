@@ -1,6 +1,6 @@
 import { useState, useMemo, useEffect, lazy, Suspense } from 'react';
 import { createFileRoute, Link } from '@tanstack/react-router';
-import { BookOpen, Sparkles, GraduationCap, Search, Heart, GitBranch, Clock, Menu, X, Swords, MessagesSquare } from 'lucide-react';
+import { BookOpen, Sparkles, GraduationCap, Search, Heart, GitBranch, Clock, Menu, X, Swords, MessagesSquare, Waves } from 'lucide-react';
 import { philosophers } from '@/data/philosophers';
 import { EnhancedPhilosopherCard } from '@/components/EnhancedPhilosopherCard';
 import { FilterBar } from '@/components/FilterBar';
@@ -229,6 +229,16 @@ function Index() {
                 <span className="hidden xl:inline">闯关</span>
               </Link>
 
+              {/* 漂流瓶（阶段 3） */}
+              <Link
+                to="/bottles"
+                title="思考漂流瓶：扔一个思考，哲学家拾瓶而答"
+                className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm bg-muted/50 text-muted-foreground hover:text-foreground transition-all"
+              >
+                <Waves className="w-4 h-4" />
+                <span className="hidden xl:inline">漂流瓶</span>
+              </Link>
+
               {/* Stats */}
               <div className="flex items-center gap-2 px-3 py-2 rounded-lg bg-muted/50">
                 <BookOpen className="w-4 h-4 text-primary" />
@@ -306,6 +316,13 @@ function Index() {
                   <Swords className="w-4 h-4" />
                   闯关
                 </Link>
+                <Link
+                  to="/bottles"
+                  className="flex items-center gap-2 px-3 py-2 rounded-lg text-sm bg-muted/50 text-muted-foreground flex-1 justify-center"
+                >
+                  <Waves className="w-4 h-4" />
+                  漂流瓶
+                </Link>
               </div>
             </div>
           </div>
@@ -359,6 +376,14 @@ function Index() {
               <Swords className="w-4 h-4 text-primary" />
               思辨闯关
               <span className="text-xs text-muted-foreground hidden sm:inline">与先贤论道得分</span>
+            </Link>
+            <Link
+              to="/bottles"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium bg-muted/50 border border-border/50 text-foreground hover:border-primary/40 transition-all"
+            >
+              <Waves className="w-4 h-4 text-primary" />
+              思考漂流瓶
+              <span className="text-xs text-muted-foreground hidden sm:inline">让先贤拾瓶而答</span>
             </Link>
           </div>
         </div>

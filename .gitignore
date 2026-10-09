@@ -120,6 +120,13 @@ functions/
 .config
 .accesslog
 
+# 漂流瓶运行时数据（用户内容，不入库；阶段 3）
+server/data/bottles.json
+server/data/bottles.json.tmp
+
+# 评测报告（每次 npm run eval 生成的产物，可重新生成，不入库）
+server/evals/last-report.json
+
 # 沙箱崩溃， 产生的文件
 /core
 /.core.hmbtNy

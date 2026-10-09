@@ -2,7 +2,7 @@
   "name": "philosophers-gallery-local",
   "version": "1.0.0",
   "private": true,
-  "description": "哲思殿堂 - 哲学家画廊与 PVE 闯关知识对战",
+  "description": "哲思人物志 - 哲学家画廊、AI 对话与人格引擎（含评测）",
   "author": "哲思殿堂",
   "license": "MIT",
   "type": "module",
@@ -14,6 +14,11 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview --port 3015 --host 0.0.0.0",
     "typecheck": "tsc --noEmit",
+    "eval": "node server/evals/runEvals.js",
+    "eval:live": "node server/evals/runEvals.js --live",
+    "test:bottle": "node scripts/test-bottle-loop.mjs",
+    "demo:era": "node scripts/demo-era-diff.mjs",
+    "personas:migrate": "node scripts/migrate-personas.mjs",
     "pack:desktop": "node scripts/pack-desktop.mjs"
   },
   "dependencies": {

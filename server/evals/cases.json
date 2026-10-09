@@ -1,0 +1,126 @@
+[
+  {
+    "id": "socrates-ground",
+    "philosopherId": "socrates",
+    "question": "什么是未经审视的人生？",
+    "mustContain": ["审视"],
+    "mustNot": ["作为AI", "作为人工智能"],
+    "note": "核心思想锚点：认识你自己/未经审视的人生"
+  },
+  {
+    "id": "plato-ground",
+    "philosopherId": "plato",
+    "question": "什么是洞穴寓言？",
+    "mustContain": ["洞穴"],
+    "mustNot": ["作为AI"],
+    "note": "核心思想锚点：洞穴寓言"
+  },
+  {
+    "id": "confucius-quote",
+    "philosopherId": "confucius",
+    "question": "如何对待自己不愿意承受的事？",
+    "mustContain": ["己所不欲"],
+    "mustNot": ["作为AI"],
+    "note": "代表原话锚点：己所不欲，勿施于人"
+  },
+  {
+    "id": "laozi-quote",
+    "philosopherId": "laozi",
+    "question": "道可以说得清吗？",
+    "mustContain": ["道可道"],
+    "mustNot": ["作为AI"],
+    "note": "代表原话锚点：道可道，非常道"
+  },
+  {
+    "id": "kant-ground",
+    "philosopherId": "kant",
+    "question": "什么是绝对命令？",
+    "mustContain": ["绝对命令"],
+    "mustNot": ["作为AI", "作为人工智能"],
+    "note": "核心思想锚点：绝对命令"
+  },
+  {
+    "id": "nietzsche-ground",
+    "philosopherId": "nietzsche",
+    "question": "上帝已死是什么意思？",
+    "mustContain": ["上帝已死"],
+    "mustNot": ["作为AI"],
+    "note": "核心思想锚点：上帝已死"
+  },
+  {
+    "id": "marx-quote",
+    "philosopherId": "marx",
+    "question": "哲学家面对世界该做什么？",
+    "mustContain": ["改变世界"],
+    "mustNot": ["作为AI"],
+    "note": "代表原话锚点：问题在于改变世界"
+  },
+  {
+    "id": "wangyangming-ground",
+    "philosopherId": "wangyangming",
+    "question": "知和行是什么关系？",
+    "mustContain": ["知行合一"],
+    "mustNot": ["作为AI"],
+    "note": "核心思想锚点：知行合一"
+  },
+  {
+    "id": "mao-ground",
+    "philosopherId": "mao",
+    "question": "什么叫实事求是？",
+    "mustContain": ["实事求是"],
+    "mustNot": ["作为AI"],
+    "note": "核心思想锚点：实事求是"
+  },
+  {
+    "id": "arendt-ground",
+    "philosopherId": "arendt",
+    "question": "什么是平庸的恶？",
+    "mustContain": ["平庸的恶"],
+    "mustNot": ["作为AI"],
+    "note": "核心思想锚点：平庸的恶"
+  },
+  {
+    "id": "kant-posthumous",
+    "philosopherId": "kant",
+    "question": "你怎么看今天的互联网与智能手机？",
+    "mustContainAny": ["无法", "不知", "未曾", "不能"],
+    "mustNot": ["我每天上网", "我经常使用手机"],
+    "note": "防编造条款 4：卒年(1804)之后的技术必须承认无法知晓，不得假装经历；词表含「不能」以容忍同义改写（live 实测 qwen3.8-max 答「并不能知晓」）"
+  },
+  {
+    "id": "confucius-posthumous",
+    "philosopherId": "confucius",
+    "question": "请评价一下高铁与载人航天。",
+    "mustContainAny": ["无法", "不知", "未曾", "不能"],
+    "mustNot": ["我乘坐过高铁"],
+    "note": "防编造条款 4：卒年(公元前479)之后的事物必须承认无法知晓；词表与 kant-posthumous 同口径"
+  },
+  {
+    "id": "kant-era-2026",
+    "philosopherId": "kant",
+    "eraId": "era-2026-ai",
+    "question": "当大模型能替人写作与推理，人该如何运用自己的理智？",
+    "mustContain": ["理性"],
+    "mustContainEra": ["大模型"],
+    "mustNot": ["作为AI"],
+    "note": "阶段 2：注入 2026 事件卡后应回应事件（大模型）。锚点词由题面引入：live 实测 temperature 0.7 下康德不总逐字复读事件卡现代词（这轮说「机器」未说「大模型」，上轮又恰好复读），且未注入版也会主动谈「机器」；故题面泄露的事件词不参与 live 归因判定（runEvals eraAttribution），归因的确定性保证在 check 模式（人格级：大模型仅注入版人格含）+ live「两版回答不同」；mustContain「理性」仍验证康德 grounding"
+  },
+  {
+    "id": "confucius-era-2026",
+    "philosopherId": "confucius",
+    "eraId": "era-2026-ai",
+    "question": "听闻今世有所谓「智能体」，能代人作文、排事、演算，人当如何学、如何问？",
+    "mustContainEra": ["智能体"],
+    "mustNot": ["作为AI"],
+    "note": "阶段 2：同一事件卡换人格，验证时代层的普适性。live 实测：古语化人格不复述事件卡现代词（「大模型」被译作「器」、题面不含锚点时「智能体」被译作「智器」），故锚点词由题面引入；题面泄露的事件词不参与归因判定（runEvals eraAttribution），时代层生效的可证伪证据 = 两版回答不同 + 注入版能就事件卡实质（代人作文/排事/演算、入职场课堂）作答而未注入版坦承不知"
+  },
+  {
+    "id": "marx-era-1900",
+    "philosopherId": "marx",
+    "eraId": "era-1900",
+    "question": "你如何看待这个时代的机器与工厂？",
+    "mustContainEra": ["大规模生产"],
+    "mustNot": ["作为AI"],
+    "note": "阶段 2：1900 事件卡；锚点「大规模生产」仅注入后出现"
+  }
+]
