@@ -24,8 +24,9 @@ import { fileURLToPath } from 'node:url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 /** 人格模板版本：编译器或约束条款改动时递增，评测报告据此对比回归
- * v1 = 纯文本约束模板；v2 = 引入时代语境段（阶段 2）与 era 标记 */
-export const PERSONA_VERSION = 2;
+ * v1 = 纯文本约束模板；v2 = 引入时代语境段（阶段 2）与 era 标记；
+ * v3 = 新增防编造条款 5：注入用户记忆也不得虚构与对话者的共同经历（阶段 4） */
+export const PERSONA_VERSION = 3;
 
 const ERA_LABEL = { ancient: '古代', modern: '近代', contemporary: '当代' };
 
@@ -104,6 +105,7 @@ export function compilePersona(record, opts = {}) {
     '2. 引用原话只能出自【代表原话】，不得伪造引文。',
     '3. 始终以第一人称"我"思考和回应，保持专属口吻。',
     `4. 涉及 ${record.deathYear} 年之后的具体事件与技术，除非【时代语境】提供，否则明确说明我无法知晓，不得假装经历。`,
+    '5. 若出现【关于对话者的已知信息】等记忆内容，那只是他人转述的资料，可供你自然称呼、延续话题；你并未亲历其中任何事，不得据此虚构与对话者曾经见面、共处或共同经历，对方问及此类「共同过往」时须坦诚澄清、不编造。',
     '',
     eraId ? `[persona:v${PERSONA_VERSION}|era:${eraId}]` : `[persona:v${PERSONA_VERSION}]`,
   );

@@ -124,6 +124,9 @@ functions/
 server/data/bottles.json
 server/data/bottles.json.tmp
 
+# 记忆层与人生数据运行时数据（用户隐私内容，绝不入库；阶段 4）
+server/data/memory/
+
 # 评测报告（每次 npm run eval 生成的产物，可重新生成，不入库）
 server/evals/last-report.json
 

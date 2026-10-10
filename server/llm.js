@@ -8,7 +8,7 @@
  */
 
 export async function chatOnce(messages, config = {}) {
-  const { apiKey = '', baseUrl = 'https://api.openai.com/v1', model = 'gpt-4o-mini' } = config;
+  const { apiKey = '', baseUrl = 'https://api.openai.com/v1', model = 'gpt-4o-mini', temperature, maxTokens } = config;
   if (!apiKey) {
     throw Object.assign(
       new Error('未配置模型 API Key（.env 的 OPENAI_API_KEY），无法生成回应'),
@@ -20,7 +20,13 @@ export async function chatOnce(messages, config = {}) {
   const upstream = await fetch(url, {
     method: 'POST',
     headers: { Authorization: `Bearer ${apiKey}`, 'Content-Type': 'application/json' },
-    body: JSON.stringify({ model, messages, stream: false }),
+    body: JSON.stringify({
+      model,
+      messages,
+      stream: false,
+      ...(typeof temperature === 'number' ? { temperature } : {}),
+      ...(typeof maxTokens === 'number' ? { max_tokens: maxTokens } : {}),
+    }),
   });
 
   if (!upstream.ok) {

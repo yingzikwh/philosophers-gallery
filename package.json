@@ -17,6 +17,7 @@
     "eval": "node server/evals/runEvals.js",
     "eval:live": "node server/evals/runEvals.js --live",
     "test:bottle": "node scripts/test-bottle-loop.mjs",
+    "test:memory": "node scripts/test-memory-loop.mjs",
     "demo:era": "node scripts/demo-era-diff.mjs",
     "personas:migrate": "node scripts/migrate-personas.mjs",
     "pack:desktop": "node scripts/pack-desktop.mjs"

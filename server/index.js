@@ -30,6 +30,8 @@ import { JUDGE_SYSTEM_PROMPT } from './judgePrompt.js';
 import { retrieveKnowledge } from './knowledgeRetriever.js';
 import { handleDebate } from './debate.js';
 import { handleBottleRoutes } from './bottleRoutes.js';
+import { handleMemoryRoutes } from './memoryRoutes.js';
+import { buildMemoryBlock } from './memoryRecall.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -96,7 +98,9 @@ function buildSystemPrompt(philosopherId, userQuery, eraId) {
 1. 只能依据上方“真实知识与观点”作答，不编造该哲学家未曾表达过的观点、事件或名言；不清楚时坦诚说明。
 2. 回答时可自然引用自己的金句（用引号标注），增强真实感与代入感。
 3. 始终以第一人称“我”思考和回应，保持专属口吻。`;
-  return base + knowledgeBlock + grounding;
+  // 记忆注入（阶段 4）：consent 门控，未授权/无记忆 → 空串，既有行为零变化（向后兼容）
+  const memoryBlock = buildMemoryBlock(philosopherId, userQuery || '');
+  return base + knowledgeBlock + grounding + (memoryBlock ? '\n\n' + memoryBlock : '');
 }
 
 function parseBody(req) {
@@ -616,6 +620,16 @@ const server = http.createServer(async (req, res) => {
 
   // ===== 漂流瓶端点（阶段 3：扔瓶/匹配/拾瓶而答/撤销/删除）=====
   if (await handleBottleRoutes(req, res, {
+    parseBody,
+    sendJSON,
+    buildSystemPrompt,
+    config: { OPENAI_API_KEY, OPENAI_BASE_URL, OPENAI_MODEL },
+  })) {
+    return;
+  }
+
+  // ===== 记忆层端点（阶段 4：画像/情景/授权治理；隐私优先，默认全 off）=====
+  if (await handleMemoryRoutes(req, res, {
     parseBody,
     sendJSON,
     buildSystemPrompt,

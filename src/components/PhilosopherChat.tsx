@@ -17,6 +17,8 @@ import {
   Mic,
   MicOff,
   BookOpen,
+  Brain,
+  Bookmark,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { getRecitationUrl, getVoiceProfile, type Philosopher } from '@/data/philosophers';
@@ -41,6 +43,12 @@ import {
 import { TypewriterText } from './TypewriterText';
 import { PhilosopherPersonaCard } from './PhilosopherPersonaCard';
 import { Portrait } from './Portrait';
+import { MemoryPanel } from './MemoryPanel';
+import { toast } from 'sonner';
+import {
+  extractMemory, fetchConsent, fetchProfile, updateProfile,
+  type MemoryConsent,
+} from '@/services/memory';
 
 interface PhilosopherChatProps {
   philosopher: Philosopher;
@@ -57,6 +65,12 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
   const [streamingText, setStreamingText] = useState('');
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const abortControllerRef = useRef<AbortController | null>(null);
+
+  // —— 记忆层（阶段 4）：面板开关 / 授权状态 / 自动提炼计数 ——
+  const [memoryOpen, setMemoryOpen] = useState(false);
+  const [consent, setConsent] = useState<MemoryConsent | null>(null);
+  const lastExtractCountRef = useRef(0);
+  const episodicOn = consent?.scopes.episodic === 'on';
 
   // —— 语音：AI 朗读(TTS) / 原声 / 语音输入 ——
   const speech = useSpeech();
@@ -142,6 +156,7 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
       const session = getChatSession(philosopher.id);
       if (session) {
         setMessages(session.messages);
+        lastExtractCountRef.current = session.messages.length;
       } else {
         // Welcome message
         const welcomeMessage: ChatMessage = {
@@ -153,6 +168,13 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
       }
     }
   }, [isOpen, philosopher.id]);
+
+  // 打开对话时拉取记忆授权状态（决定头部「记忆」按钮高亮 + 是否自动提炼）
+  useEffect(() => {
+    if (isOpen) {
+      fetchConsent().then(setConsent).catch(() => { /* 后端不可用时静默：记忆为可选增强 */ });
+    }
+  }, [isOpen]);
 
   // Auto scroll to bottom
   useEffect(() => {
@@ -191,6 +213,32 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
     };
     return messages[id] || '你好，让我们开始一场哲学对话吧。';
   };
+
+  /** 提炼一段对话为记忆：manual=用户点「记住这段」；auto=达阈值静默提炼。未授权 / 无 Key 时后端降级跳过。 */
+  const runExtract = useCallback(async (msgs: ChatMessage[], manual: boolean) => {
+    if (msgs.length === 0) return;
+    try {
+      const payload = msgs.map((m) => ({ role: m.role, content: m.content }));
+      const res = await extractMemory(philosopher.id, payload);
+      if (res.skipped) {
+        if (manual) toast.info(res.reason || '未提炼（未授权或缺少模型）');
+        return;
+      }
+      if (!manual) return; // 自动提炼静默完成，不打扰对话
+      toast.success('已记住这段对话');
+      const toPin = res.factsToPin ?? [];
+      if (toPin.length > 0) {
+        const ok = window.confirm(`哲学家想长期记住这些：\n· ${toPin.join('\n· ')}\n\n钉入你的画像？`);
+        if (ok) {
+          const p = await fetchProfile();
+          await updateProfile({ facts: [...p.facts, ...toPin.map((text) => ({ text }))] });
+          toast.success('已钉入画像');
+        }
+      }
+    } catch (e) {
+      if (manual) toast.error((e as Error).message || '提炼失败');
+    }
+  }, [philosopher.id]);
 
   const handleSend = useCallback(async () => {
     if (!input.trim() || isLoading) return;
@@ -234,6 +282,13 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
 
       setMessages((prev) => [...prev, assistantMessage]);
       setStreamingText('');
+
+      // 达 N 轮阈值自动提炼情景记忆（仅在 episodic 授权开启时；后端无 Key 会自动降级跳过）
+      const nextMessages = [...messages, userMessage, assistantMessage];
+      if (episodicOn && nextMessages.length - lastExtractCountRef.current >= 8) {
+        lastExtractCountRef.current = nextMessages.length;
+        void runExtract(nextMessages, false);
+      }
     } catch (err) {
       if ((err as Error).name !== 'AbortError') {
         setError((err as Error).message || '对话出现错误，请重试');
@@ -242,7 +297,7 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
       setIsLoading(false);
       abortControllerRef.current = null;
     }
-  }, [input, isLoading, messages, philosopher.id]);
+  }, [input, isLoading, messages, philosopher.id, episodicOn, runExtract]);
 
   const handleClear = () => {
     clearChatSession(philosopher.id);
@@ -253,6 +308,7 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
     };
     setMessages([welcomeMessage]);
     setError(null);
+    lastExtractCountRef.current = 0;
   };
 
   const handleExport = () => {
@@ -278,6 +334,7 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
   };
 
   return (
+    <>
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-4xl h-[85vh] overflow-hidden bg-card border-border/50 flex flex-col">
         <DialogHeader className="border-b border-border/50 pb-4 shrink-0">
@@ -302,6 +359,26 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
               </p>
             </div>
             <div className="flex items-center gap-1">
+              <button
+                onClick={() => setMemoryOpen(true)}
+                className={cn(
+                  'p-2 rounded-lg hover:bg-muted transition-colors',
+                  episodicOn || consent?.scopes.profile === 'on'
+                    ? 'text-primary'
+                    : 'text-muted-foreground hover:text-foreground'
+                )}
+                title="记忆与隐私"
+              >
+                <Brain className="w-4 h-4" />
+              </button>
+              <button
+                onClick={() => runExtract(messages, true)}
+                disabled={messages.length === 0}
+                className="p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-foreground disabled:opacity-40 disabled:cursor-not-allowed"
+                title="记住这段对话"
+              >
+                <Bookmark className="w-4 h-4" />
+              </button>
               <button
                 onClick={handleExport}
                 className="p-2 rounded-lg hover:bg-muted transition-colors text-muted-foreground hover:text-foreground"
@@ -508,5 +585,12 @@ export function PhilosopherChat({ philosopher, isOpen, onOpenChange }: Philosoph
         </div>
       </DialogContent>
     </Dialog>
+
+    <MemoryPanel
+      open={memoryOpen}
+      onOpenChange={setMemoryOpen}
+      onAfterChange={() => { fetchConsent().then(setConsent).catch(() => {}); }}
+    />
+    </>
   );
 }
